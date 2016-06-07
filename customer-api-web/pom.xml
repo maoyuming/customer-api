@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.duantuke</groupId>
-			<artifactId>api-core</artifactId>
+			<artifactId>customer-api-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

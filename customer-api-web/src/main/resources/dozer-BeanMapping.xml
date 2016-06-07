@@ -11,51 +11,8 @@
     <!-- 如果两个bean的field名称和类型都一样，则不需要指明映射 -->
 
     <!--结果集映射 --> 
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.gds.face.bean.SalesType</class-a>
-        <class-b>com.fangbaba.api.domain.SalesType</class-b>
-    </mapping>
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.gds.face.bean.SalesRoomTypeInfo</class-a>
-        <class-b>com.fangbaba.api.domain.SalesRoomType</class-b>
-    </mapping>
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.basic.face.bean.RoomtypeModel</class-a>
-        <class-b>com.fangbaba.api.domain.open.hotel.Roomtype</class-b>
-    </mapping>
-     <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.api.domain.open.hotel.RoomTypePricesData</class-a>
-        <class-b>com.fangbaba.gds.bean.price.RoomTypePrice</class-b>
-    </mapping>
-    
-    
-     <!--结果集映射 --> 
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.basic.face.bean.ProvinceModel</class-a>
-        <class-b>com.fangbaba.api.domain.area.Province</class-b>
-    </mapping>
-    <!--结果集映射 --> 
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.basic.face.bean.CityModel</class-a>
-        <class-b>com.fangbaba.api.domain.area.City</class-b>
-    </mapping>
-    <!--结果集映射 --> 
-   <mapping date-format="yyyy年MM月dd日">
-        <class-a>com.fangbaba.basic.face.bean.DistrictModel</class-a>
-        <class-b>com.fangbaba.api.domain.area.District</class-b>
-    </mapping>
-     <!--结果集映射 --> 
-   <mapping date-format="yyyy-MM-dd">
-        <class-a>com.fangbaba.gds.face.bean.HotelModelEsBean</class-a>
-        <class-b>com.fangbaba.api.domain.open.hotel.HotelDetail</class-b>
-    </mapping>
-     <!--结果集映射 --> 
-   <mapping date-format="yyyy-MM-dd">
-        <class-a>com.fangbaba.gds.face.bean.HotelModelEsBean</class-a>
-        <class-b>com.fangbaba.api.domain.open.hotel.HotelListBean</class-b>
-    </mapping>
-   <mapping date-format="yyyy-MM-dd">
-        <class-a>com.fangbaba.api.po.RoomtypeInfo</class-a>
-        <class-b>com.fangbaba.basic.face.bean.RoomtypeinfoModel</class-b>
-    </mapping>
+<!--    <mapping date-format="yyyy年MM月dd日"> -->
+<!--         <class-a>com.fangbaba.gds.face.bean.SalesType</class-a> -->
+<!--         <class-b>com.fangbaba.api.domain.SalesType</class-b> -->
+<!--     </mapping> -->
 </mappings>

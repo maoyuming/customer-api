@@ -120,34 +120,11 @@
 				</exclusion>
             </exclusions>
 		</dependency>
-		
 	    
-	    
-	    
-	    <dependency>
-		  <groupId>com.duantuke</groupId>
-		  <artifactId>order-face</artifactId>
-		  <version>${order-face.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.duantuke</groupId>
-			<artifactId>gds-face</artifactId>
-			<version>${gds-face.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.duantuke</groupId>
-			<artifactId>stock-face</artifactId>
-			<version>${stock-face.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.duantuke</groupId>
 			<artifactId>basic-face</artifactId>
 			<version>${basic-face.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.duantuke</groupId>
-		<artifactId>wash-face</artifactId>
-		<version>${wash-face.version}</version>
 		</dependency>
 	
 	
@@ -632,6 +609,10 @@
 				<elasticsearch.clustername>dtk-es</elasticsearch.clustername>
 				<elasticsearch.index>otc</elasticsearch.index>
 				<elasticsearch.type>guesthouse</elasticsearch.type>
+				
+				
+				<basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
+				
 			</properties>
 		</profile>
 
@@ -671,13 +652,18 @@
 				<elasticsearch.clustername>dtk-es</elasticsearch.clustername>
 				<elasticsearch.index>otc</elasticsearch.index>
 				<elasticsearch.type>guesthouse</elasticsearch.type>
+				
+				
+				
+				
+                <basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
 			</properties>
 		</profile>
 	</profiles>
 	<modules>
-		<module>api-core</module>
-		<module>api-face</module>
-		<module>api-biz</module>
-		<module>api-web</module>
+		<module>customer-api-core</module>
+		<module>customer-api-face</module>
+		<module>customer-api-biz</module>
+		<module>customer-api-web</module>
 	</modules>
 </project>
