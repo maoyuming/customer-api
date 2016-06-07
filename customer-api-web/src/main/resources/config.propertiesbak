@@ -1,0 +1,44 @@
+oms.token=${oms.token}
+
+msg_limit_length=60
+msg_limit_num=10
+
+
+#####message start
+message.code_num=4
+message.char_sequence=0123456789
+message.expires_time=180
+message.resendtime=40
+
+#####message end 
+
+
+cache_30_minute=30#initArea;
+
+
+
+### #\u5206\u5272
+ota.channelid=2
+#qunar.roomdefaultchannelid=5
+
+#qunar.signKey=h94FE9eTumi8OHUTlLTqLGLMRwzDnwKX
+#qunar.signKey=h94FE9eTumi8OHUTlLTqLGLMRwzDnwKX
+#qunar.signKey=hjxO2eOmoTaGWXjAUVMFyvKta1Dqz0LO
+#qunar.signKey=HJXO2EOMOTAGWXJAUVMFYVKTA1DQZ0LO
+#qunar.signKey=29B7F2E7E27B4B53A9EA033A7F2B4291
+qunar.signKey=${qunar.signKey}
+qunar.version=2.2
+qunar.queryOrder.url=${qunar.queryOrder.url}
+qunar.optOrder.url=${qunar.optOrder.url}
+#qunar.queryOrder.url=http://c0om.opentrade.qunar.com/api/ota/otaQueryOrder
+#qunar.optOrder.url=http://c0om.opentrade.qunar.com/api/ota/otaOpt
+#qunar.queryOrder.url=http://a6be.trade.qunar.com/api/ota/otaQueryOrder
+#qunar.optOrder.url=http://a6be.trade.qunar.com/api/ota/otaOpt
+
+
+qunar.citymapping=${qunar.citymapping}
+
+
+
+ota_open_token_6=${oms.token}
+

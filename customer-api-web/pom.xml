@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.duantuke</groupId>
+		<artifactId>api</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>customer-api-web</artifactId>
+	<packaging>war</packaging>
+	<name>api-web</name>
+	<url>http://maven.apache.org</url>
+	<build>
+		<finalName>api-web</finalName>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.duantuke</groupId>
+			<artifactId>api-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.duantuke</groupId>
+			<artifactId>customer-api-face</artifactId>
+			<version>${api-face.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.duantuke</groupId>
+			<artifactId>customer-api-biz</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

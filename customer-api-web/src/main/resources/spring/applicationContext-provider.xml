@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">  
+      
+    
+    <!-- 声明需要暴露的服务接口 -->  
+    <dubbo:service interface="com.fangbaba.api.face.service.IOrderService" ref="openOrderServiceImpl"  group="${dubbo.api.group}"  version="1.0.0"/>  
+    
+    <!-- 具体的实现bean -->  
+    <bean id="openOrderServiceImpl" class="com.fangbaba.api.service.impl.OpenOrderServiceImpl" />		
+    <!-- 声明需要暴露的服务接口 -->  
+    <dubbo:service interface="com.fangbaba.api.face.service.IQunarCityService" ref="qunarCityServiceImpl"  group="${dubbo.api.group}"  version="1.0.0"/>  
+    
+    <!-- 具体的实现bean -->  
+    <bean id="qunarCityServiceImpl" class="com.fangbaba.api.service.impl.QunarCityServiceImpl" />		
+    <!-- 声明需要暴露的服务接口 -->  
+    <dubbo:service interface="com.fangbaba.api.face.service.IFangCangHotelService" ref="fangCangHotelServiceImpl"  group="${dubbo.api.group}"  version="1.0.0"/>  
+    
+    <!-- 具体的实现bean -->  
+    <bean id="fangCangHotelServiceImpl" class="com.fangbaba.api.service.impl.FangCangHotelServiceImpl" />
+    
+    		
+    <!-- 声明需要暴露的服务接口 -->  
+    <dubbo:service interface="com.fangbaba.api.face.service.IPushPriceService" ref="pushPriceServiceImpl"  group="${dubbo.api.group}"  version="1.0.0"/>  
+    
+    <!-- 具体的实现bean -->  
+    <bean id="pushPriceServiceImpl" class="com.fangbaba.api.service.impl.PushPriceServiceImpl" />		
+
+ 		
+    <!-- 全量推送酒店   -->
+    <dubbo:service interface="com.fangbaba.api.face.service.IPushFullHotelService" ref="pushFullHotelServiceImpl"  group="${dubbo.api.group}"  version="1.0.0"/>  
+    
+    <!-- 具体的实现bean -->  
+    <bean id="pushFullHotelServiceImpl" class="com.fangbaba.api.service.impl.PushFullHotelServiceImpl" />		
+
+
+</beans>  
