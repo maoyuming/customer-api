@@ -1,5 +1,7 @@
 package com.duantuke.api.exception;
 
+import com.duantuke.api.enums.ErrorEnum;
+
 public class OpenException extends RuntimeException {
 	private static final long serialVersionUID = 7613568775002494686L;
 	public String message = "";
@@ -11,6 +13,10 @@ public class OpenException extends RuntimeException {
 	public OpenException(String message,String code) {
 		this.message = message;
 		this.code = code;
+	}
+	public OpenException(ErrorEnum enum1) {
+		this.message = enum1.getName();
+		this.code = enum1.getId();
 	}
 
 	

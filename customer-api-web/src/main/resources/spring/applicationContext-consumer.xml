@@ -22,5 +22,8 @@
     <!-- <dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" host="192.168.0.106"/> -->
      
     <!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->  
-	   
+	
+   <dubbo:reference id="messageService"  
+        interface="com.mk.mms.face.service.IMessageService"  timeout="30000" group="${dubbo.message.group}" version="1.0.0" check="false"/>  
+     
 </beans>  

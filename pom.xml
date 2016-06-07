@@ -73,6 +73,12 @@
 
 	<dependencies>
 	
+		<dependency>
+	    	<groupId>com.mk</groupId>
+  			<artifactId>mms-common</artifactId>
+  			<version>1.0.2-SNAPSHOT</version>
+        </dependency>
+	
 	    <dependency>
 			<groupId>com.lz</groupId>
 			<artifactId>lz-mongo</artifactId>
@@ -599,6 +605,7 @@
 				
 				<dubbo_basic_group>basic_test</dubbo_basic_group>
 				<dubbo_customer_group>customer_dev</dubbo_customer_group>
+				<dubbo_message_group>message_test</dubbo_message_group>
 				
 				<!-- config_center -->
 				<config.localMode>true</config.localMode>
@@ -641,6 +648,7 @@
 
 				<dubbo_basic_group>basic_test</dubbo_basic_group>
 				<dubbo_customer_group>customer_test</dubbo_customer_group>
+				<dubbo_message_group>message_test</dubbo_message_group>
 				
 				
 				<!-- config_center -->
