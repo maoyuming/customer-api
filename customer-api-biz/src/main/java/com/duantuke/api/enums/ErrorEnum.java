@@ -28,12 +28,17 @@ public enum ErrorEnum {
     distributionswitchNull("100022","开关类型为空"),
     distributionswitchParmError("100023","开关类型错误"),
     
-    accntisnull("100024","提现申请账户ID为空或账户角色为空"),
-    accntsumisnull("100025","提现申请提现金额不能为空"),
-    accnthmsnotfind("100026","HMS系统未查到该酒店账户"),
-    accntsettenotfind("100027","结算中心未查到该酒店账户"),
-    accntbalanceno("100028","账户余额不足"),
-    accntselectbug("100029","查询账户异常!")
+    
+    accntisnull("200024","提现申请账户ID为空或账户角色为空"),
+    accntsumisnull("200025","提现申请提现金额不能为空"),
+    accnthmsnotfind("200026","HMS系统未查到该酒店账户"),
+    accntsettenotfind("200027","结算中心未查到该酒店账户"),
+    accntbalanceno("200028","账户余额不足"),
+    accntselectbug("200029","查询账户异常!"),
+    
+    
+    
+    updateUserFail("300001","更新用户信息失败"),
 	;
 	
 	private final String id;

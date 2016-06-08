@@ -25,5 +25,7 @@
 	
    <dubbo:reference id="messageService"  
         interface="com.mk.mms.face.service.IMessageService"  timeout="30000" group="${dubbo.message.group}" version="1.0.0" check="false"/>  
+   <dubbo:reference id="customerService"  
+        interface="com.duantuke.basic.face.service.CustomerService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
      
 </beans>  
