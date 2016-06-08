@@ -19,6 +19,11 @@ import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.po.DuantukeLike;
 import com.google.gson.Gson;
 
+/**
+ * 点赞收藏服务
+ * @author tankai
+ *
+ */
 @Controller
 @RequestMapping(value = "/like")
 public class DuantukeLikeController {
@@ -85,6 +90,29 @@ public class DuantukeLikeController {
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
 	
+	
+	 /**
+     * 点赞收藏数
+     * @param request
+     * @param response
+     * @return
+     */
+	@RequestMapping(value = "/count")
+    public ResponseEntity<OpenResponse<Integer>> count(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
+		
+		OpenResponse<Integer> openResponse = new OpenResponse<Integer>();
+		try {
+			int count = duantukeLikeService.countDuantukeLike(duantukeLike);
+			openResponse.setData(count);
+			openResponse.setResult(Constants.SUCCESS);
+		} catch (Exception e) {
+			openResponse.setResult(Constants.FAIL);
+			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
+			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
+			logger.error("查询点赞收藏数异常",e);
+		}
+		return new ResponseEntity<OpenResponse<Integer>>(openResponse, HttpStatus.OK);
+	}
 	
 	/**
 	 * 校验参数
