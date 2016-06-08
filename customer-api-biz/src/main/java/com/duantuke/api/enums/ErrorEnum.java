@@ -28,6 +28,10 @@ public enum ErrorEnum {
     distributionswitchNull("100022","开关类型为空"),
     distributionswitchParmError("100023","开关类型错误"),
     
+    fidNull("100024","参数为空"),
+    customeridNull("100025","用户id为空"),
+    commentNull("100026","评价内容为空"),
+    
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),
     accntsumisnull("200025","提现申请提现金额不能为空"),
@@ -39,6 +43,7 @@ public enum ErrorEnum {
     
     
     updateUserFail("300001","更新用户信息失败"),
+    saveFail("300002","保存失败"),
 	;
 	
 	private final String id;
