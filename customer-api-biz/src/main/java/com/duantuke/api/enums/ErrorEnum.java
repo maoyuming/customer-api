@@ -4,7 +4,7 @@ public enum ErrorEnum {
 
 
 	tokenError("100001","token错误"),
-    pmsNull("100002","酒店id为空"),
+    hotelidNull("100002","酒店id为空"),
     argsNull("100003","参数为空"),
     salesTypeNull("100004","分销类型为空"),
     salesDiscountNull("100005","分销折扣为空"),
