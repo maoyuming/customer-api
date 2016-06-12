@@ -17,6 +17,7 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.service.DuantukeCommentService;
 import com.duantuke.basic.po.DuantukeComment;
 import com.google.gson.Gson;
@@ -43,7 +44,7 @@ public class CustomerCommentController {
 	@RequestMapping(value = "/comment")
     public ResponseEntity<OpenResponse<Boolean>> comment(HttpServletRequest request, HttpServletResponse response,DuantukeComment duantukeComment) {
 		//校验参数
-		checkParam(duantukeComment);
+		checkParam(duantukeComment,request);
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -74,7 +75,8 @@ public class CustomerCommentController {
      */
 	@RequestMapping(value = "/count")
     public ResponseEntity<OpenResponse<Integer>> count(HttpServletRequest request, HttpServletResponse response,DuantukeComment duantukeComment) {
-		
+
+		checkParam(duantukeComment,request);
 		OpenResponse<Integer> openResponse = new OpenResponse<Integer>();
 		try {
 			int count = duantukeCommentService.countDuantukeComment(duantukeComment);
@@ -96,7 +98,8 @@ public class CustomerCommentController {
 	 */
 	@RequestMapping(value = "/list")
 	public ResponseEntity<OpenResponse<List<DuantukeComment>>> list(HttpServletRequest request, HttpServletResponse response,DuantukeComment duantukeComment) {
-		
+
+		checkParam(duantukeComment,request);
 		OpenResponse<List<DuantukeComment>> openResponse = new OpenResponse<List<DuantukeComment>>();
 		try {
 			List<DuantukeComment> list = duantukeCommentService.selectByDuantukeComment(duantukeComment);
@@ -116,7 +119,7 @@ public class CustomerCommentController {
 	 * 校验参数
 	 * @param token
 	 */
-	private void checkParam(DuantukeComment duantukeComment){
+	private void checkParam(DuantukeComment duantukeComment,HttpServletRequest request){
 		
 		logger.info("评价入参：{}",new Gson().toJson(duantukeComment));
 		
@@ -126,12 +129,16 @@ public class CustomerCommentController {
 		if(duantukeComment.getFid() == null){
 			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
 		}
-		if(duantukeComment.getCustomerId() == null){
-			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
-		}
+//		if(duantukeComment.getCustomerId() == null){
+//			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
+//		}
 		if(duantukeComment.getDuantukeComment() == null){
 			throw new OpenException(ErrorEnum.commentNull.getName(),ErrorEnum.commentNull.getId());
 		}
+		
+
+		duantukeComment.setCustomerId(TokenUtil.getUserIdByRequest(request));
+		
 		
 	}
 	

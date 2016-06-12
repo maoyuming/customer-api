@@ -3,7 +3,6 @@ package com.duantuke.api.controller.customer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
-import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.service.CustomerService;
 import com.duantuke.basic.po.Customer;
 import com.google.gson.Gson;
@@ -37,13 +36,13 @@ public class CustomerUserController {
 	 */
 	@RequestMapping(value = "/query")
 	public ResponseEntity<OpenResponse<Customer>> query(HttpServletRequest request,
-			HttpServletResponse response,Customer customer,String userId) {
+			HttpServletResponse response,Customer customer) {
 		//校验参数
-		checkParam(userId,customer);
+		checkParam(customer);
 		
 		OpenResponse<Customer> openResponse = new OpenResponse<Customer>();
 		try {
-			Customer Customer2 = customerService.queryCustomerById(Long.valueOf(userId));
+			Customer Customer2 = customerService.queryCustomerById(TokenUtil.getUserIdByRequest(request));
 			openResponse.setData(Customer2);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
@@ -64,10 +63,10 @@ public class CustomerUserController {
 	 */
 	@RequestMapping(value = "/update")
 	public ResponseEntity<OpenResponse<Boolean>> update(HttpServletRequest request, HttpServletResponse response,
-			Customer customer,String userId) {
+			Customer customer) {
 		//校验参数
-		checkParam(userId,customer);
-		customer.setCustomerId(Long.valueOf(userId));
+		checkParam(customer);
+		customer.setCustomerId(TokenUtil.getUserIdByRequest(request));
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -93,7 +92,7 @@ public class CustomerUserController {
 	 * 校验参数
 	 * @param token
 	 */
-	private void checkParam(String userId,Customer customer){
+	private void checkParam(Customer customer){
 		logger.info("c端用户信息",new Gson().toJson(customer));
 		
 //		if(customer==null){
@@ -103,9 +102,9 @@ public class CustomerUserController {
 //		if(StringUtils.isBlank(customer.getPhone())){
 //			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
 //		}
-		if(StringUtils.isBlank(userId)){
-			throw new OpenException(ErrorEnum.userIdNull.getName(),ErrorEnum.userIdNull.getId());
-		}
+//		if(userId==null){
+//			throw new OpenException(ErrorEnum.userIdNull.getName(),ErrorEnum.userIdNull.getId());
+//		}
 		
 		
 		

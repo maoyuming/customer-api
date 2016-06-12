@@ -15,6 +15,7 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.po.DuantukeLike;
 import com.google.gson.Gson;
@@ -40,7 +41,7 @@ public class CustomerLikeController {
 	@RequestMapping(value = "/like")
     public ResponseEntity<OpenResponse<Boolean>> like(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
 		//校验参数
-		checkParam(duantukeLike);
+		checkParam(duantukeLike,request);
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -69,7 +70,7 @@ public class CustomerLikeController {
 	@RequestMapping(value = "/canclelike")
 	public ResponseEntity<OpenResponse<Boolean>> canclelike(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
 		//校验参数
-		checkParam(duantukeLike);
+		checkParam(duantukeLike,request);
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -118,7 +119,7 @@ public class CustomerLikeController {
 	 * 校验参数
 	 * @param token
 	 */
-	private void checkParam(DuantukeLike duantukeLike){
+	private void checkParam(DuantukeLike duantukeLike,HttpServletRequest request){
 		
 		logger.info("点赞收藏入参：{}",new Gson().toJson(duantukeLike));
 		
@@ -128,9 +129,12 @@ public class CustomerLikeController {
 		if(duantukeLike.getFid() == null){
 			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
 		}
-		if(duantukeLike.getCustomerId() == null){
-			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
-		}
+//		if(duantukeLike.getCustomerId() == null){
+//			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
+//		}
+		
+		duantukeLike.setCustomerId(TokenUtil.getUserIdByRequest(request));
+		
 		
 	}
 	
