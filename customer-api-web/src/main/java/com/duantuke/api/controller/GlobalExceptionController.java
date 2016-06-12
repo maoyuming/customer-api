@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.exception.OpenException;
 
@@ -26,7 +27,7 @@ public class GlobalExceptionController {
 		
 		
 		OpenResponse<Object> omsResponse = new OpenResponse<Object>();
-		omsResponse.setResult("false");
+		omsResponse.setResult(Constants.FAIL);
 		omsResponse.setErrorMessage(ex.getMessage());
 		omsResponse.setErrorCode(ex.getCode());
 		
@@ -39,7 +40,7 @@ public class GlobalExceptionController {
 
 
 		OpenResponse<Object> omsResponse = new OpenResponse<Object>();
-		omsResponse.setResult("false");
+		omsResponse.setResult(Constants.FAIL);
 		omsResponse.setErrorMessage(ex.getMessage());
 		omsResponse.setErrorCode("");
 	

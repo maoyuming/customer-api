@@ -25,11 +25,25 @@
 	
    <dubbo:reference id="messageService"  
         interface="com.mk.mms.face.service.IMessageService"  timeout="30000" group="${dubbo.message.group}" version="1.0.0" check="false"/>  
+   <dubbo:reference id="smsMessageService"  
+        interface="com.mk.mms.face.service.ISmsMessageService"  timeout="30000" group="${dubbo.message.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="customerService"  
         interface="com.duantuke.basic.face.service.CustomerService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="duantukeCommentService"  
         interface="com.duantuke.basic.face.service.DuantukeCommentService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="duantukeLikeService"  
         interface="com.duantuke.basic.face.service.DuantukeLikeService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+     
+   <dubbo:reference id="userTokenService"  
+        interface="com.duantuke.basic.face.service.UserTokenService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+     
+   <dubbo:reference id="districtService"  
+        interface="com.duantuke.basic.face.service.DistrictService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+     
+   <dubbo:reference id="cityService"  
+        interface="com.duantuke.basic.face.service.CityService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+     
+   <dubbo:reference id="provinceService"  
+        interface="com.duantuke.basic.face.service.ProvinceService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
      
 </beans>  

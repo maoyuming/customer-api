@@ -43,12 +43,12 @@
 	
 	<!-- 房仓header校验 -->
 	<filter>  
-        <filter-name>validateFangcangHeader</filter-name>  
-        <filter-class>com.fangbaba.api.controller.fangcang.filter.FangCangHeaderFilter</filter-class>  
+        <filter-name>validateHeader</filter-name>  
+        <filter-class>com.duantuke.api.filter.OpenHeaderFilter</filter-class>  
     </filter>  
     <filter-mapping>  
-        <filter-name>validateFangcangHeader</filter-name>  
-        <url-pattern>/fangcang/order/*</url-pattern>  
+        <filter-name>validateHeader</filter-name>  
+        <url-pattern>/customer/*</url-pattern>  
     </filter-mapping>
 
 	<listener>
@@ -56,7 +56,7 @@
 	</listener>
 	
     <listener>
-        <listener-class>com.fangbaba.api.listener.StartupListerner</listener-class>
+        <listener-class>com.duantuke.api.listener.StartupListerner</listener-class>
     </listener>
 	<servlet>
 		<servlet-name>api</servlet-name>

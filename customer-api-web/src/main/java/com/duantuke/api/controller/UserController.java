@@ -16,8 +16,10 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.basic.face.UserTokenTypeEnum;
 import com.duantuke.basic.face.base.RetInfo;
 import com.duantuke.basic.face.service.CustomerService;
+import com.duantuke.basic.face.service.UserTokenService;
 import com.duantuke.basic.po.Customer;
 import com.google.gson.Gson;
 
@@ -29,6 +31,9 @@ public class UserController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private UserTokenService userTokenService;
 	
     /**
      * 注册用户
@@ -91,60 +96,35 @@ public class UserController {
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
 	/**
-	 * 获取用户
+	 * 生成用户token
+	 * TODO:这个接口是否开放出去？？？
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/query")
-	public ResponseEntity<OpenResponse<Customer>> query(HttpServletRequest request, HttpServletResponse response,Customer customer) {
+	@RequestMapping(value = "/gentoken")
+	public ResponseEntity<OpenResponse<String>> gentoken(HttpServletRequest request, HttpServletResponse response,Customer customer) {
 		//校验参数
 		checkParam(customer);
 		
-		OpenResponse<Customer> openResponse = new OpenResponse<Customer>();
+		OpenResponse<String> openResponse = new OpenResponse<String>();
 		try {
-			Customer Customer2 = customerService.queryCustomerByPhone(customer.getPhone());
-			openResponse.setData(Customer2);
-			openResponse.setResult(Constants.SUCCESS);
+			String token = userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
+			if(StringUtils.isNotBlank(token)){
+				openResponse.setData(token);
+				openResponse.setResult(Constants.SUCCESS);
+			}else{
+				openResponse.setResult(Constants.FAIL);	
+			}
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
 			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("获取c端用户异常"+new Gson().toJson(customer),e);
+			logger.error("生成用户token异常"+new Gson().toJson(customer),e);
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
-		return new ResponseEntity<OpenResponse<Customer>>(openResponse, HttpStatus.OK);
-	}
-	/**
-	 * 修改用户
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "/update")
-	public ResponseEntity<OpenResponse<Boolean>> update(HttpServletRequest request, HttpServletResponse response,Customer customer) {
-		//校验参数
-		checkParam(customer);
-		
-		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
-		try {
-			boolean flag = customerService.updateCustomer(customer);
-			if(flag){
-				openResponse.setData(flag);
-				openResponse.setResult(Constants.SUCCESS);
-			}else{
-				openResponse.setResult(Constants.FAIL);
-				openResponse.setErrorCode(ErrorEnum.updateUserFail.getId());
-				openResponse.setErrorMessage(ErrorEnum.updateUserFail.getName());
-			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			logger.error("获取c端用户异常"+new Gson().toJson(customer),e);
-		}finally{
-			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
-		}
-		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
+		return new ResponseEntity<OpenResponse<String>>(openResponse, HttpStatus.OK);
 	}
 	
 	/**
