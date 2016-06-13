@@ -44,6 +44,9 @@
         interface="com.duantuke.basic.face.service.CityService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
      
    <dubbo:reference id="provinceService"  
-        interface="com.duantuke.basic.face.service.ProvinceService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+        interface="com.duantuke.basic.face.service.ProvinceService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+        
+   <dubbo:reference id="journeyService"  
+        interface="com.duantuke.basic.face.service.JourneyService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>    
      
 </beans>  
