@@ -2,7 +2,7 @@ package com.duantuke.api.exception;
 
 import com.duantuke.api.enums.ErrorEnum;
 
-public class OpenException extends RuntimeException {
+public class OpenException extends com.duantuke.basic.exception.OpenException {
 	private static final long serialVersionUID = 7613568775002494686L;
 	public String message = "";
 	public String code = "";

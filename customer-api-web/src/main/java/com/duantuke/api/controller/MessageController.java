@@ -42,9 +42,8 @@ public class MessageController {
      */
 	@RequestMapping(value = "/send")
     public ResponseEntity<OpenResponse<Boolean>> send(HttpServletRequest request, HttpServletResponse response,SmsMessage message) {
-		String token = request.getHeader("TOKEN");
 		//校验参数
-		checkParam(token, message);
+		checkParam(message);
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -71,10 +70,9 @@ public class MessageController {
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
 			logger.info("发送验证码,{},类型：{}",new Gson().toJson(smsMessage),type);
-			String token = request.getHeader("TOKEN");
 			//校验参数
 			//check token
-			checkParamSendVerify(token, smsMessage);
+			checkParamSendVerify( smsMessage);
 			
 			SmsMessageTypeEnum smsMessageTypeEnum = SmsMessageTypeEnum.normal;
 			if (StringUtils.isNotBlank(type)) {
@@ -99,12 +97,10 @@ public class MessageController {
 	}
 	
 	
-	@Deprecated
 	@RequestMapping("/verifycode/verify")
 	public ResponseEntity<OpenResponse<Boolean>> verifyCode(HttpServletRequest request, String phone, String verifycode) throws Exception {
-		String token = request.getHeader("TOKEN");
 		//校验参数
-		checkParamCheckVerify(token, verifycode, phone);
+		checkParamCheckVerify(verifycode, phone);
        
         logger.info("验证码校验开始: code:{},phone:{}",verifycode, phone);
 		boolean checkResult=smsMessageService.checkVerifyCode(phone, verifycode);
@@ -133,13 +129,7 @@ public class MessageController {
 	 * 校验发送验证码参数
 	 * @param token
 	 */
-	private void checkParamSendVerify(String token , SmsMessage message){
-		//check token
-		if(!TokenUtil.checkOmsToken(token)){
-			logger.info("token错误,"+token);
-			throw new OpenException(ErrorEnum.tokenError.getName(),ErrorEnum.tokenError.getId());
-		}
-		
+	private void checkParamSendVerify(SmsMessage message){
 		
 		if(message==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
@@ -148,18 +138,13 @@ public class MessageController {
 		if(StringUtils.isBlank(message.getPhone())){
 			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
 		}
-		logger.info("token={},入参：{}",token,new Gson().toJson(message));
+		logger.info("入参：{}",new Gson().toJson(message));
 	}
 	/**
 	 * 校验验证验证码参数
 	 * @param token
 	 */
-	private void checkParamCheckVerify(String token ,String verifycode, String phone){
-		//check token
-		if(!TokenUtil.checkOmsToken(token)){
-			logger.info("token错误,"+token);
-			throw new OpenException(ErrorEnum.tokenError.getName(),ErrorEnum.tokenError.getId());
-		}
+	private void checkParamCheckVerify(String verifycode, String phone){
 		
 		if(StringUtils.isBlank(phone)){
 			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
@@ -172,20 +157,14 @@ public class MessageController {
 		
 		
 		
-		logger.info("token={},入参：{},{}",token,phone,verifycode);
+		logger.info("入参：{},{}",phone,verifycode);
 	}
 	
 	/**
 	 * 校验参数
 	 * @param token
 	 */
-	private void checkParam(String token , SmsMessage message){
-		//check token
-		if(!TokenUtil.checkOmsToken(token)){
-			logger.info("token错误,"+token);
-			throw new OpenException(ErrorEnum.tokenError.getName(),ErrorEnum.tokenError.getId());
-		}
-		
+	private void checkParam(SmsMessage message){
 		
 		if(message==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
@@ -197,7 +176,7 @@ public class MessageController {
 		if(StringUtils.isBlank(message.getPhone())){
 			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
 		}
-		logger.info("token={},入参：{}",token,new Gson().toJson(message));
+		logger.info("入参：{}",new Gson().toJson(message));
 	}
 	
 	

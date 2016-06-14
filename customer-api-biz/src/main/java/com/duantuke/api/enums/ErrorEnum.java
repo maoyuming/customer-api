@@ -32,6 +32,7 @@ public enum ErrorEnum {
     customeridNull("100025","用户id为空"),
     commentNull("100026","评价内容为空"),
     userIdNull("100027","用户id为空"),
+    skuIdNull("100028","商品id为空"),
     
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),
