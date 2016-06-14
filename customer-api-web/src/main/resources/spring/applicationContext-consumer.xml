@@ -52,6 +52,11 @@
    <dubbo:reference id="mealService"  
         interface="com.duantuke.basic.face.service.MealService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="skuService"  
-        interface="com.duantuke.basic.face.service.SkuService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+        interface="com.duantuke.basic.face.service.SkuService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+        
+        
+   <dubbo:reference id="pushLogService"  
+        interface="com.duantuke.basic.face.service.PushLogService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
+       
      
 </beans>  

@@ -54,6 +54,8 @@ public class MessageController {
 			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
 			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
 			logger.error("发送消息异常",e);
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
@@ -91,6 +93,8 @@ public class MessageController {
 			openResponse.setResult(Constants.FAIL);
 			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
 			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		logger.info("发送验证码结果,{}",new Gson().toJson(openResponse));
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
@@ -118,6 +122,8 @@ public class MessageController {
 			openResponse.setResult(Constants.FAIL);
 			openResponse.setErrorCode(ErrorEnum.systemError.getId());
 			openResponse.setErrorMessage(ErrorEnum.systemError.getName());
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
        
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);

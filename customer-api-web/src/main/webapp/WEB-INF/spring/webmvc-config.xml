@@ -87,7 +87,7 @@
 <!--     <bean class="com.fangbaba.api.controller.open.interceptor.OpenHandlerInterceptor"/>   -->
     <mvc:interceptor>  
 <!--         <mvc:mapping path="/open/**"/>   -->
-        <mvc:mapping path="/11customer/**"/>  
+        <mvc:mapping path="/customer/**"/>  
         <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
         <bean class="com.duantuke.api.controller.interceptor.OpenHandlerInterceptor"/>  
     </mvc:interceptor>  
