@@ -53,6 +53,8 @@
         interface="com.duantuke.basic.face.service.MealService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="skuService"  
         interface="com.duantuke.basic.face.service.SkuService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="hotelService"  
+        interface="com.duantuke.basic.face.service.HotelService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
         
         
    <dubbo:reference id="pushLogService"  

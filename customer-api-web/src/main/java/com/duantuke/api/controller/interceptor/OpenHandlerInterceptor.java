@@ -9,18 +9,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dtk.token.TokenUtils;
+import com.dtk.token.TokenValidateUtils;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
-import com.duantuke.api.util.SpringContextUtil;
-import com.duantuke.basic.face.service.UserTokenService;
+import com.duantuke.api.util.Config;
 
 public class OpenHandlerInterceptor implements HandlerInterceptor{
 
 	private static Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
 
-	private  UserTokenService userTokenService= SpringContextUtil.getBean("userTokenService");
+//	private  UserTokenService userTokenService= SpringContextUtil.getBean("userTokenService");
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
@@ -36,9 +37,22 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 	
 			//checktoken
 //			Long userId = userTokenService.queryUserByUserToken(token);
-			Long userId = 1L;
-			request.setAttribute(Constants.USER_ID,userId);
+//			Long userId = 1L;
+			String tokenHostUrl = Config.getValue("cas.server");
+			boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
+			if(!flag){
+				throw new OpenException(ErrorEnum.tokenError);
+			}
 			
+			
+			String str = TokenUtils.decrypt(tokenHostUrl, token);
+			if(StringUtils.isEmpty(str)){
+				throw new OpenException(ErrorEnum.tokenError);
+			}
+			String array[] = str.split("#");
+			
+			Long userId = Long.valueOf(array[0]);
+			request.setAttribute(Constants.USER_ID,userId);
 //			response.setHeader("userId",userId+"");
 			logger.info("校验用户token通过,{},{}",token,userId);
 		

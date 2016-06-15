@@ -12,14 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dtk.token.TokenHttpUtils;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.Config;
 import com.duantuke.basic.face.UserTokenTypeEnum;
 import com.duantuke.basic.face.base.RetInfo;
 import com.duantuke.basic.face.service.CustomerService;
-import com.duantuke.basic.face.service.UserTokenService;
 import com.duantuke.basic.po.Customer;
 import com.google.gson.Gson;
 
@@ -32,8 +33,8 @@ public class UserController {
 	@Autowired
 	private CustomerService customerService;
 	
-	@Autowired
-	private UserTokenService userTokenService;
+//	@Autowired
+//	private UserTokenService userTokenService;
 	
     /**
      * 注册用户
@@ -109,7 +110,14 @@ public class UserController {
 		
 		OpenResponse<String> openResponse = new OpenResponse<String>();
 		try {
-			String token = userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
+			
+			//根据手机号码查询userid
+			Customer customer2 = customerService.queryCustomerByPhone(customer.getPhone());
+			if(customer2==null){
+				throw new OpenException(ErrorEnum.customeridNull);
+			}
+			String token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"", UserTokenTypeEnum.C.getId()+"", 7*24*60*60L);
+			//userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
 			if(StringUtils.isNotBlank(token)){
 				openResponse.setData(token);
 				openResponse.setResult(Constants.SUCCESS);
