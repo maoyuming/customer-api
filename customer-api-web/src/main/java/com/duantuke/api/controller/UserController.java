@@ -25,7 +25,9 @@ import com.duantuke.basic.face.UserTokenTypeEnum;
 import com.duantuke.basic.face.base.RetInfo;
 import com.duantuke.basic.face.service.CustomerService;
 import com.duantuke.basic.po.Customer;
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
+import com.mk.mms.face.service.ISmsMessageService;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -35,7 +37,9 @@ public class UserController {
 
 	@Autowired
 	private CustomerService customerService;
-	
+
+	@Autowired
+	private ISmsMessageService smsMessageService;
 //	@Autowired
 //	private UserTokenService userTokenService;
 	
@@ -46,20 +50,42 @@ public class UserController {
      * @return
      */
 	@RequestMapping(value = "/register")
-    public ResponseEntity<OpenResponse<Boolean>> register(HttpServletRequest request, HttpServletResponse response,Customer customer) {
+    public ResponseEntity<OpenResponse<String>> register(HttpServletRequest request, HttpServletResponse response,
+    		Customer customer, String verifycode) {
 		//校验参数
 		checkParam(customer);
 		
-		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
+
+		//校验参数
+		checkParamCheckVerify(verifycode, customer.getPhone());
+		
+		OpenResponse<String> openResponse = new OpenResponse<String>();
 		try {
-			RetInfo<Boolean> retInfo = customerService.register(customer);
-			if(retInfo.isResult()){
-				openResponse.setResult(Constants.SUCCESS);
+			
+			logger.info("验证码校验开始: code:{},phone:{}",verifycode, customer.getPhone());
+			boolean checkResult = smsMessageService.checkVerifyCode(customer.getPhone(), verifycode);
+			if(checkResult){
+				logger.info("验证校验通过，准备开始注册账号");
+				RetInfo<Boolean> retInfo = customerService.register(customer);
+				if(retInfo.isResult()){
+					//生成token
+
+					String	token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer.getCustomerId()+"",
+								UserTokenTypeEnum.C.getId()+"", Long.valueOf(Config.getValue("token.expiredTime")));
+					openResponse.setData(token);
+					openResponse.setResult(Constants.SUCCESS);
+				}else{
+					openResponse.setResult(Constants.FAIL);
+					openResponse.setErrorCode(retInfo.getCode());
+					openResponse.setErrorMessage(retInfo.getMsg());
+				}
 			}else{
+				logger.info("验证校验失败");
 				openResponse.setResult(Constants.FAIL);
-				openResponse.setErrorCode(retInfo.getCode());
-				openResponse.setErrorMessage(retInfo.getMsg());
+				openResponse.setErrorCode(ErrorEnum.verifyCodeFail.getId());
+				openResponse.setErrorMessage(ErrorEnum.verifyCodeFail.getName());
 			}
+			
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
@@ -68,7 +94,7 @@ public class UserController {
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
-		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
+		return new ResponseEntity<OpenResponse<String>>(openResponse, HttpStatus.OK);
 	}
 	/**
 	 * 是否为注册用户
@@ -119,11 +145,11 @@ public class UserController {
 			if(customer2==null){
 				throw new OpenException(ErrorEnum.customeridNull);
 			}
-			String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), customer2.getCustomerId()+"");
-			if(StringUtils.isEmpty(token)){
-				token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
+//			String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), customer2.getCustomerId()+"");
+//			if(StringUtils.isEmpty(token)){
+			String	token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
 						UserTokenTypeEnum.C.getId()+"", Long.valueOf(Config.getValue("token.expiredTime")));
-			}
+//			}
 			
 			//userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
 			if(StringUtils.isNotBlank(token)){
@@ -157,6 +183,26 @@ public class UserController {
 			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
 		}
 		
+	}
+	
+	/**
+	 * 校验验证验证码参数
+	 * @param token
+	 */
+	private void checkParamCheckVerify(String verifycode, String phone){
+		
+		if(StringUtils.isBlank(phone)){
+			throw new OpenException(ErrorEnum.phoneEmpty.getName(),ErrorEnum.phoneEmpty.getId());
+		}
+		
+		
+        if(Strings.isNullOrEmpty(verifycode)){
+        	throw new OpenException(ErrorEnum.codeEmpty.getName(),ErrorEnum.codeEmpty.getId());
+        }
+		
+		
+		
+		logger.info("入参：{},{}",phone,verifycode);
 	}
 	
 }
