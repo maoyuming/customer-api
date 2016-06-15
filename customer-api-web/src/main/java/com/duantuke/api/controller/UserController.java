@@ -116,7 +116,8 @@ public class UserController {
 			if(customer2==null){
 				throw new OpenException(ErrorEnum.customeridNull);
 			}
-			String token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"", UserTokenTypeEnum.C.getId()+"", 7*24*60*60L);
+			String token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
+					UserTokenTypeEnum.C.getId()+"", 7*24*60*60L);
 			//userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
 			if(StringUtils.isNotBlank(token)){
 				openResponse.setData(token);

@@ -72,11 +72,15 @@
     </distributionManagement>
 
 	<dependencies>
-	
 		<dependency>
 		  <groupId>com.dtk</groupId>
 		  <artifactId>dtk-cas</artifactId>
 		  <version>1.0.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.json</groupId>
+		  <artifactId>json</artifactId>
+		  <version>20160212</version>
 		</dependency>
 	
 		<dependency>

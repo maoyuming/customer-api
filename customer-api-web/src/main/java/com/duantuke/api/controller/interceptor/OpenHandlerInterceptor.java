@@ -56,7 +56,7 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 //			response.setHeader("userId",userId+"");
 			logger.info("校验用户token通过,{},{}",token,userId);
 		
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			logger.error("校验用户token错误",e);
 			throw new OpenException(ErrorEnum.tokenError);
 		}
