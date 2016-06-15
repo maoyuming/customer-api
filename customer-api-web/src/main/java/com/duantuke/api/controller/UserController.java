@@ -3,6 +3,7 @@ package com.duantuke.api.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dtk.token.TokenHttpUtils;
+import com.dtk.token.TokenUtils;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.api.util.Config;
+import com.duantuke.api.util.DateUtil;
 import com.duantuke.basic.face.UserTokenTypeEnum;
 import com.duantuke.basic.face.base.RetInfo;
 import com.duantuke.basic.face.service.CustomerService;
@@ -116,8 +119,12 @@ public class UserController {
 			if(customer2==null){
 				throw new OpenException(ErrorEnum.customeridNull);
 			}
-			String token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
-					UserTokenTypeEnum.C.getId()+"", 7*24*60*60L);
+			String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), customer2.getCustomerId()+"");
+			if(StringUtils.isEmpty(token)){
+				token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
+						UserTokenTypeEnum.C.getId()+"", Long.valueOf(Config.getValue("token.expiredTime")));
+			}
+			
 			//userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
 			if(StringUtils.isNotBlank(token)){
 				openResponse.setData(token);

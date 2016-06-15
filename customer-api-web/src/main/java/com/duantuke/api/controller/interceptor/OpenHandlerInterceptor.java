@@ -22,6 +22,9 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 	
 
 //	private  UserTokenService userTokenService= SpringContextUtil.getBean("userTokenService");
+	/**
+	 * token格式：用户id#用户类型#申请时间#过期时间
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
@@ -40,10 +43,9 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 //			Long userId = 1L;
 			String tokenHostUrl = Config.getValue("cas.server");
 			boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
-			if(!flag){
-				throw new OpenException(ErrorEnum.tokenError);
-			}
-			
+//			if(!flag){//TODO:暂时屏蔽掉验证方法
+//				throw new OpenException(ErrorEnum.tokenError);
+//			}
 			
 			String str = TokenUtils.decrypt(tokenHostUrl, token);
 			if(StringUtils.isEmpty(str)){
