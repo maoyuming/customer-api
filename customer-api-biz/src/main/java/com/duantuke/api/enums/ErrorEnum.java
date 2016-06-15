@@ -40,6 +40,7 @@ public enum ErrorEnum {
     
     
     businessTypeNull("100031","参数为空"),
+    duplicateSaveNull("100032","重复提交"),
     
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),

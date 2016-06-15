@@ -49,11 +49,8 @@ public class DuantukeCommentController {
 			int count = duantukeCommentService.countDuantukeComment(duantukeComment);
 			openResponse.setData(count);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询评价数异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Integer>>(openResponse, HttpStatus.OK);
 	}
@@ -71,11 +68,8 @@ public class DuantukeCommentController {
 			List<DuantukeComment> list = duantukeCommentService.selectByDuantukeComment(duantukeComment);
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询评价列表异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<List<DuantukeComment>>>(openResponse, HttpStatus.OK);
 	}
@@ -92,9 +86,9 @@ public class DuantukeCommentController {
 		if(duantukeComment==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
 		}
-		if(duantukeComment.getFid() == null){
-			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
-		}
+//		if(duantukeComment.getFid() == null){
+//			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
+//		}
 		if(duantukeComment.getBusinessType() == null){
 			throw new OpenException(ErrorEnum.businessTypeNull.getName(),ErrorEnum.businessTypeNull.getId());
 		}

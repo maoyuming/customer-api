@@ -26,7 +26,11 @@ import com.duantuke.basic.face.bean.SkuResponse;
 import com.duantuke.basic.face.service.SkuService;
 import com.google.gson.Gson;
 
-
+/**
+ * sku查询服务
+ * @author tankai
+ *
+ */
 @Controller
 @RequestMapping(value = "/customer/sku")
 public class SkuController {
@@ -59,11 +63,8 @@ public class SkuController {
 				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
 				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询sku异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<SkuResponse>>(openResponse, HttpStatus.OK);
 	}
@@ -106,6 +107,8 @@ public class SkuController {
 		
 		skuRequest.setHotelId(123L);
 		skuRequest.setSkuMap(skuMap);
+		skuRequest.setBeginTime("2016-06-05");
+		skuRequest.setEndTime("2016-06-06");
 	
 		System.out.println(new Gson().toJson(skuRequest));
 		

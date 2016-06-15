@@ -45,11 +45,6 @@ public class CustomerUserController {
 			Customer Customer2 = customerService.queryCustomerById(TokenUtil.getUserIdByRequest(request));
 			openResponse.setData(Customer2);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("获取c端用户异常"+new Gson().toJson(customer),e);
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
