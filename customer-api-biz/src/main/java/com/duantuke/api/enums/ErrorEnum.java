@@ -34,6 +34,13 @@ public enum ErrorEnum {
     userIdNull("100027","用户id为空"),
     skuIdNull("100028","商品id为空"),
     
+
+    salePhoneEmpty("100029","销售手机号码为空"),
+    verifyCodeFail("100030","验证码校验失败"),
+    
+    
+    businessTypeNull("100031","参数为空"),
+    
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),
     accntsumisnull("200025","提现申请提现金额不能为空"),

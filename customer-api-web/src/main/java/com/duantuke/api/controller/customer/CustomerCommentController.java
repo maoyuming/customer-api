@@ -44,7 +44,7 @@ public class CustomerCommentController {
 	@RequestMapping(value = "/comment")
     public ResponseEntity<OpenResponse<Boolean>> comment(HttpServletRequest request, HttpServletResponse response,DuantukeComment duantukeComment) {
 		//校验参数
-		checkParam(duantukeComment,request);
+		checkSubmitParam(duantukeComment,request);
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
@@ -132,11 +132,42 @@ public class CustomerCommentController {
 //		if(duantukeComment.getCustomerId() == null){
 //			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
 //		}
+//		if(duantukeComment.getDuantukeComment() == null){
+//			throw new OpenException(ErrorEnum.commentNull.getName(),ErrorEnum.commentNull.getId());
+//		}
+		
+		if(duantukeComment.getBusinessType() == null){
+			throw new OpenException(ErrorEnum.businessTypeNull.getName(),ErrorEnum.businessTypeNull.getId());
+		}
+		duantukeComment.setCustomerId(TokenUtil.getUserIdByRequest(request));
+		
+		
+	}
+	
+	/**
+	 * 校验参数
+	 * @param token
+	 */
+	private void checkSubmitParam(DuantukeComment duantukeComment,HttpServletRequest request){
+		
+		logger.info("评价入参：{}",new Gson().toJson(duantukeComment));
+		
+		if(duantukeComment==null){
+			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
+		}
+		if(duantukeComment.getFid() == null){
+			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
+		}
+//		if(duantukeComment.getCustomerId() == null){
+//			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
+//		}
 		if(duantukeComment.getDuantukeComment() == null){
 			throw new OpenException(ErrorEnum.commentNull.getName(),ErrorEnum.commentNull.getId());
 		}
+		if(duantukeComment.getBusinessType() == null){
+			throw new OpenException(ErrorEnum.businessTypeNull.getName(),ErrorEnum.businessTypeNull.getId());
+		}
 		
-
 		duantukeComment.setCustomerId(TokenUtil.getUserIdByRequest(request));
 		
 		

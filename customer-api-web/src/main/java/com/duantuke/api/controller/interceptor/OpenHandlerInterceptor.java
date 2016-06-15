@@ -43,9 +43,9 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 //			Long userId = 1L;
 			String tokenHostUrl = Config.getValue("cas.server");
 			boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
-//			if(!flag){//TODO:暂时屏蔽掉验证方法
-//				throw new OpenException(ErrorEnum.tokenError);
-//			}
+			if(!flag){//TODO:暂时屏蔽掉验证方法
+				throw new OpenException(ErrorEnum.tokenError);
+			}
 			
 			String str = TokenUtils.decrypt(tokenHostUrl, token);
 			if(StringUtils.isEmpty(str)){
