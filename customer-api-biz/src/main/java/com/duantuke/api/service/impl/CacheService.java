@@ -56,8 +56,8 @@ public class CacheService {
 		
 		
 		List<com.duantuke.basic.po.District> districts = districtService.queryAllDistricts();
-		Map<Integer,List<District>> districtsMap =  new HashMap<Integer, List<District>>();
-		Map<Integer,District> districtsCacheMap = GlobalCache.getInstance().getDistrictsMap();
+		Map<Long,List<District>> districtsMap =  new HashMap<Long, List<District>>();
+		Map<Long,District> districtsCacheMap = GlobalCache.getInstance().getDistrictsMap();
 		
 		
 		if(CollectionUtils.isNotEmpty(districts)){
@@ -73,20 +73,20 @@ public class CacheService {
 					districtsMap.put(district.getCityid(), list);
 				}
 				
-				districtsCacheMap.put(Integer.valueOf(district.getCode()), district);
+				districtsCacheMap.put(Long.valueOf(district.getCode()), district);
 				
 			}
 		}
 		
 		
 		List<com.duantuke.basic.po.City> citys = cityService.queryAllCitys();
-		Map<Integer,List<City>> citysMap = new HashMap<Integer, List<City>>();
-		Map<Integer,City> citysCacheMap = GlobalCache.getInstance().getCitysMap();
-		Map<Integer, City> districtsParentMap = GlobalCache.getInstance().getDistrictsParentMap();
+		Map<Long,List<City>> citysMap = new HashMap<Long, List<City>>();
+		Map<Long,City> citysCacheMap = GlobalCache.getInstance().getCitysMap();
+		Map<Long, City> districtsParentMap = GlobalCache.getInstance().getDistrictsParentMap();
 		/**
 		 * 省份子信息 key:省code，value:市code
 		 */
-		Map<Integer, List<District>> cityChildren = GlobalCache.getInstance().getCityChildren();
+		Map<Long, List<District>> cityChildren = GlobalCache.getInstance().getCityChildren();
 
 
 
@@ -97,7 +97,7 @@ public class CacheService {
 			districtsParentMap.clear();
 			for (com.duantuke.basic.po.City cityModel : citys) {
 				City city =  dozerMapper.map(cityModel, City.class);
-				city.setDistrictList(districtsMap.get(Integer.valueOf(cityModel.getId()+"")));
+				city.setDistrictList(districtsMap.get(Long.valueOf(cityModel.getId()+"")));
 				if(citysMap.containsKey(city.getProid())){
 					citysMap.get(city.getProid()).add(city);
 				}else{
@@ -106,26 +106,26 @@ public class CacheService {
 					citysMap.put(city.getProid(), list);
 				}
 				
-				citysCacheMap.put(Integer.valueOf(city.getCode()), city);
+				citysCacheMap.put(Long.valueOf(city.getCode()), city);
 			
 				
 				if(CollectionUtils.isNotEmpty(city.getDistrictList())){
-					cityChildren.put(Integer.valueOf(city.getCode()), city.getDistrictList());
+					cityChildren.put(Long.valueOf(city.getCode()), city.getDistrictList());
 					for (District district : city.getDistrictList()) {
-						districtsParentMap.put(Integer.valueOf(district.getCode()), city);
+						districtsParentMap.put(Long.valueOf(district.getCode()), city);
 					}
 				}
 			}
 		}
 		
 
-		Map<Integer,List<Province>> provinceMap = new HashMap<Integer, List<Province>>();
-		Map<Integer,Province> provinceCacheMap = GlobalCache.getInstance().getProvinceMap();
+		Map<Long,List<Province>> provinceMap = new HashMap<Long, List<Province>>();
+		Map<Long,Province> provinceCacheMap = GlobalCache.getInstance().getProvinceMap();
 		/**
 		 * 省份子信息 key:省code，value:市code
 		 */
-		Map<Integer, List<City>> provinceChildren = GlobalCache.getInstance().getProvinceChildren();
-		Map<Integer, Province> cityParentMap = GlobalCache.getInstance().getCityParentMap();
+		Map<Long, List<City>> provinceChildren = GlobalCache.getInstance().getProvinceChildren();
+		Map<Long, Province> cityParentMap = GlobalCache.getInstance().getCityParentMap();
 		
 		if(CollectionUtils.isNotEmpty(provinces)){
 			provinceCacheMap.clear();
@@ -135,23 +135,23 @@ public class CacheService {
 			List<Province> provinceList = new ArrayList<Province>();
 			for (com.duantuke.basic.po.Province provinceModel : provinces) {
 				Province province =  dozerMapper.map(provinceModel, Province.class);
-				province.setCityList(citysMap.get(Integer.valueOf(provinceModel.getId()+"")));
+				province.setCityList(citysMap.get(Long.valueOf(provinceModel.getId()+"")));
 				provinceList.add(province);
 				if(provinceMap.containsKey(province.getId())){
 					provinceMap.get(province.getId()).add(province);
 				}else{
 					List<Province> list =new ArrayList<Province>();
 					list.add(province);
-					provinceMap.put(Integer.valueOf(province.getId()+""), list);
+					provinceMap.put(Long.valueOf(province.getId()+""), list);
 				}
 				
-				provinceCacheMap.put(Integer.valueOf(province.getCode()), province);
+				provinceCacheMap.put(Long.valueOf(province.getCode()), province);
 				
 				
 				if(CollectionUtils.isNotEmpty(province.getCityList())){
-					provinceChildren.put(Integer.valueOf(province.getCode()), province.getCityList());
+					provinceChildren.put(Long.valueOf(province.getCode()), province.getCityList());
 					for (City city : province.getCityList()) {
-						cityParentMap.put(Integer.valueOf(city.getCode()), province);
+						cityParentMap.put(Long.valueOf(city.getCode()), province);
 					}
 				}
 				

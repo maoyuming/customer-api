@@ -56,11 +56,8 @@ public class CustomerCommentController {
 				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
 				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("评价异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
@@ -82,11 +79,8 @@ public class CustomerCommentController {
 			int count = duantukeCommentService.countDuantukeComment(duantukeComment);
 			openResponse.setData(count);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询评价数异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Integer>>(openResponse, HttpStatus.OK);
 	}
@@ -102,14 +96,12 @@ public class CustomerCommentController {
 		checkParam(duantukeComment,request);
 		OpenResponse<List<DuantukeComment>> openResponse = new OpenResponse<List<DuantukeComment>>();
 		try {
+			
 			List<DuantukeComment> list = duantukeCommentService.selectByDuantukeComment(duantukeComment);
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询评价列表异常",e);
+		}  finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<List<DuantukeComment>>>(openResponse, HttpStatus.OK);
 	}
@@ -126,9 +118,9 @@ public class CustomerCommentController {
 		if(duantukeComment==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
 		}
-		if(duantukeComment.getFid() == null){
-			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
-		}
+//		if(duantukeComment.getFid() == null){
+//			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
+//		}
 //		if(duantukeComment.getCustomerId() == null){
 //			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
 //		}

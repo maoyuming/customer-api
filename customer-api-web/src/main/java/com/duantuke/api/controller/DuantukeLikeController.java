@@ -31,65 +31,6 @@ public class DuantukeLikeController {
 	@Autowired
 	private DuantukeLikeService duantukeLikeService;
 	
-    /**
-     * 点赞收藏
-     * @param request
-     * @param response
-     * @return
-     */
-	@RequestMapping(value = "/like")
-    public ResponseEntity<OpenResponse<Boolean>> like(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
-		//校验参数
-		checkParam(duantukeLike);
-		
-		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
-		try {
-			int count = duantukeLikeService.insert(duantukeLike);
-			if(count>0){
-				openResponse.setResult(Constants.SUCCESS);
-			}else{
-				openResponse.setResult(Constants.FAIL);
-				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
-				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
-			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("发送消息异常",e);
-		}
-		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
-	}
-	/**
-	 * 点赞收藏
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "/canclelike")
-	public ResponseEntity<OpenResponse<Boolean>> canclelike(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
-		//校验参数
-		checkParam(duantukeLike);
-		
-		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
-		try {
-			int count = duantukeLikeService.deleteDuantukeLike(duantukeLike);
-			if(count>0){
-				openResponse.setResult(Constants.SUCCESS);
-			}else{
-				openResponse.setResult(Constants.FAIL);
-				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
-				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
-			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("发送消息异常",e);
-		}
-		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
-	}
-	
 	
 	 /**
      * 点赞收藏数
@@ -99,7 +40,7 @@ public class DuantukeLikeController {
      */
 	@RequestMapping(value = "/count")
     public ResponseEntity<OpenResponse<Integer>> count(HttpServletRequest request, HttpServletResponse response,DuantukeLike duantukeLike) {
-		
+		checkParam(duantukeLike);
 		OpenResponse<Integer> openResponse = new OpenResponse<Integer>();
 		try {
 			int count = duantukeLikeService.countDuantukeLike(duantukeLike);
@@ -128,8 +69,9 @@ public class DuantukeLikeController {
 		if(duantukeLike.getFid() == null){
 			throw new OpenException(ErrorEnum.fidNull.getName(),ErrorEnum.fidNull.getId());
 		}
-		if(duantukeLike.getCustomerId() == null){
-			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
+		
+		if(duantukeLike.getBusinessType() == null){
+			throw new OpenException(ErrorEnum.businessTypeNull.getName(),ErrorEnum.businessTypeNull.getId());
 		}
 		
 	}

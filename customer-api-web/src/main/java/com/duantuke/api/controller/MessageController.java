@@ -49,12 +49,7 @@ public class MessageController {
 		try {
 			messageProducer.commonSmsMsg(message);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("发送消息异常",e);
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
@@ -88,12 +83,7 @@ public class MessageController {
 			smsMessageService.sendVerifycode(smsMessage);
 
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			logger.error("发送短信异常",e);
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		logger.info("发送验证码结果,{}",new Gson().toJson(openResponse));
@@ -118,11 +108,7 @@ public class MessageController {
 				openResponse.setErrorCode(ErrorEnum.checkFail.getId());
 				openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.systemError.getId());
-			openResponse.setErrorMessage(ErrorEnum.systemError.getName());
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
        

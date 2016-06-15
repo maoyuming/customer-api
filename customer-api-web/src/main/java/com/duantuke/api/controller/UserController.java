@@ -48,10 +48,12 @@ public class UserController {
      * @param request
      * @param response
      * @return
+     * @throws Exception 
+     * @throws NumberFormatException 
      */
 	@RequestMapping(value = "/register")
     public ResponseEntity<OpenResponse<String>> register(HttpServletRequest request, HttpServletResponse response,
-    		Customer customer, String verifycode) {
+    		Customer customer, String verifycode) throws NumberFormatException, Exception {
 		//校验参数
 		checkParam(customer);
 		
@@ -86,11 +88,6 @@ public class UserController {
 				openResponse.setErrorMessage(ErrorEnum.verifyCodeFail.getName());
 			}
 			
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("注册用户异常"+new Gson().toJson(customer),e);
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
@@ -115,12 +112,7 @@ public class UserController {
 			}else{
 				openResponse.setResult(Constants.FAIL);	
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("校验注册用户异常"+new Gson().toJson(customer),e);
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
@@ -131,9 +123,11 @@ public class UserController {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws Exception 
+	 * @throws NumberFormatException 
 	 */
 	@RequestMapping(value = "/gentoken")
-	public ResponseEntity<OpenResponse<String>> gentoken(HttpServletRequest request, HttpServletResponse response,Customer customer) {
+	public ResponseEntity<OpenResponse<String>> gentoken(HttpServletRequest request, HttpServletResponse response,Customer customer) throws NumberFormatException, Exception {
 		//校验参数
 		checkParam(customer);
 		
@@ -158,12 +152,7 @@ public class UserController {
 			}else{
 				openResponse.setResult(Constants.FAIL);	
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("生成用户token异常"+new Gson().toJson(customer),e);
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<String>>(openResponse, HttpStatus.OK);

@@ -11,11 +11,11 @@ public class City {
 	private List<District> districtList;
 	private Long id;
 
-    private String code;
+    private Long code;
 
     private String name;
 
-    private Integer proid;
+    private Long proid;
 
     private Integer sort;
 
@@ -41,12 +41,12 @@ public class City {
         this.id = id;
     }
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setCode(Long code) {
+        this.code = code == null ? null : code;
     }
 
     public String getName() {
@@ -57,11 +57,11 @@ public class City {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getProid() {
+    public Long getProid() {
         return proid;
     }
 
-    public void setProid(Integer proid) {
+    public void setProid(Long proid) {
         this.proid = proid;
     }
 

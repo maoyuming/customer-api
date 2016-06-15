@@ -45,19 +45,23 @@ public class CustomerLikeController {
 		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
-			int count = duantukeLikeService.insert(duantukeLike);
-			if(count>0){
-				openResponse.setResult(Constants.SUCCESS);
+			//同一个不允许重复点赞和收藏
+			int num = duantukeLikeService.countDuantukeLike(duantukeLike);
+			if(num==0){
+				int count = duantukeLikeService.insert(duantukeLike);
+				if(count>0){
+					openResponse.setResult(Constants.SUCCESS);
+				}else{
+					openResponse.setResult(Constants.FAIL);
+					openResponse.setErrorCode(ErrorEnum.saveFail.getId());
+					openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
+				}
 			}else{
-				openResponse.setResult(Constants.FAIL);
-				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
-				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
+				throw new OpenException(ErrorEnum.duplicateSaveNull.getName(),ErrorEnum.duplicateSaveNull.getId());
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("发送消息异常",e);
+			
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
@@ -82,11 +86,8 @@ public class CustomerLikeController {
 				openResponse.setErrorCode(ErrorEnum.saveFail.getId());
 				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
 			}
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("发送消息异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
@@ -106,11 +107,8 @@ public class CustomerLikeController {
 			int count = duantukeLikeService.countDuantukeLike(duantukeLike);
 			openResponse.setData(count);
 			openResponse.setResult(Constants.SUCCESS);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.checkFail.getId());
-			openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
-			logger.error("查询点赞收藏数异常",e);
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<Integer>>(openResponse, HttpStatus.OK);
 	}
@@ -132,6 +130,10 @@ public class CustomerLikeController {
 //		if(duantukeLike.getCustomerId() == null){
 //			throw new OpenException(ErrorEnum.customeridNull.getName(),ErrorEnum.customeridNull.getId());
 //		}
+		
+		if(duantukeLike.getBusinessType() == null){
+			throw new OpenException(ErrorEnum.businessTypeNull.getName(),ErrorEnum.businessTypeNull.getId());
+		}
 		
 		duantukeLike.setCustomerId(TokenUtil.getUserIdByRequest(request));
 		

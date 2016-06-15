@@ -40,11 +40,7 @@ public class CustomerMessageController {
 			
 			openResponse.setResult(Constants.SUCCESS);
 			openResponse.setData(list);
-		} catch (Exception e) {
-			openResponse.setResult(Constants.FAIL);
-			openResponse.setErrorCode(ErrorEnum.systemError.getId());
-			openResponse.setErrorMessage(ErrorEnum.systemError.getName());
-		}finally{
+		} finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
        
