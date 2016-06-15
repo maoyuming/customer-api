@@ -525,6 +525,11 @@
 				<includes>
 					<include>**/*.properties</include>
 				</includes>
+				<excludes>
+					<exclude>
+						**/logback/**
+					</exclude>
+				</excludes>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
