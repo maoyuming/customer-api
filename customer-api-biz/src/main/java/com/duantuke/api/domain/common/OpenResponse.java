@@ -6,6 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class OpenResponse<T> implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	@JSONField(name = "result")
 	private String result; // :" "true,false ",
 	@JSONField(name = "errorCode")

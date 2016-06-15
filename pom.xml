@@ -525,6 +525,11 @@
 				<includes>
 					<include>**/*.properties</include>
 				</includes>
+				<excludes>
+					<exclude>
+						**/logback/**
+					</exclude>
+				</excludes>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -554,7 +559,7 @@
 				<version>9.2.1.v20140609</version>
 				<configuration>
 					<httpConnector>
-						<port>8080</port>
+						<port>8081</port>
 					</httpConnector>
 					<webApp>
 						<contextPath>/api</contextPath>
@@ -616,6 +621,7 @@
 				<dubbo_basic_group>basic_test</dubbo_basic_group>
 				<dubbo_customer_group>customer_dev</dubbo_customer_group>
 				<dubbo_message_group>message_test</dubbo_message_group>
+				<dubbo_order_group>order_test</dubbo_order_group>
 				
 				<!-- config_center -->
 				<config.localMode>true</config.localMode>
@@ -662,7 +668,7 @@
 				<dubbo_basic_group>basic_test</dubbo_basic_group>
 				<dubbo_customer_group>customer_test</dubbo_customer_group>
 				<dubbo_message_group>message_test</dubbo_message_group>
-				
+				<dubbo_order_group>order_test</dubbo_order_group>
 				
 				<!-- config_center -->
 				<config.localMode>false</config.localMode>
