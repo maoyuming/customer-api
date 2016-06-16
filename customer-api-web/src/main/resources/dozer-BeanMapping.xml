@@ -14,5 +14,5 @@
     <mapping date-format="yyyy年MM月dd日">
         <class-a>com.duantuke.api.domain.HotWordOutBean</class-a>
         <class-b>com.duantuke.basic.po.HotWord</class-b>
-    </mapping> -->
+    </mapping>
 </mappings>

@@ -1,7 +1,9 @@
 package com.duantuke.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +47,13 @@ public class HotWordController {
 		OpenResponse<List<HotWordOutBean>> openResponse = new OpenResponse<List<HotWordOutBean>>();
 		try {
 			List<HotWord> list = hotWordService.queryHotWords(hotWord);
-			List<HotWordOutBean> list1 = dozerMapper.map(list, List.class);
-			
+			List<HotWordOutBean> list1 = new ArrayList<HotWordOutBean>();
+			if(CollectionUtils.isNotEmpty(list)){
+				for (HotWord hotWordBean:list) {
+					HotWordOutBean hotWordOutBean = dozerMapper.map(hotWordBean, HotWordOutBean.class);
+					list1.add(hotWordOutBean);
+				}
+			}
 			openResponse.setData(list1);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
