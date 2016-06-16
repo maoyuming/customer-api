@@ -21,9 +21,11 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.bean.SkuRequest;
 import com.duantuke.basic.face.bean.SkuResponse;
 import com.duantuke.basic.face.service.SkuService;
+import com.duantuke.basic.po.Customer;
 import com.google.gson.Gson;
 
 /**
@@ -80,9 +82,9 @@ public class SkuController {
 		if(skuRequest==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
 		}
-		if(skuRequest.getHotelId()==null){
-			throw new OpenException(ErrorEnum.hotelidNull.getName(),ErrorEnum.hotelidNull.getId());
-		}
+//		if(skuRequest.getHotelId()==null){
+//			throw new OpenException(ErrorEnum.hotelidNull.getName(),ErrorEnum.hotelidNull.getId());
+//		}
 		if(MapUtils.isEmpty(skuRequest.getSkuMap())){
 			throw new OpenException(ErrorEnum.skuIdNull.getName(),ErrorEnum.skuIdNull.getId());
 		}
