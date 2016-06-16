@@ -47,6 +47,7 @@ public class CustomerHotelController {
 		} catch (Exception e) {
 			logger.error("CustomerHotelController search error",e);
 			openResponse.setResult(Constants.FAIL);
+			throw e;
 		}
 		return new ResponseEntity<OpenResponse<List<HotelOutputBean>>> (openResponse, HttpStatus.OK);
 		

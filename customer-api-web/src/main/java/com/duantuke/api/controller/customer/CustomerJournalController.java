@@ -69,6 +69,7 @@ public class CustomerJournalController {
 		} catch (Exception e) {
 			logger.error("CustomerJourneyController search error",e);
 			openResponse.setResult(Constants.FAIL);
+			throw e;
 		}
 		return new ResponseEntity<OpenResponse<List<JourneyOutputBean>>> (openResponse, HttpStatus.OK);
 	}
@@ -90,6 +91,7 @@ public class CustomerJournalController {
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("游记详情异常",e);
+			throw e;
 		}
 		
 		return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);

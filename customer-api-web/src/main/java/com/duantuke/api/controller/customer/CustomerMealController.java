@@ -59,6 +59,7 @@ public class CustomerMealController {
 		} catch (Exception e) {
 			logger.error("CustomerMealController search error",e);
 			openResponse.setResult(Constants.FAIL);
+			throw e;
 		}
 		return new ResponseEntity<OpenResponse<List<MealOutputBean>>> (openResponse, HttpStatus.OK);
 	}
@@ -80,6 +81,7 @@ public class CustomerMealController {
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("吃详情异常",e);
+			throw e;
 		}
 		
 		return new ResponseEntity<OpenResponse<Meal>> (openResponse, HttpStatus.OK);

@@ -77,6 +77,7 @@ public class CustomerUserController {
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("获取c端用户异常"+new Gson().toJson(customer),e);
+			throw e;
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}

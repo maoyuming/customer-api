@@ -45,6 +45,7 @@ public class CustomerHotWordController {
 		} catch (Exception e) {
 			logger.error("CustomerHotWordController search error",e);
 			openResponse.setResult(Constants.FAIL);
+			throw e;
 		}
 		return new ResponseEntity<OpenResponse<List<HotWord>>> (openResponse, HttpStatus.OK);
 		

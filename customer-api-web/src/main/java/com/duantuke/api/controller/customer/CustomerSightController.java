@@ -46,6 +46,7 @@ public class CustomerSightController {
 		} catch (Exception e) {
 			logger.error("CustomerSightController search error",e);
 			openResponse.setResult(Constants.FAIL);
+			throw e;
 		}
 		return new ResponseEntity<OpenResponse<List<SightOutputBean>>> (openResponse, HttpStatus.OK);
 	}
