@@ -76,5 +76,8 @@
    
    <dubbo:reference id="customerLikeService"
 		interface="com.duantuke.basic.face.service.CustomerLikeService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
+   
+   <dubbo:reference id="roomTypeService"
+		interface="com.duantuke.basic.face.service.RoomTypeService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
      
 </beans>  
