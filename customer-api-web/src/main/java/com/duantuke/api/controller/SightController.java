@@ -13,51 +13,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
-import com.duantuke.basic.face.service.JourneyService;
+import com.duantuke.basic.face.service.SightService;
 import com.duantuke.basic.po.Journey;
+import com.duantuke.basic.po.Sight;
 
 
 /**
- * 游记详情
+ * 景点
  * @author yuming.mao
  *
  */
 @Controller
-@RequestMapping(value = "/journal")
-public class JournalController {
-	private static Logger logger = LoggerFactory.getLogger(JournalController.class);
+@RequestMapping(value = "/sight")
+public class SightController {
+	private static Logger logger = LoggerFactory.getLogger(SightController.class);
 	@Autowired
-	private JourneyService journeyService;
+	private SightService sightService;
 	
 	
     /**
-     * 游记
+     * 景点详情
      * @param request
      * @param response
      * @return
      */
 	@RequestMapping(value = "/detail")
-    public ResponseEntity<OpenResponse<Journey>> detail(HttpServletRequest request, HttpServletResponse response,Long journeyId) {
-		logger.info("游记详情，journeyId：{}",journeyId);
+    public ResponseEntity<OpenResponse<Sight>> detail(HttpServletRequest request, HttpServletResponse response,Long sightId) {
+		logger.info("景点详情，sightId：{}",sightId);
 		
-		OpenResponse<Journey> openResponse = new OpenResponse<Journey>();
-		if(journeyId == null){
-			openResponse.setErrorMessage("参数journeyId为空");
+		OpenResponse<Sight> openResponse = new OpenResponse<Sight>();
+		if(sightId == null){
+			openResponse.setErrorMessage("参数sightId为空");
 			openResponse.setResult(Constants.FAIL);
-			return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);
+			return new ResponseEntity<OpenResponse<Sight>> (openResponse, HttpStatus.OK);
 		}
 		
 		try {
-			Journey journey = journeyService.queryJourneyById(journeyId);
-			openResponse.setData(journey);
+			Sight sight = sightService.querySightById(sightId);
+			openResponse.setData(sight);;
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("JourneyController detail error",e);
+			logger.error("SightController detail error",e);
 			throw e;
 		}
 		
-		return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);
+		return new ResponseEntity<OpenResponse<Sight>> (openResponse, HttpStatus.OK);
 	}
 	
 	
