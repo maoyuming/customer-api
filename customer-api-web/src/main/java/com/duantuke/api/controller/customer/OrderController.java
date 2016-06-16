@@ -55,7 +55,6 @@ public class OrderController {
 			Request<CreateOrderRequest> req = new Request<CreateOrderRequest>();
 			Header header = new Header();
 			header.setTimeStamp(new Date());
-			header.setToken("token");
 			req.setHeader(header);
 
 			Long userId = TokenUtil.getUserIdByRequest(request);
@@ -92,7 +91,6 @@ public class OrderController {
 			Request<QueryOrderRequest> req = new Request<QueryOrderRequest>();
 			Header header = new Header();
 			header.setTimeStamp(new Date());
-			header.setToken("token");
 			req.setHeader(header);
 
 			// 获取用户信息
@@ -141,7 +139,6 @@ public class OrderController {
 			Request<Base> req = new Request<Base>();
 			Header header = new Header();
 			header.setTimeStamp(new Date());
-			header.setToken("token");
 			req.setHeader(header);
 
 			Base base = new Base();
