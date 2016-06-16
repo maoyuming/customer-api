@@ -24,8 +24,8 @@ import com.duantuke.basic.po.Meal;
  */
 @Controller
 @RequestMapping(value = "/customer/meal")
-public class CustomerMealController {
-	private static Logger logger = LoggerFactory.getLogger(CustomerMealController.class);
+public class MealController {
+	private static Logger logger = LoggerFactory.getLogger(MealController.class);
 	@Autowired
 	private MealService mealService;
 	
