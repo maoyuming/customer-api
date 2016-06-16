@@ -83,14 +83,21 @@ public class CustomerJournalController {
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Journey>> detail(HttpServletRequest request, HttpServletResponse response,Long journeyId) {
 		logger.info("游记详情，journeyId：{}",journeyId);
+		
 		OpenResponse<Journey> openResponse = new OpenResponse<Journey>();
+		if(journeyId == null){
+			openResponse.setErrorMessage("参数journeyid为空");
+			openResponse.setResult(Constants.FAIL);
+			return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);
+		}
+		
 		try {
 			Journey journey = journeyService.queryJourneyById(journeyId);
 			openResponse.setData(journey);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("游记详情异常",e);
+			logger.error("CustomerJourneyController detail error",e);
 			throw e;
 		}
 		
