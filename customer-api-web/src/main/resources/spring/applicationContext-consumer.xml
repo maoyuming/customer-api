@@ -74,7 +74,7 @@
    <dubbo:reference id="orderService"
 		interface="com.duantuke.order.service.OrderService" group="${dubbo.order.group}" version="1.0.0" timeout="30000" check="false"/>
    
-   <dubbo:reference id="customerLikeHotelService"
-		interface="com.duantuke.basic.face.service.CustomerLikeHotelService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
+   <dubbo:reference id="customerLikeService"
+		interface="com.duantuke.basic.face.service.CustomerLikeService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
      
 </beans>  

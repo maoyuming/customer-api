@@ -1,5 +1,7 @@
 package com.duantuke.api.controller.customer;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,14 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.basic.face.service.CustomerLikeService;
 import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.po.DuantukeLike;
+import com.duantuke.basic.po.Hotel;
+import com.duantuke.basic.po.Sight;
 import com.google.gson.Gson;
 
 /**
@@ -31,6 +37,9 @@ public class CustomerLikeController {
 	private static Logger logger = LoggerFactory.getLogger(CustomerLikeController.class);
 	@Autowired
 	private DuantukeLikeService duantukeLikeService;
+	
+	@Autowired
+	private CustomerLikeService customerLikeService;
 	
     /**
      * 点赞收藏
@@ -136,6 +145,56 @@ public class CustomerLikeController {
 		}
 		
 		duantukeLike.setCustomerId(TokenUtil.getUserIdByRequest(request));
+		
+		
+	}
+	
+	
+	/**
+	 * 查询用户收藏的酒店信息
+	 * @param 
+	 */
+	@RequestMapping(value = "/hotel", method = RequestMethod.POST)
+	public ResponseEntity<OpenResponse<List<Hotel>>> hotel(HttpServletRequest request, HttpServletResponse response) {
+		Long customerId = TokenUtil.getUserIdByRequest(request);
+		logger.info("查询收藏酒店customerId：{}",customerId);
+		OpenResponse<List<Hotel>> openResponse = new OpenResponse<List<Hotel>>();
+		try {
+			List<Hotel> list = customerLikeService.queryHotels(customerId);
+			openResponse.setData(list);
+			openResponse.setResult(Constants.SUCCESS);
+		} catch (Exception e) {
+			logger.error("CustomerHotelController search error",e);
+			openResponse.setResult(Constants.FAIL);
+			throw e;
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+		}
+		return new ResponseEntity<OpenResponse<List<Hotel>>> (openResponse, HttpStatus.OK);
+		
+		
+	}
+	/**
+	 * 查询用户收藏的景点信息
+	 * @param 
+	 */
+	@RequestMapping(value = "/sight", method = RequestMethod.POST)
+	public ResponseEntity<OpenResponse<List<Sight>>> sight(HttpServletRequest request, HttpServletResponse response) {
+		Long customerId = TokenUtil.getUserIdByRequest(request);
+		logger.info("查询收藏景点customerId：{}",customerId);
+		OpenResponse<List<Sight>> openResponse = new OpenResponse<List<Sight>>();
+		try {
+			List<Sight> list = customerLikeService.querySights(customerId);
+			openResponse.setData(list);
+			openResponse.setResult(Constants.SUCCESS);
+		} catch (Exception e) {
+			logger.error("CustomerHotelController search error",e);
+			openResponse.setResult(Constants.FAIL);
+			throw e;
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+		}
+		return new ResponseEntity<OpenResponse<List<Sight>>> (openResponse, HttpStatus.OK);
 		
 		
 	}
