@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller;
 
 import java.util.List;
 
@@ -22,10 +22,10 @@ import com.google.gson.Gson;
  * 热词
  */
 @Controller
-@RequestMapping(value = "/customer/hotword")
-public class CustomerHotWordController {
+@RequestMapping(value = "/hotword")
+public class HotWordController {
 	
-	private static Logger logger = LoggerFactory.getLogger(CustomerJournalController.class);
+	private static Logger logger = LoggerFactory.getLogger(HotWordController.class);
 	
 	@Autowired
 	private HotWordService hotWordService;

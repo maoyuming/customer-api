@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller.es;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ import com.google.gson.Gson;
  * 农家院
  */
 @Controller
-@RequestMapping(value = "/customer/hotel")
-public class CustomerHotelController {
+@RequestMapping(value = "/es/hotel")
+public class HotelEsController {
 	
-	private static Logger logger = LoggerFactory.getLogger(CustomerJournalController.class);
+	private static Logger logger = LoggerFactory.getLogger(HotelEsController.class);
 	
 	@Autowired
 	private HotelSearchService hotelSearchService;
