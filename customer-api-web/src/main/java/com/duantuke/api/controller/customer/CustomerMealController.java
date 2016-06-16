@@ -29,23 +29,30 @@ public class CustomerMealController {
 	@Autowired
 	private MealService mealService;
 	
-    /**
-     * 吃详情
+	/**
+     * 饮食详情
      * @param request
      * @param response
      * @return
-     */
+    */
 	@RequestMapping(value = "/detail")
-    public ResponseEntity<OpenResponse<Meal>> detail(HttpServletRequest request, HttpServletResponse response,Long mealId) {
-		logger.info("吃详情，mealId：{}",mealId);
+    public ResponseEntity<OpenResponse<Meal>> detail(Long skuId) {
+		logger.info("饮食详情，skuid：{}",skuId);
 		OpenResponse<Meal> openResponse = new OpenResponse<Meal>();
-		try {
-			Meal meal = mealService.queryMealById(mealId);
+
+		if(skuId == null){
+			openResponse.setErrorMessage("参数skuId为空");
+			openResponse.setResult(Constants.FAIL);
+			return new ResponseEntity<OpenResponse<Meal>> (openResponse, HttpStatus.OK);
+		}
+		
+		try {			
+			Meal meal = mealService.queryMealById(skuId);
 			openResponse.setData(meal);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("吃详情异常",e);
+			logger.error("CustomerMealController search error",e);
 			throw e;
 		}
 		
