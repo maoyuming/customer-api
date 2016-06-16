@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,14 +18,14 @@ import com.duantuke.basic.po.Meal;
 
 
 /**
- * 吃详情
+ * 饮食
  * @author yuming.mao
  *
  */
 @Controller
-@RequestMapping(value = "/customer/meal")
-public class CustomerMealController {
-	private static Logger logger = LoggerFactory.getLogger(CustomerMealController.class);
+@RequestMapping(value = "/meal")
+public class MealController {
+	private static Logger logger = LoggerFactory.getLogger(MealController.class);
 	@Autowired
 	private MealService mealService;
 	
@@ -37,7 +37,7 @@ public class CustomerMealController {
     */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Meal>> detail(Long skuId) {
-		logger.info("饮食详情，skuid：{}",skuId);
+		logger.info("饮食详情，skuId：{}",skuId);
 		OpenResponse<Meal> openResponse = new OpenResponse<Meal>();
 
 		if(skuId == null){
@@ -52,7 +52,7 @@ public class CustomerMealController {
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("CustomerMealController search error",e);
+			logger.error("MealController search error",e);
 			throw e;
 		}
 		

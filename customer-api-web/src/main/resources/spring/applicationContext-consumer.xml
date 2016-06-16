@@ -48,7 +48,8 @@
         
    <dubbo:reference id="journeyService"  
         interface="com.duantuke.basic.face.service.JourneyService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>   
-           
+    <dubbo:reference id="sightService"  
+        interface="com.duantuke.basic.face.service.SightService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>             
    <dubbo:reference id="mealService"  
         interface="com.duantuke.basic.face.service.MealService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>  
    <dubbo:reference id="skuService"  
@@ -73,7 +74,7 @@
    <dubbo:reference id="orderService"
 		interface="com.duantuke.order.service.OrderService" group="${dubbo.order.group}" version="1.0.0" timeout="30000" check="false"/>
    
-   <dubbo:reference id="customerLikeHotelService"
-		interface="com.duantuke.basic.face.service.CustomerLikeHotelService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
+   <dubbo:reference id="customerLikeService"
+		interface="com.duantuke.basic.face.service.CustomerLikeService" group="${dubbo.basic.group}" version="1.0.0" timeout="30000" check="false"/>
      
 </beans>  

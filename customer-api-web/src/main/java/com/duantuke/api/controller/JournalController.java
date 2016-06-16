@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,15 +23,15 @@ import com.duantuke.basic.po.Journey;
  *
  */
 @Controller
-@RequestMapping(value = "/customer/journal")
-public class CustomerJournalController {
-	private static Logger logger = LoggerFactory.getLogger(CustomerJournalController.class);
+@RequestMapping(value = "/journal")
+public class JournalController {
+	private static Logger logger = LoggerFactory.getLogger(JournalController.class);
 	@Autowired
 	private JourneyService journeyService;
 	
 	
     /**
-     * 游记详情
+     * 游记
      * @param request
      * @param response
      * @return
@@ -42,7 +42,7 @@ public class CustomerJournalController {
 		
 		OpenResponse<Journey> openResponse = new OpenResponse<Journey>();
 		if(journeyId == null){
-			openResponse.setErrorMessage("参数journeyid为空");
+			openResponse.setErrorMessage("参数journeyId为空");
 			openResponse.setResult(Constants.FAIL);
 			return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);
 		}
@@ -53,7 +53,7 @@ public class CustomerJournalController {
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("CustomerJourneyController detail error",e);
+			logger.error("JourneyController detail error",e);
 			throw e;
 		}
 		

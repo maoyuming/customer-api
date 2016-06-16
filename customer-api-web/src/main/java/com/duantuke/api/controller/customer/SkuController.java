@@ -1,5 +1,6 @@
 package com.duantuke.api.controller.customer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.dubbo.common.json.JSON;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
@@ -44,10 +46,11 @@ public class SkuController {
      * @param request
      * @param response
      * @return
+	 * @throws IOException 
      */
 	@RequestMapping(value = "/query")
     public ResponseEntity<OpenResponse<SkuResponse>> query(HttpServletRequest request, HttpServletResponse response,
-    		String json) {
+    		String json) throws IOException {
         SkuRequest skuRequest= new Gson().fromJson(json, SkuRequest.class);
 		//校验参数
 		checkParam(skuRequest,request);
@@ -64,7 +67,7 @@ public class SkuController {
 				openResponse.setErrorMessage(ErrorEnum.saveFail.getName());
 			}
 		} finally{
-			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+			logger.info("返回值openResponse：{}",JSON.json(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<SkuResponse>>(openResponse, HttpStatus.OK);
 	}
@@ -80,9 +83,9 @@ public class SkuController {
 		if(skuRequest==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
 		}
-		if(skuRequest.getHotelId()==null){
-			throw new OpenException(ErrorEnum.hotelidNull.getName(),ErrorEnum.hotelidNull.getId());
-		}
+//		if(skuRequest.getHotelId()==null){
+//			throw new OpenException(ErrorEnum.hotelidNull.getName(),ErrorEnum.hotelidNull.getId());
+//		}
 		if(MapUtils.isEmpty(skuRequest.getSkuMap())){
 			throw new OpenException(ErrorEnum.skuIdNull.getName(),ErrorEnum.skuIdNull.getId());
 		}
