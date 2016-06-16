@@ -23,6 +23,7 @@ import com.duantuke.basic.face.service.CustomerLikeService;
 import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.po.DuantukeLike;
 import com.duantuke.basic.po.Hotel;
+import com.duantuke.basic.po.Journey;
 import com.duantuke.basic.po.Sight;
 import com.google.gson.Gson;
 
@@ -195,6 +196,30 @@ public class CustomerLikeController {
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<List<Sight>>> (openResponse, HttpStatus.OK);
+		
+		
+	}
+	/**
+	 * 查询用户收藏的景点信息
+	 * @param 
+	 */
+	@RequestMapping(value = "/journey", method = RequestMethod.POST)
+	public ResponseEntity<OpenResponse<List<Journey>>> journey(HttpServletRequest request, HttpServletResponse response) {
+		Long customerId = TokenUtil.getUserIdByRequest(request);
+		logger.info("查询收藏游记customerId：{}",customerId);
+		OpenResponse<List<Journey>> openResponse = new OpenResponse<List<Journey>>();
+		try {
+			List<Journey> list = customerLikeService.queryJourneys(customerId);
+			openResponse.setData(list);
+			openResponse.setResult(Constants.SUCCESS);
+		} catch (Exception e) {
+			logger.error("CustomerHotelController search error",e);
+			openResponse.setResult(Constants.FAIL);
+			throw e;
+		}finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+		}
+		return new ResponseEntity<OpenResponse<List<Journey>>> (openResponse, HttpStatus.OK);
 		
 		
 	}
