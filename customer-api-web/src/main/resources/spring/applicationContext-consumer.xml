@@ -55,6 +55,16 @@
         interface="com.duantuke.basic.face.service.SkuService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
    <dubbo:reference id="hotelService"  
         interface="com.duantuke.basic.face.service.HotelService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="hotelSearchService"  
+        interface="com.duantuke.basic.face.service.HotelSearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="mealSearchService"  
+        interface="com.duantuke.basic.face.service.MealSearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="journeySearchService"  
+        interface="com.duantuke.basic.face.service.JourneySearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="sightSearchService"  
+        interface="com.duantuke.basic.face.service.SightSearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="hotWordService"  
+        interface="com.duantuke.basic.face.service.HotWordService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
         
         
    <dubbo:reference id="pushLogService"  
