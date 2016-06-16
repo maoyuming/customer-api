@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import com.duantuke.basic.po.Journey;
  *
  */
 @Controller
-@RequestMapping(value = "/customer/journal")
+@RequestMapping(value = "/journal")
 public class JournalController {
 	private static Logger logger = LoggerFactory.getLogger(JournalController.class);
 	@Autowired

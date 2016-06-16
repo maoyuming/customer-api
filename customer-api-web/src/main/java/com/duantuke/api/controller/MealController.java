@@ -1,4 +1,4 @@
-package com.duantuke.api.controller.customer;
+package com.duantuke.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import com.duantuke.basic.po.Meal;
  *
  */
 @Controller
-@RequestMapping(value = "/customer/meal")
+@RequestMapping(value = "/meal")
 public class MealController {
 	private static Logger logger = LoggerFactory.getLogger(MealController.class);
 	@Autowired
