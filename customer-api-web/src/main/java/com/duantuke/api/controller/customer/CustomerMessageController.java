@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
-import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.service.PushLogService;
 import com.duantuke.basic.po.LPushLog;
@@ -29,7 +28,12 @@ public class CustomerMessageController {
 	@Autowired
 	private PushLogService pushLogService;
 	
-	
+	/**
+	 * 用户消息列表
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/list")
 	public ResponseEntity<OpenResponse<List<LPushLog>>> list(HttpServletRequest request) throws Exception {
 		Long userId = TokenUtil.getUserIdByRequest(request);
@@ -45,6 +49,30 @@ public class CustomerMessageController {
 		}
        
 		return new ResponseEntity<OpenResponse<List<LPushLog>>>(openResponse, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 更新读取状态
+	 * @param request
+	 * @param logId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/udpateread")
+	public ResponseEntity<OpenResponse<Boolean>> udpateread(HttpServletRequest request,Long logId) throws Exception {
+		Long userId = TokenUtil.getUserIdByRequest(request);
+		logger.info("用户{}消息读取，logId={}",userId,logId);
+		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
+		try {
+			int count=pushLogService.updateReadStatus(userId,logId);
+			openResponse.setResult(Constants.SUCCESS);
+			
+		} finally{
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+		}
+		
+		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
 	
 	
