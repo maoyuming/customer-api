@@ -11,8 +11,8 @@
     <!-- 如果两个bean的field名称和类型都一样，则不需要指明映射 -->
 
     <!--结果集映射 --> 
-<!--    <mapping date-format="yyyy年MM月dd日"> -->
-<!--         <class-a>com.fangbaba.gds.face.bean.SalesType</class-a> -->
-<!--         <class-b>com.fangbaba.api.domain.SalesType</class-b> -->
-<!--     </mapping> -->
+    <mapping date-format="yyyy年MM月dd日">
+        <class-a>com.duantuke.api.domain.HotWordOutBean</class-a>
+        <class-b>com.duantuke.basic.po.HotWord</class-b>
+    </mapping> -->
 </mappings>
