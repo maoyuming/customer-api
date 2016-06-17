@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +60,34 @@ public class OrderController {
 
 			Long userId = TokenUtil.getUserIdByRequest(request);
 
-			Response<CreateOrderResponse> res = orderService.create(req);
-			openResponse.setResult(Boolean.toString(res.isSuccess()));
-			openResponse.setData(res.getData());
-			openResponse.setErrorCode(res.getErrorCode());
-			openResponse.setErrorMessage(res.getErrorMessage());
-		} catch (Exception e) {
+            // 从request中获取订单信息json
+            String orderJson = request.getParameter("data");
+            logger.info("从request中获取的订单信息为" + orderJson);
 
+            if (StringUtils.isBlank(orderJson)) {
+                logger.error("从request中获取的订单信息为空,无法创建订单");
+                openResponse.setResult(Boolean.FALSE.toString());
+                openResponse.setErrorCode(OrderErrorEnum.paramsError.getErrorCode());
+                openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
+            } else {
+
+                // 把订单数据封装到对象中
+                CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+                Order order = JSON.parseObject(orderJson, Order.class);
+                createOrderRequest.setOrder(order);
+                req.setData(createOrderRequest);
+
+                Response<CreateOrderResponse> res = orderService.create(req);
+                openResponse.setResult(Boolean.toString(res.isSuccess()));
+                openResponse.setData(res.getData());
+                openResponse.setErrorCode(res.getErrorCode());
+                openResponse.setErrorMessage(res.getErrorMessage());
+            }
+		} catch (Exception e) {
+            logger.error("创建订单出现异常,request= {}", JSON.toJSONString(request), e);
+            openResponse.setResult(Boolean.FALSE.toString());
+            openResponse.setErrorCode(OrderErrorEnum.customError.getErrorCode());
+            openResponse.setErrorMessage(OrderErrorEnum.customError.getErrorMsg());
 		}
 		return new ResponseEntity<OpenResponse<CreateOrderResponse>>(openResponse, HttpStatus.OK);
 	}
@@ -160,4 +182,5 @@ public class OrderController {
 
 		return new ResponseEntity<OpenResponse<Order>>(openResponse, HttpStatus.OK);
 	}
+
 }
