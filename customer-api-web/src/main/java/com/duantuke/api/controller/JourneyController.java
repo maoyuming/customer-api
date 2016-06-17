@@ -23,9 +23,9 @@ import com.duantuke.basic.po.Journey;
  *
  */
 @Controller
-@RequestMapping(value = "/journal")
-public class JournalController {
-	private static Logger logger = LoggerFactory.getLogger(JournalController.class);
+@RequestMapping(value = "/journey")
+public class JourneyController {
+	private static Logger logger = LoggerFactory.getLogger(JourneyController.class);
 	@Autowired
 	private JourneyService journeyService;
 	
