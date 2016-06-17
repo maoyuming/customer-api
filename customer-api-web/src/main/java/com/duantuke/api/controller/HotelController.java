@@ -67,7 +67,7 @@ public class HotelController {
 			
 			Hotel hotel = hotelService.queryHotelById(hotelId);
 			if(hotel==null){
-				openResponse.setErrorMessage("没有hotelId="+hotelId+"的酒店");
+				openResponse.setErrorMessage("没有hotelId等于"+hotelId+"的酒店");
 				openResponse.setResult(Constants.FAIL);
 				return new ResponseEntity<OpenResponse<HotelInfo>> (openResponse, HttpStatus.OK);
 			}
