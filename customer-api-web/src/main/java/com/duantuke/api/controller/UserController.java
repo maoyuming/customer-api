@@ -139,11 +139,11 @@ public class UserController {
 			if(customer2==null){
 				throw new OpenException(ErrorEnum.customeridNull);
 			}
-//			String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), customer2.getCustomerId()+"");
-//			if(StringUtils.isEmpty(token)){
-			String	token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
+			String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), customer2.getCustomerId()+"");
+			if(StringUtils.isEmpty(token)){
+				token = TokenHttpUtils.createToken(Config.getValue("cas.server"), customer2.getCustomerId()+"",
 						UserTokenTypeEnum.C.getId()+"", Long.valueOf(Config.getValue("token.expiredTime")));
-//			}
+			}
 			
 			//userTokenService.genUserToken(UserTokenTypeEnum.C,customer.getPhone());
 			if(StringUtils.isNotBlank(token)){
