@@ -44,6 +44,9 @@ public enum ErrorEnum {
     positionNull("100033","推荐位置信息为空"),
     recommendIdNull("100034","推荐id为空"),
     
+
+    userUnExists("100035","用户信息不存在"),
+    
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),
     accntsumisnull("200025","提现申请提现金额不能为空"),

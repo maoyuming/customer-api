@@ -93,15 +93,9 @@ public class MessageController {
 	
 	@RequestMapping("/verifycode/verify")
 	public ResponseEntity<OpenResponse<Boolean>> verifyCode(HttpServletRequest request, String phone, String verifycode) throws Exception {
-		//校验参数
-		checkParamCheckVerify(verifycode, phone);
-       
-        logger.info("验证码校验开始: code:{},phone:{}",verifycode, phone);
-		boolean checkResult=smsMessageService.checkVerifyCode(phone, verifycode);
-		
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
-			if(checkResult){
+			if(checkVerifyCode(request, phone, verifycode)){
 				openResponse.setResult(Constants.SUCCESS);
 			}else{
 				openResponse.setResult(Constants.FAIL);
@@ -113,6 +107,48 @@ public class MessageController {
 		}
        
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
+	}
+	
+	
+	private  boolean checkVerifyCode(HttpServletRequest request, String phone, String verifycode){
+		//校验参数
+		checkParamCheckVerify(verifycode, phone);
+       
+        logger.info("验证码校验开始: code:{},phone:{}",verifycode, phone);
+		boolean checkResult=smsMessageService.checkVerifyCode(phone, verifycode);
+		return  checkResult;
+	}
+	
+	/**
+	 * 登录
+	 * @param request
+	 * @param phone
+	 * @param verifycode
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/login")
+	public ResponseEntity<OpenResponse<String>> login(HttpServletRequest request, String phone, String verifycode) throws Exception {
+
+		OpenResponse<String> openResponse = new OpenResponse<String>();
+		try {
+			if(checkVerifyCode(request, phone, verifycode)){
+				//查询token
+				
+				openResponse.setData(TokenUtil.getTokenByPhone(phone));
+				openResponse.setResult(Constants.SUCCESS);
+			}else{
+				openResponse.setResult(Constants.FAIL);
+				openResponse.setErrorCode(ErrorEnum.checkFail.getId());
+				openResponse.setErrorMessage(ErrorEnum.checkFail.getName());
+			}
+		} finally{
+			//TODO:记录日志
+			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+		}
+       
+		return new ResponseEntity<OpenResponse<String>>(openResponse, HttpStatus.OK);
+	
 	}
 	
 	
