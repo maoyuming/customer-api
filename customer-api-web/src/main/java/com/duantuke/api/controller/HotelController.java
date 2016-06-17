@@ -2,12 +2,12 @@ package com.duantuke.api.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,6 @@ import com.duantuke.basic.face.service.PriceService;
 import com.duantuke.basic.face.service.RoomTypeService;
 import com.duantuke.basic.po.Hotel;
 import com.duantuke.basic.po.RoomType;
-import com.duantuke.basic.po.Sight;
 
 
 /**
@@ -49,61 +48,59 @@ public class HotelController {
 	
     /**
      * 农家院详情
-     * @param request
-     * @param response
+     * @param hotelId
+     * @param begintime
+     * @param endtime
      * @return
      */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<HotelInfo>> detail(Long hotelId,String begintime,String endtime) {
 		logger.info("农家院详情，hotelId：{}",hotelId);
-		
-		Hotel hotel = hotelService.queryHotelById(hotelId);
-		HotelInfo hotelInfo = dozerMapper.map(hotel, HotelInfo.class);
-		
-		List<RoomType> roomTypes = roomTypeService.queryRoomtypeByHotleId(hotelId);
-		System.out.println(roomTypes.get(0).getSkuId());
-		System.out.println(roomTypes.get(0).getName());
-
-
-		List<RoomTypeInfo> roomTypeInfos = new ArrayList<RoomTypeInfo>();
-		
-		List<Long> roomtypeIds = new ArrayList<Long>();
-		for(RoomType roomType:roomTypes){
-			roomtypeIds.add(1L);
-			roomTypeInfos.add(dozerMapper.map(roomType, RoomTypeInfo.class));
-		}
-		
-		Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
-		
-		
-		
-		
-        Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
-        for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
-        	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
-        		System.out.println(roomTypeInfo.getSkuId());
-        		if(entry.getKey()==(roomTypeInfo.getSkuId())){
-        			roomTypeInfo.setPrices(entry.getValue());
-        		}
-        	}
-        }  
-		
-		
-				
-
-		
-
-		hotelInfo.setRoomTypes(roomTypeInfos);
-		
 		OpenResponse<HotelInfo> openResponse = new OpenResponse<HotelInfo>();
-
 		
 		try {
+			if(hotelId == null){
+				openResponse.setErrorMessage("参数hotelId为空");
+				openResponse.setResult(Constants.FAIL);
+				return new ResponseEntity<OpenResponse<HotelInfo>> (openResponse, HttpStatus.OK);
+			}
+			
+			Hotel hotel = hotelService.queryHotelById(hotelId);
+			if(hotel==null){
+				openResponse.setErrorMessage("没有hotelId="+hotelId+"的酒店");
+				openResponse.setResult(Constants.FAIL);
+				return new ResponseEntity<OpenResponse<HotelInfo>> (openResponse, HttpStatus.OK);
+			}
+			
+			HotelInfo hotelInfo = dozerMapper.map(hotel, HotelInfo.class);
+			List<RoomType> roomTypes = roomTypeService.queryRoomtypeByHotleId(hotelId);
+			
+			if(CollectionUtils.isNotEmpty(roomTypes)){
+				List<RoomTypeInfo> roomTypeInfos = new ArrayList<RoomTypeInfo>();
+				List<Long> roomtypeIds = new ArrayList<Long>();
+				for(RoomType roomType:roomTypes){
+					roomtypeIds.add(roomType.getSkuId());
+					roomTypeInfos.add(dozerMapper.map(roomType, RoomTypeInfo.class));
+				}
+				Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
+				
+				//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
+		        Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
+		        for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
+		        	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
+		        		if(entry.getKey()==(roomTypeInfo.getSkuId())){
+		        			roomTypeInfo.setPrices(entry.getValue());
+		        		}
+		        	}
+		        }
+		        hotelInfo.setRoomTypes(roomTypeInfos);
+			}
+			
 			openResponse.setData(hotelInfo);;
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
-			logger.error("SightController detail error",e);
+			logger.error("HotelController detail error",e);
 			throw e;
 		}
 		
