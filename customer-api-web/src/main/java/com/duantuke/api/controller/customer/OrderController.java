@@ -50,7 +50,7 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.POST, value = "/create")
 	public ResponseEntity<OpenResponse<CreateOrderResponse>> create(HttpServletRequest request,
 			HttpServletResponse response) {
-		logger.info("接收到创建订单请求,request = {}", JSON.toJSONString(request));
+		logger.info("接收到创建订单请求,request = {}", JSON.toJSONString(request.getParameterMap()));
 		OpenResponse<CreateOrderResponse> openResponse = new OpenResponse<CreateOrderResponse>();
 		try {
 			Request<CreateOrderRequest> req = new Request<CreateOrderRequest>();
