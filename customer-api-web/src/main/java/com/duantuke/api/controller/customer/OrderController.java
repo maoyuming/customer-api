@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.duantuke.order.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +23,6 @@ import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.TokenUtil;
 import com.duantuke.order.common.enums.OrderErrorEnum;
-import com.duantuke.order.model.Base;
-import com.duantuke.order.model.CreateOrderRequest;
-import com.duantuke.order.model.CreateOrderResponse;
-import com.duantuke.order.model.Header;
-import com.duantuke.order.model.Order;
-import com.duantuke.order.model.QueryOrderRequest;
-import com.duantuke.order.model.Request;
-import com.duantuke.order.model.Response;
 import com.duantuke.order.service.OrderService;
 
 @Controller
@@ -84,13 +77,61 @@ public class OrderController {
                 openResponse.setErrorMessage(res.getErrorMessage());
             }
 		} catch (Exception e) {
-            logger.error("创建订单出现异常,request= {}", JSON.toJSONString(request), e);
+            logger.error("创建订单出现异常,request= {}", JSON.toJSONString(request.getParameterMap()), e);
             openResponse.setResult(Boolean.FALSE.toString());
             openResponse.setErrorCode(OrderErrorEnum.customError.getErrorCode());
             openResponse.setErrorMessage(OrderErrorEnum.customError.getErrorMsg());
 		}
 		return new ResponseEntity<OpenResponse<CreateOrderResponse>>(openResponse, HttpStatus.OK);
 	}
+
+    /**
+     * 取消订单
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/cancel")
+    public ResponseEntity<OpenResponse<CancelOrderResponse>> cancel(HttpServletRequest request,
+                                                                    HttpServletResponse response) {
+        logger.info("接收到取消订单请求,request = {}", JSON.toJSONString(request.getParameterMap()));
+        OpenResponse<CancelOrderResponse> openResponse = new OpenResponse<CancelOrderResponse>();
+        try {
+            Request<CancelOrderRequest> req = new Request<CancelOrderRequest>();
+            Header header = new Header();
+            header.setTimeStamp(new Date());
+            req.setHeader(header);
+
+            // 从request中获取取消订单信息json
+            String cancelJson = request.getParameter("data");
+            logger.info("从request中获取的取消订单信息为" + cancelJson);
+
+            if (StringUtils.isBlank(cancelJson)) {
+                logger.error("从request中获取的取消订单信息为空,无法取消订单");
+                openResponse.setResult(Boolean.FALSE.toString());
+                openResponse.setErrorCode(OrderErrorEnum.paramsError.getErrorCode());
+                openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
+            } else {
+
+                // 把取消订单数据封装到对象中
+                CancelOrderRequest cancelOrderRequest = JSON.parseObject(cancelJson, CancelOrderRequest.class);
+                req.setData(cancelOrderRequest);
+
+                Response<CancelOrderResponse> res = orderService.cancel(req);
+                openResponse.setResult(Boolean.toString(res.isSuccess()));
+                openResponse.setData(res.getData());
+                openResponse.setErrorCode(res.getErrorCode());
+                openResponse.setErrorMessage(res.getErrorMessage());
+            }
+        } catch (Exception e) {
+            logger.error("取消订单出现异常,request= {}", JSON.toJSONString(request.getParameterMap()), e);
+            openResponse.setResult(Boolean.FALSE.toString());
+            openResponse.setErrorCode(OrderErrorEnum.customError.getErrorCode());
+            openResponse.setErrorMessage(OrderErrorEnum.customError.getErrorMsg());
+        }
+        return new ResponseEntity<OpenResponse<CancelOrderResponse>>(openResponse, HttpStatus.OK);
+    }
 
 	/**
 	 * 查询订单列表
