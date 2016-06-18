@@ -9,12 +9,13 @@ import com.duantuke.order.model.CancelOrderRequest;
  */
 public class CancelOrder {
 
-    // {"cancelType":0,"operator":111,"orderId":222,"reason":"reason","supplierId":333}
+    // {"cancelType":0,"operatorId":"111","operatorName":"jjh","orderId":222,"reason":"reason","supplierId":333}
     public static void main(String[] args) {
         CancelOrderRequest cancelOrderRequest = new CancelOrderRequest();
         cancelOrderRequest.setReason("reason");
         cancelOrderRequest.setCancelType(CancelTypeEnum.common.getId());
-        cancelOrderRequest.setOperator(111L);
+        cancelOrderRequest.setOperatorId("111");
+        cancelOrderRequest.setOperatorName("jjh");
         cancelOrderRequest.setOrderId(222L);
         cancelOrderRequest.setSupplierId(333L);
 
