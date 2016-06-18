@@ -47,7 +47,18 @@ public class GlobalExceptionController {
 		logger.error("异常",ex);
 		return new ResponseEntity<OpenResponse<Object>>(omsResponse, HttpStatus.OK);
 	}
-	
+	@ExceptionHandler(Throwable.class)
+	public ResponseEntity<OpenResponse<Object>> handleAllThrowable(Throwable ex) {
+		
+		
+		OpenResponse<Object> omsResponse = new OpenResponse<Object>();
+		omsResponse.setResult(Constants.FAIL);
+		omsResponse.setErrorMessage(ex.getMessage());
+		omsResponse.setErrorCode("");
+		
+		logger.error("异常",ex);
+		return new ResponseEntity<OpenResponse<Object>>(omsResponse, HttpStatus.OK);
+	}
 	
 	
 
