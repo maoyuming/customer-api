@@ -77,7 +77,7 @@ public class TokenUtil {
 	 */
 	public static String getTokenByUserId(Long userId) throws Exception{
 		
-		String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), userId+"");
+		String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), userId+"",UserTokenTypeEnum.C.getId()+"");
 		if(StringUtils.isEmpty(token)){
 			throw new OpenException(ErrorEnum.tokenError);
 		}
