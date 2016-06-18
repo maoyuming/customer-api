@@ -15,6 +15,7 @@ public class Province {
     private Long code;
 
     private String name;
+    private String queryName;
 
     private Integer sort;
 
@@ -86,6 +87,14 @@ public class Province {
 
 	public void setCityList(List<City> cityList) {
 		this.cityList = cityList;
+	}
+
+	public String getQueryName() {
+		return queryName;
+	}
+
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
 	}
 
 }
