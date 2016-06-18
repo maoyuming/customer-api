@@ -4,9 +4,9 @@
 
 	<appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
-		<file>/data/logs/api.fangbaba.com/api.log</file>
+		<file>${catalina.base}/logs/customer.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>/data/logs/api.fangbaba.com/api.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+			<FileNamePattern>${catalina.base}/logs/customer.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
