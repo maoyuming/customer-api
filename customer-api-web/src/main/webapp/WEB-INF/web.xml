@@ -41,6 +41,15 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	
+	<!-- 跨域header -->
+	<filter>  
+        <filter-name>AccessControlFilter</filter-name>  
+        <filter-class>com.duantuke.api.filter.AccessControlFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>AccessControlFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>
 	<!-- 房仓header校验 -->
 	<filter>  
         <filter-name>validateHeader</filter-name>  

@@ -52,7 +52,7 @@ public class AreaController {
 		return new ResponseEntity<OpenResponse<List<Province>>>(openResponse, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/queryCity")
-	public ResponseEntity<OpenResponse<List<City>>> queryCity(HttpServletRequest request,String code) {
+	public ResponseEntity<OpenResponse<List<City>>> queryCity(HttpServletRequest request,Long code) {
 		logger.info("查询城市，{}",code);
 		
 
@@ -64,7 +64,7 @@ public class AreaController {
 		return new ResponseEntity<OpenResponse<List<City>>>(openResponse, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/queryOnlyCity")
-	public ResponseEntity<OpenResponse<List<City>>> queryOnlyCity(HttpServletRequest request,String code) {
+	public ResponseEntity<OpenResponse<List<City>>> queryOnlyCity(HttpServletRequest request,Long code) {
 		logger.info("查询城市，{}",code);
 		
 		
@@ -83,7 +83,7 @@ public class AreaController {
 		return new ResponseEntity<OpenResponse<List<City>>>(openResponse, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/queryDistrict")
-	public ResponseEntity<OpenResponse<List<District>>> queryDistrict(HttpServletRequest request,String code) {
+	public ResponseEntity<OpenResponse<List<District>>> queryDistrict(HttpServletRequest request,Long code) {
 		logger.info("查询城市，{}",code);
 		
 		
