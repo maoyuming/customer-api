@@ -1,8 +1,9 @@
 package com.duantuke.api.domain.area;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class District {
+public class District implements Serializable{
 
 
 	private static final long serialVersionUID = 866820776098522259L;
