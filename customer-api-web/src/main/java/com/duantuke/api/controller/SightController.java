@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.basic.face.service.SightService;
@@ -39,12 +40,13 @@ public class SightController {
      */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Sight>> detail(HttpServletRequest request, HttpServletResponse response,Long sightId) {
-		logger.info("景点详情，sightId：{}",sightId);
+		logger.info("查看景点详情入参，sightId:{}",sightId);
 		
 		OpenResponse<Sight> openResponse = new OpenResponse<Sight>();
 		if(sightId == null){
 			openResponse.setErrorMessage("参数sightId为空");
 			openResponse.setResult(Constants.FAIL);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 			return new ResponseEntity<OpenResponse<Sight>> (openResponse, HttpStatus.OK);
 		}
 		
@@ -52,6 +54,7 @@ public class SightController {
 			Sight sight = sightService.querySightById(sightId);
 			openResponse.setData(sight);;
 			openResponse.setResult(Constants.SUCCESS);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("SightController detail error",e);

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.basic.face.service.JourneyService;
@@ -18,7 +19,7 @@ import com.duantuke.basic.po.Journey;
 
 
 /**
- * 游记详情
+ * 游记
  * @author yuming.mao
  *
  */
@@ -31,19 +32,20 @@ public class JourneyController {
 	
 	
     /**
-     * 游记
+     * 游记详情
      * @param request
      * @param response
      * @return
      */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Journey>> detail(HttpServletRequest request, HttpServletResponse response,Long journeyId) {
-		logger.info("游记详情，journeyId：{}",journeyId);
+		logger.info("查看游记详情入参，journeyId:{}",journeyId);
 		
 		OpenResponse<Journey> openResponse = new OpenResponse<Journey>();
 		if(journeyId == null){
 			openResponse.setErrorMessage("参数journeyId为空");
 			openResponse.setResult(Constants.FAIL);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 			return new ResponseEntity<OpenResponse<Journey>> (openResponse, HttpStatus.OK);
 		}
 		
@@ -51,6 +53,7 @@ public class JourneyController {
 			Journey journey = journeyService.queryJourneyById(journeyId);
 			openResponse.setData(journey);
 			openResponse.setResult(Constants.SUCCESS);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("JourneyController detail error",e);
