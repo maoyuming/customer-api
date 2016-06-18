@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.basic.face.service.MealService;
@@ -37,12 +38,13 @@ public class MealController {
     */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Meal>> detail(Long skuId) {
-		logger.info("饮食详情，skuId：{}",skuId);
+		logger.info("查看饮食详情入参，skuId:{}",skuId);
 		OpenResponse<Meal> openResponse = new OpenResponse<Meal>();
 
 		if(skuId == null){
 			openResponse.setErrorMessage("参数skuId为空");
 			openResponse.setResult(Constants.FAIL);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 			return new ResponseEntity<OpenResponse<Meal>> (openResponse, HttpStatus.OK);
 		}
 		
@@ -50,6 +52,7 @@ public class MealController {
 			Meal meal = mealService.queryMealById(skuId);
 			openResponse.setData(meal);
 			openResponse.setResult(Constants.SUCCESS);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("MealController search error",e);

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.basic.face.bean.HotelInfo;
@@ -26,6 +27,7 @@ import com.duantuke.basic.face.service.PriceService;
 import com.duantuke.basic.face.service.RoomTypeService;
 import com.duantuke.basic.po.Hotel;
 import com.duantuke.basic.po.RoomType;
+import com.google.gson.Gson;
 
 
 /**
@@ -55,13 +57,14 @@ public class HotelController {
      */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<HotelInfo>> detail(Long hotelId,String begintime,String endtime) {
-		logger.info("农家院详情，hotelId：{}",hotelId);
+		logger.info("查看农家院详情入参，hotelId:{}",hotelId+", begintime:"+begintime+", endtime:"+endtime);
 		OpenResponse<HotelInfo> openResponse = new OpenResponse<HotelInfo>();
 		
 		try {
 			if(hotelId == null){
 				openResponse.setErrorMessage("参数hotelId为空");
 				openResponse.setResult(Constants.FAIL);
+				logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 				return new ResponseEntity<OpenResponse<HotelInfo>> (openResponse, HttpStatus.OK);
 			}
 			
@@ -69,6 +72,7 @@ public class HotelController {
 			if(hotel==null){
 				openResponse.setErrorMessage("没有hotelId等于"+hotelId+"的酒店");
 				openResponse.setResult(Constants.FAIL);
+				logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 				return new ResponseEntity<OpenResponse<HotelInfo>> (openResponse, HttpStatus.OK);
 			}
 			
@@ -98,6 +102,7 @@ public class HotelController {
 			
 			openResponse.setData(hotelInfo);;
 			openResponse.setResult(Constants.SUCCESS);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
 		} catch (Exception e) {
 			openResponse.setResult(Constants.FAIL);
 			logger.error("HotelController detail error",e);
