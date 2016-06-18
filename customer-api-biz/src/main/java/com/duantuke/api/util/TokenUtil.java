@@ -2,8 +2,15 @@ package com.duantuke.api.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.dtk.token.TokenHttpUtils;
 import com.duantuke.api.common.Constants;
+import com.duantuke.api.enums.ErrorEnum;
+import com.duantuke.api.exception.OpenException;
+import com.duantuke.basic.face.UserTokenTypeEnum;
 import com.duantuke.basic.face.service.CustomerService;
+import com.duantuke.basic.po.Boss;
 import com.duantuke.basic.po.Customer;
 
 public class TokenUtil {
@@ -45,8 +52,72 @@ public class TokenUtil {
     	
     }
     
+    /**
+     * 获取token
+     * @param phone
+     * @return
+     * @throws Exception
+     */
+	public static String getTokenByPhone(String phone) throws Exception{
+		
+
+		Customer customer = customerService.queryCustomerByPhone(phone);
+		if(customer==null){
+			throw new OpenException(ErrorEnum.userUnExists);
+		}
+		
+		return getTokenByUserId(customer.getCustomerId());
+		
+    }
+	/**
+	 * 获取token
+	 * @param phone
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getTokenByUserId(Long userId) throws Exception{
+		
+		String token = TokenHttpUtils.getToken(Config.getValue("cas.server"), userId+"",UserTokenTypeEnum.C.getId()+"");
+		if(StringUtils.isEmpty(token)){
+			throw new OpenException(ErrorEnum.tokenError);
+		}
+		
+		return token;
+		
+	}
     
-    
+	/**
+	 * 生成token
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public static String createTokenByUserId(Long userId) throws Exception{
+		
+		String token = TokenUtil.getTokenByUserId(userId);
+		if(StringUtils.isEmpty(token)){
+			token = TokenHttpUtils.createToken(Config.getValue("cas.server"),userId+"", 
+					UserTokenTypeEnum.C.getId()+"",  Long.valueOf(Config.getValue("token.expiredTime")));
+		}
+		
+		return token;
+		
+	}
+	/**
+	 * 生成token
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public static String createTokenByPhone(String phone) throws Exception{
+		Customer customer = customerService.queryCustomerByPhone(phone);
+		if(customer==null){
+			throw new OpenException(ErrorEnum.userUnExists);
+		}
+		
+		return createTokenByUserId(customer.getCustomerId());
+		
+	}
    
 
 }
