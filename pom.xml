@@ -626,6 +626,7 @@
 				<dubbo_customer_group>customer_dev</dubbo_customer_group>
 				<dubbo_message_group>message_test</dubbo_message_group>
 				<dubbo_order_group>order_test</dubbo_order_group>
+				<dubbo_sc_group>sc_test</dubbo_sc_group>
 				
 				<!-- config_center -->
 				<config.localMode>true</config.localMode>
@@ -673,6 +674,7 @@
 				<dubbo_customer_group>customer_test</dubbo_customer_group>
 				<dubbo_message_group>message_test</dubbo_message_group>
 				<dubbo_order_group>order_test</dubbo_order_group>
+				<dubbo_sc_group>sc_test</dubbo_sc_group>
 				
 				<!-- config_center -->
 				<config.localMode>false</config.localMode>
