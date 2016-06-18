@@ -13,6 +13,8 @@ public class District {
 
     private String name;
 
+    private String queryName;
+
     private Long cityid;
 
     private Integer sort;
@@ -76,5 +78,13 @@ public class District {
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
+
+	public String getQueryName() {
+		return queryName;
+	}
+
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
+	}
 
 }

@@ -14,6 +14,7 @@ public class City {
     private Long code;
 
     private String name;
+    private String queryName;
 
     private Long proid;
 
@@ -135,6 +136,14 @@ public class City {
 
 	public void setDistrictList(List<District> districtList) {
 		this.districtList = districtList;
+	}
+
+	public String getQueryName() {
+		return queryName;
+	}
+
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
 	}
     
     
