@@ -1,6 +1,7 @@
 package com.dtk.test;
 
 import com.alibaba.fastjson.JSON;
+import com.duantuke.order.common.enums.CancelTypeEnum;
 import com.duantuke.order.model.CancelOrderRequest;
 
 /**
@@ -8,11 +9,12 @@ import com.duantuke.order.model.CancelOrderRequest;
  */
 public class CancelOrder {
 
-    // {"customerId":111,"orderId":222,"reason":"reason","supplierId":333}
+    // {"cancelType":0,"operator":111,"orderId":222,"reason":"reason","supplierId":333}
     public static void main(String[] args) {
         CancelOrderRequest cancelOrderRequest = new CancelOrderRequest();
         cancelOrderRequest.setReason("reason");
-        cancelOrderRequest.setCustomerId(111L);
+        cancelOrderRequest.setCancelType(CancelTypeEnum.common.getId());
+        cancelOrderRequest.setOperator(111L);
         cancelOrderRequest.setOrderId(222L);
         cancelOrderRequest.setSupplierId(333L);
 
