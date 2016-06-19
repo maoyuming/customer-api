@@ -28,6 +28,7 @@
 		<stock-face.version>${stock-face-version}</stock-face.version>
 		<order-face.version>${order-face-version}</order-face.version>
         <wash-face.version>${wash-face-version}</wash-face.version>
+        <sc-face.version>${sc-face-version}</sc-face.version>
         <powermock.version>1.4.6</powermock.version>
         <commons-beanutils.version>1.9.2</commons-beanutils.version>
         
@@ -76,6 +77,11 @@
 		  <groupId>com.dtk</groupId>
 		  <artifactId>dtk-cas</artifactId>
 		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.duantuke</groupId>
+  		  <artifactId>duantuke-sc-face</artifactId>
+          <version>${sc-face.version}</version>
 		</dependency>
 		<dependency>
 		  <groupId>org.json</groupId>
@@ -518,6 +524,29 @@
 		    <artifactId>javassist</artifactId>
 		    <version>3.20.0-GA</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -643,6 +672,12 @@
 				<mongodb.hosts>211.157.155.198:27017</mongodb.hosts>
 				
 				<basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
+				<sc-face-version>0.0.1-SNAPSHOT</sc-face-version>
+				
+				<!-- 支付回调地址 -->
+				<alipay_notify_url>http://openapi.fangbaba.cc/customer/sc/pay/aliPayCallback</alipay_notify_url>
+				<wechat_notify_url>http://openapi.fangbaba.cc/customer/sc/pay/weChatCallback</wechat_notify_url>
+				<environment>TEST</environment>
 				
 			</properties>
 		</profile>
@@ -691,6 +726,7 @@
 				
 				
                 <basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
+                <sc-face-version>0.0.1-SNAPSHOT</sc-face-version>
 			</properties>
 		</profile>
 	</profiles>

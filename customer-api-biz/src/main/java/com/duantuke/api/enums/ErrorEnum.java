@@ -54,6 +54,13 @@ public enum ErrorEnum {
     accntsettenotfind("200027","结算中心未查到该酒店账户"),
     accntbalanceno("200028","账户余额不足"),
     accntselectbug("200029","查询账户异常!"),
+    accntPaying("200030","该订单正在支付中"),
+    accntPayed("200031","该订单已经支付过"),
+    accntPayError("200032","支付失败"),
+    accntRechargeError("200033","充值失败"),
+    accntRefunding("200034","该订单正在退款中"),
+    accntRefunded("200035","该订单已经退款"),
+    accntRefundFail("200036","退款失败"),
     
     
     
