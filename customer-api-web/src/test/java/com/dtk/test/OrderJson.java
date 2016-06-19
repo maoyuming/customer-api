@@ -32,6 +32,8 @@ public class OrderJson {
         order.setSupplierId(456L);
         order.setSupplierName("sky");
         order.setMemo("beizhu");
+        order.setBeginTime(new Date());
+        order.setEndTime(new Date());
 
         List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
         OrderDetail orderDetail1 = new OrderDetail();
@@ -40,15 +42,13 @@ public class OrderJson {
         orderDetail1.setSkuType(SkuTypeEnum.roomtype.getCode());
         orderDetail1.setNum(1);
         orderDetail1.setPrice(new BigDecimal(100));
-        orderDetail1.setBeginTime(new Date());
-        orderDetail1.setEndTime(new Date());
         orderDetailList.add(orderDetail1);
 
         order.setOrderDetails(orderDetailList);
 
         System.out.println(JSON.toJSONString(order));
 
-        // {"contact":"jjh","contactPhone":"123456","customerId":123,"memo":"beizhu","orderDetails":[{"beginTime":1466147711970,"endTime":1466147711970,"num":1,"price":100,"skuId":789,"skuName":"商品","skuType":1}],"payStatus":10,"payType":100,"promotionId":321,"status":50,"supplierId":456,"supplierName":"sky","totalPrice":100,"type":0}
+        // {"beginTime":1466241251395,"contact":"jjh","contactPhone":"123456","customerId":123,"endTime":1466241251395,"memo":"beizhu","orderDetails":[{"num":1,"price":100,"skuId":789,"skuName":"商品","skuType":1}],"payStatus":10,"payType":100,"promotionId":321,"status":50,"supplierId":456,"supplierName":"sky","totalPrice":100,"type":0}
     }
 
 }
