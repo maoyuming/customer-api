@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.duantuke.api.util.IPUtil;
 import com.duantuke.api.util.SpringContextUtil;
 import com.duantuke.api.util.mongo.AccessLog;
 import com.duantuke.api.util.mongo.AccessLogDelegate;
@@ -47,6 +48,7 @@ public class OpenHeaderFilter implements Filter {
 			StringBuffer url = request.getRequestURL();
 
 			String system = SystemTypeEnum.C.getId()+"";
+			String ip = IPUtil.getRealIpAddr(request);
 			
 			AccessLog accessLog = new AccessLog();
 			accessLog.setToken(token);
@@ -54,6 +56,7 @@ public class OpenHeaderFilter implements Filter {
 			accessLog.setCreateTime(date);
 			accessLog.setAppVersion(appVersion);
 			accessLog.setSystem(system);
+			accessLog.setIp(ip);
 			
 			accessLogDelegate.saveAccessLog(accessLog);
 			//保存app版本

@@ -28,6 +28,7 @@ public class AccessLog  {
 
 	public static final String CN_CREATETIME = "createTime";
 	public static final String SYSTEM = "system";
+	public static final String IP = "ip";
 
 	private String token = null;
 
@@ -35,6 +36,7 @@ public class AccessLog  {
 
 	private String appVersion = null;
 	private String system = null;
+	private String ip = null;
 
 
 	private Date createTime = new Date();
@@ -83,6 +85,16 @@ public class AccessLog  {
 	public void setSystem(String system) {
 		this.system = system;
 	}
+	
+	
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
 	public Document toDocument() {
 		this.check();
@@ -93,6 +105,7 @@ public class AccessLog  {
 		this.put(doc, AccessLog.APP_VERSION, this.getAppVersion());
 		this.put(doc, AccessLog.CN_CREATETIME, this.getCreateTime());
 		this.put(doc, AccessLog.SYSTEM, this.getSystem());
+		this.put(doc, AccessLog.IP, this.getIp());
 
 		return doc;
 	}
@@ -104,6 +117,7 @@ public class AccessLog  {
 		bisLog.setAppVersion(doc.getString(AccessLog.APP_VERSION));
 		bisLog.setCreateTime(doc.getDate(AccessLog.CN_CREATETIME));
 		bisLog.setSystem(doc.getString(AccessLog.SYSTEM));
+		bisLog.setIp(doc.getString(AccessLog.IP));
 
 		return bisLog;
 	}
