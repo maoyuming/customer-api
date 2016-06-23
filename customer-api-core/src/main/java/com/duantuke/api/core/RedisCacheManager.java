@@ -279,5 +279,53 @@ public class RedisCacheManager {
 		return this.jedis = this.jedisConnectionFactory.getJedis();
 
 	}
+	
+	/**
+	 * 加锁.
+	 *
+	 * @param key
+	 * @param expireTime
+	 *            超时时间单位秒.
+	 * @return 锁定的value,返回null值加锁失败,供释放锁时使用.
+	 */
+	public String tryLock(String key, int expireTime) {
+		Jedis jedis = getJedis();
+		try {
+			String value = Long.toString(System.currentTimeMillis()
+					+ (expireTime * 1000));
+			String result = jedis.set(key, value, "NX", "EX", expireTime);
+			if (result == null) {
+				return null;
+			}
+			return value;
+		} finally {
+			jedis.close();
+		}
+	}
+
+	/**
+	 * 释放锁,finally中调用.
+	 *
+	 * @param key
+	 * @param value
+	 *            tryLock返回值.
+	 */
+	public void releaseLock(String key, String value) {
+		// 加锁失败情况判断.
+		if (value == null) {
+			return;
+		}
+		Jedis jedis = getJedis();
+		try {
+			String cacheValue = jedis.get(key);
+			// 超时释放或者当前key已经被其他线程锁定.
+			if ((cacheValue == null) || !value.equals(cacheValue)) {
+				return;
+			}
+			jedis.del(key);
+		} finally {
+			jedis.close();
+		}
+	}
 
 }
