@@ -65,6 +65,32 @@ public class SettlementCenterController {
     	log.info("支付调用, orderId:{}, type:{}, payChannel:{}, feeType:{}, customerId:{}, sum:{}, ip:{}", 
     			orderId, type, payChannel, feeType, customerId, sum, ip);
     	
+    	boolean mock = true;
+    	
+    	if(mock) {
+    		Long payId = null;
+    		BigDecimal bMoney = new BigDecimal(sum).divide(dividend).setScale(4, BigDecimal.ROUND_HALF_UP);
+    		// 支付宝
+            if (payChannel == 1) {
+                
+            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 1);
+            	
+                
+            } else if (payChannel == 2) {
+                
+            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 2);
+                
+            }
+            
+            log.info("订单:{}支付流水号:{}", orderId, payId);
+            
+            OpenResponse<Object> openResponse = new OpenResponse<Object>();
+            
+            openResponse.setResult(Constants.SUCCESS);
+            return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
+            
+    	}
+    	
     	String redisKey = null;
         String redisValue = null;
         
