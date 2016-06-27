@@ -27,7 +27,6 @@ import com.duantuke.basic.face.service.PriceService;
 import com.duantuke.basic.face.service.RoomTypeService;
 import com.duantuke.basic.po.Hotel;
 import com.duantuke.basic.po.RoomType;
-import com.google.gson.Gson;
 
 
 /**

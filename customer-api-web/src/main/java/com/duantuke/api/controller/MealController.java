@@ -38,8 +38,8 @@ public class MealController {
     */
 	@RequestMapping(value = "/detail")
     public ResponseEntity<OpenResponse<Meal>> detail(Long skuId) {
-		logger.info("查看饮食详情入参，skuId:{}",skuId);
 		OpenResponse<Meal> openResponse = new OpenResponse<Meal>();
+		logger.info("查看饮食详情入参，skuId:{}",skuId);
 
 		if(skuId == null){
 			openResponse.setErrorMessage("参数skuId为空");
