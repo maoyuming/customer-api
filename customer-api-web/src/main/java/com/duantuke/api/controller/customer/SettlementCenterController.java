@@ -73,12 +73,12 @@ public class SettlementCenterController {
     		// 支付宝
             if (payChannel == 1) {
                 
-            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 1);
+            	payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney, 1);
             	
                 
             } else if (payChannel == 2) {
                 
-            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 2);
+            	payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney, 2);
                 
             }
             
@@ -157,7 +157,7 @@ public class SettlementCenterController {
             // 支付宝
             if (payChannel == 1) {
                 
-            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 1);
+            	payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney, 1);
                 
             	thirdOrderId = genPrefix4Order("HOrder", String.valueOf(payId));
                 
@@ -165,7 +165,7 @@ public class SettlementCenterController {
 
             } else if (payChannel == 2) {
                 
-            	payId = settlementService.insertPayRecord(orderId, 1, bMoney, 2);
+            	payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney, 2);
                 
             	thirdOrderId = genPrefix4Order("HOrder", String.valueOf(payId));
                 
@@ -238,7 +238,7 @@ public class SettlementCenterController {
             // 支付宝
             if (payChannel == 1) {
                 
-            	payId = settlementService.insertPayRecord(rechargeOrderId, 2, bMoney, 1);
+            	payId = settlementService.insertPayRecord(customerId, rechargeOrderId, 2, bMoney, 1);
                 
             	thirdOrderId = genPrefix4Order("HOrder", String.valueOf(payId));
                 
@@ -246,7 +246,7 @@ public class SettlementCenterController {
 
             } else if (payChannel == 2) {
                 
-            	payId = settlementService.insertPayRecord(rechargeOrderId, 2, bMoney, 2);
+            	payId = settlementService.insertPayRecord(customerId, rechargeOrderId, 2, bMoney, 2);
                 
             	thirdOrderId = genPrefix4Order("HOrder", String.valueOf(payId));
                 
