@@ -29,7 +29,7 @@ import com.duantuke.order.service.OrderService;
 @RequestMapping(value = "/customer/order")
 public class OrderController {
 
-	private static Logger logger = LoggerFactory.getLogger(SkuController.class);
+	private static Logger logger = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
 
