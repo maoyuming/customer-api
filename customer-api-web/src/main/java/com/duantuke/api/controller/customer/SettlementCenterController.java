@@ -324,6 +324,7 @@ public class SettlementCenterController {
 			log.info("订单:{}退款完毕, 结果:{}", orderId, r);
             
             if (r) {
+            	settlementService.refund(pay);
 				openResponse.setResult(Constants.SUCCESS);
 			} else {
 				openResponse.setResult(Constants.FAIL);
