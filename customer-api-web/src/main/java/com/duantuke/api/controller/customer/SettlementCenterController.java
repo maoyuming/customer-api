@@ -125,9 +125,10 @@ public class SettlementCenterController {
             }   
             
             BigDecimal bMoney = new BigDecimal(sum).divide(dividend).setScale(4, BigDecimal.ROUND_HALF_UP);
-            BigDecimal balance = settlementService.getBanlance(customerId).setScale(4, BigDecimal.ROUND_HALF_UP);
             
             if(type == 2) {//全部使用余额支付, 不需要调用第三方支付, 需要判断余额是否够
+            	
+            	BigDecimal balance = settlementService.getBanlance(customerId).setScale(4, BigDecimal.ROUND_HALF_UP);
                 
                 log.info("订单:{}使用余额支付全部金额, 客户当前账户余额:{}, 订单金额:{}.", orderId, balance, bMoney);
                 
