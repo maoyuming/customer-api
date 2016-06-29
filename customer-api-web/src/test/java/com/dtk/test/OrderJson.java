@@ -1,5 +1,9 @@
 package com.dtk.test;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.duantuke.basic.enums.SkuTypeEnum;
 import com.duantuke.order.common.enums.OrderStatusEnum;
@@ -7,11 +11,6 @@ import com.duantuke.order.common.enums.PayStatusEnum;
 import com.duantuke.order.common.enums.PayTypeEnum;
 import com.duantuke.order.model.Order;
 import com.duantuke.order.model.OrderDetail;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by jjh on 16/6/17.
@@ -39,9 +38,6 @@ public class OrderJson {
         orderDetail1.setSkuName("商品");
         orderDetail1.setSkuType(SkuTypeEnum.roomtype.getCode());
         orderDetail1.setNum(1);
-        orderDetail1.setPrice(new BigDecimal(100));
-        orderDetail1.setBeginTime(new Date());
-        orderDetail1.setEndTime(new Date());
         orderDetailList.add(orderDetail1);
 
         order.setOrderDetails(orderDetailList);
