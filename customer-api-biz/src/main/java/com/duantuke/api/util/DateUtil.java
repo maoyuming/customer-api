@@ -9,6 +9,7 @@ import java.util.List;
 
 public class DateUtil {
 
+    public final static  String  DateFormat = "yyyy-MM-dd";
 	public static String dateToStr(Date date ,String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		String d = null;

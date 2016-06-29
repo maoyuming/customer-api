@@ -101,14 +101,14 @@ public class HotelOpenService {
 			Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
-	        Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
-	        for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
+//	        Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
+//	        for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
 	        	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
-	        		if(entry.getKey()==(roomTypeInfo.getSkuId())){
-	        			roomTypeInfo.setPrices(entry.getValue());
-	        		}
+//	        		if(entry.getKey()==(roomTypeInfo.getSkuId())){
+	        			roomTypeInfo.setPrices(prices.get(roomTypeInfo.getSkuId()));
+//	        		}
 	        	}
-	        }
+//	        }
 //	        hotelInfo.setRoomTypes(roomTypeInfos);
 		}
 		return roomTypeInfos;
@@ -133,14 +133,14 @@ public class HotelOpenService {
 			Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
-			Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
-			for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
+//			Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
+//			for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
 				for(TeamSkuInfo roomTypeInfo:roomTypeInfos){
-					if(entry.getKey()==(roomTypeInfo.getSkuId())){
-						roomTypeInfo.setPrices(entry.getValue());
-					}
+//					if(entry.getKey()==(roomTypeInfo.getSkuId())){
+						roomTypeInfo.setPrices(prices.get(roomTypeInfo.getSkuId()));
+//					}
 				}
-			}
+//			}
 //	        hotelInfo.setRoomTypes(roomTypeInfos);
 		}
 		return roomTypeInfos;

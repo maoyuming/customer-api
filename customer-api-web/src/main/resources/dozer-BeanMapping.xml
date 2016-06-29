@@ -15,4 +15,15 @@
         <class-a>com.duantuke.api.domain.HotWordOutBean</class-a>
         <class-b>com.duantuke.basic.po.HotWord</class-b>
     </mapping>
+    
+    
+    <mapping date-format="yyyy年MM月dd日">
+        <class-a>com.duantuke.basic.po.RoomType</class-a>
+        <class-b>com.duantuke.basic.face.bean.RoomTypeInfo</class-b>
+    </mapping>
+    <mapping date-format="yyyy年MM月dd日">
+        <class-a>com.duantuke.basic.po.TeamSku</class-a>
+        <class-b>com.duantuke.basic.face.bean.TeamSkuInfo</class-b>
+    </mapping>
+    
 </mappings>
