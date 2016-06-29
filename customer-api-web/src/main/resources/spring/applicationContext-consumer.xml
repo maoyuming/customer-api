@@ -85,6 +85,8 @@
 		
    <dubbo:reference id="priceService"
         interface="com.duantuke.basic.face.service.PriceService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="teamSkuServiceDubbo"
+        interface="com.duantuke.basic.face.service.TeamSkuService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
    
    <!-- 结算服务 -->   
    <dubbo:reference id="settlementService"  
