@@ -64,6 +64,8 @@
         interface="com.duantuke.basic.face.service.JourneySearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
    <dubbo:reference id="sightSearchService"  
         interface="com.duantuke.basic.face.service.SightSearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="teamSkuSearchService"  
+        interface="com.duantuke.basic.face.service.TeamSkuSearchService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
    <dubbo:reference id="hotWordService"  
         interface="com.duantuke.basic.face.service.HotWordService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>
         
