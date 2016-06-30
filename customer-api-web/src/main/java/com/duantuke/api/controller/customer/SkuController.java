@@ -96,27 +96,4 @@ public class SkuController {
 	}
 	
 	
-	public static void main(String[] args) {
-		SkuRequest skuRequest= new SkuRequest();
-		Map<Integer, List<Long>> skuMap = new HashMap<Integer, List<Long>>();
-		List<Long> list = new ArrayList<Long>();
-		list.add(123123L);
-		list.add(123123L);
-		list.add(123523L);
-		list.add(123823L);
-		list.add(123023L);
-		
-		skuMap.put(1, list);
-		
-		skuRequest.setHotelId(123L);
-		skuRequest.setSkuMap(skuMap);
-		skuRequest.setBeginDate("2016-06-05");
-		skuRequest.setEndDate("2016-06-06");
-	
-		System.out.println(new Gson().toJson(skuRequest));
-		
-		String json = "{\"skuMap\":{\"1\":[123123,123123,123523,123823,123023]},\"hotelId\":123}";
-		SkuRequest skuRequest2= new Gson().fromJson(json, SkuRequest.class);
-		System.out.println(new Gson().toJson(skuRequest2));
-	}
 }
