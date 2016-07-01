@@ -64,6 +64,7 @@ public class OrderController {
                 openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
             } else {
 
+                logger.info("开始封装订单信息,调用接口创建订单");
                 // 把订单数据封装到对象中
                 CreateOrderRequest createOrderRequest = new CreateOrderRequest();
                 Order order = JSON.parseObject(orderJson, Order.class);
@@ -71,6 +72,13 @@ public class OrderController {
                 req.setData(createOrderRequest);
 
                 Response<CreateOrderResponse> res = orderService.create(req);
+
+                if (res.isSuccess()) {
+                    logger.info("创建订单成功,返回数据:" + JSON.toJSONString(res.getData()));
+                } else {
+                    logger.info("创建订单失败,返回错误码是" + res.getErrorCode() + ",错误信息是" + res.getErrorMessage());
+                }
+
                 openResponse.setResult(Boolean.toString(res.isSuccess()));
                 openResponse.setData(res.getData());
                 openResponse.setErrorCode(res.getErrorCode());

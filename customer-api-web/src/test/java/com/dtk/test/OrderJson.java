@@ -38,7 +38,7 @@ public class OrderJson {
 
         List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
         OrderDetail orderDetail1 = new OrderDetail();
-        orderDetail1.setSkuId(789L);
+        orderDetail1.setSkuId(1L);
         orderDetail1.setSkuName("商品");
         orderDetail1.setSkuType(SkuTypeEnum.roomtype.getCode());
         orderDetail1.setNum(1);
