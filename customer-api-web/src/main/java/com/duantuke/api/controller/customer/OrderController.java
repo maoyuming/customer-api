@@ -67,6 +67,7 @@ public class OrderController {
                 logger.info("开始封装订单信息,调用接口创建订单");
                 // 把订单数据封装到对象中
                 CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+                createOrderRequest.setOperatorId(String.valueOf(userId));
                 Order order = JSON.parseObject(orderJson, Order.class);
                 createOrderRequest.setOrder(order);
                 req.setData(createOrderRequest);
