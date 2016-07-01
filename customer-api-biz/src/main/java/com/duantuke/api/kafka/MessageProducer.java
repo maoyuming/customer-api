@@ -38,6 +38,5 @@ public class MessageProducer {
 	public void sendSmsMsg(Message message) {
 		logger.info("发送短信成功，"+message.toString());
 	}
-	
 
 }

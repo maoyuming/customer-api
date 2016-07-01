@@ -2,6 +2,7 @@ package com.duantuke.api.controller.es;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
+import com.duantuke.basic.enums.BusinessTypeEnum;
 import com.duantuke.basic.face.esbean.output.HotelOutputBean;
 import com.duantuke.basic.face.esbean.query.HotelQueryBean;
+import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.face.service.HotelSearchService;
+import com.duantuke.basic.po.DuantukeLike;
 import com.google.gson.Gson;
 
 /**
@@ -31,6 +35,9 @@ public class HotelEsController {
 	@Autowired
 	private HotelSearchService hotelSearchService;
 	
+	@Autowired
+	private DuantukeLikeService duantukeLikeService;
+	
 	
 	/**
 	 * @param hotelQueryBean
@@ -42,6 +49,15 @@ public class HotelEsController {
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
 			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean);
+			if(CollectionUtils.isNotEmpty(list)){
+				for (HotelOutputBean hotelOutputBean : list) {
+					DuantukeLike duantukeLike = new DuantukeLike();
+					duantukeLike.setBusinessType(Short.valueOf(BusinessTypeEnum.hotel.getCode()+""));
+					duantukeLike.setFid(hotelOutputBean.getHotelId());
+					int like = duantukeLikeService.countDuantukeLike(duantukeLike);
+					hotelOutputBean.setLike(like);
+				}
+			}
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
