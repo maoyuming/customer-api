@@ -19,6 +19,7 @@ import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.basic.face.bean.HotelInfo;
 import com.duantuke.basic.face.bean.MealInfo;
+import com.duantuke.basic.face.bean.PriceInfo;
 import com.duantuke.basic.face.bean.RoomTypeInfo;
 import com.duantuke.basic.face.bean.TeamSkuInfo;
 import com.duantuke.basic.face.service.HotelService;
@@ -98,18 +99,12 @@ public class HotelOpenService {
 				roomtypeIds.add(roomType.getSkuId());
 				roomTypeInfos.add(dozerMapper.map(roomType, RoomTypeInfo.class));
 			}
-			Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
+			Map<Long,List<PriceInfo>> prices = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds);
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
-//	        Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
-//	        for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
-	        	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
-//	        		if(entry.getKey()==(roomTypeInfo.getSkuId())){
-	        			roomTypeInfo.setPrices(prices.get(roomTypeInfo.getSkuId()));
-//	        		}
-	        	}
-//	        }
-//	        hotelInfo.setRoomTypes(roomTypeInfos);
+        	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
+    			roomTypeInfo.setPriceInfos(prices.get(roomTypeInfo.getSkuId()));
+        	}
 		}
 		return roomTypeInfos;
 	}
@@ -130,18 +125,12 @@ public class HotelOpenService {
 				roomtypeIds.add(roomType.getSkuId());
 				roomTypeInfos.add(dozerMapper.map(roomType, TeamSkuInfo.class));
 			}
-			Map<Long, Map<String, BigDecimal>> prices = priceService.queryHotelPrices(hotelId, begintime, endtime, roomtypeIds);
+			Map<Long,List<PriceInfo>> prices  = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds);
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
-//			Set<Entry<Long, Map<String, BigDecimal>>> sets = prices.entrySet();  
-//			for(Entry<Long, Map<String, BigDecimal>> entry : sets) {
-				for(TeamSkuInfo roomTypeInfo:roomTypeInfos){
-//					if(entry.getKey()==(roomTypeInfo.getSkuId())){
-						roomTypeInfo.setPrices(prices.get(roomTypeInfo.getSkuId()));
-//					}
-				}
-//			}
-//	        hotelInfo.setRoomTypes(roomTypeInfos);
+			for(TeamSkuInfo roomTypeInfo:roomTypeInfos){
+				roomTypeInfo.setPriceInfos(prices.get(roomTypeInfo.getSkuId()));
+			}
 		}
 		return roomTypeInfos;
 	}
