@@ -23,6 +23,7 @@ import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.TokenUtil;
 import com.duantuke.order.common.enums.OrderErrorEnum;
+import com.duantuke.order.common.enums.OrderTypeEnum;
 import com.duantuke.order.service.OrderService;
 
 @Controller
@@ -69,6 +70,7 @@ public class OrderController {
                 CreateOrderRequest createOrderRequest = new CreateOrderRequest();
                 createOrderRequest.setOperatorId(String.valueOf(userId));
                 Order order = JSON.parseObject(orderJson, Order.class);
+                order.setType(OrderTypeEnum.common.getId());
                 createOrderRequest.setOrder(order);
                 req.setData(createOrderRequest);
 
