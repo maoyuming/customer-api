@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.order.common.enums.CancelTypeEnum;
 import com.duantuke.order.common.enums.OrderErrorEnum;
 import com.duantuke.order.common.enums.OrderTypeEnum;
 import com.duantuke.order.service.OrderService;
@@ -127,6 +128,7 @@ public class OrderController {
 
                 // 把取消订单数据封装到对象中
                 CancelOrderRequest cancelOrderRequest = JSON.parseObject(cancelJson, CancelOrderRequest.class);
+                cancelOrderRequest.setCancelType(CancelTypeEnum.common.getId());
                 req.setData(cancelOrderRequest);
 
                 Response<CancelOrderResponse> res = orderService.cancel(req);
