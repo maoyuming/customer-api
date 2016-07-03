@@ -159,6 +159,7 @@ public class OrderController {
 			String pageSize = request.getParameter("pageSize");
 			String beginTime = request.getParameter("beginTime");
 			String endTime = request.getParameter("endTime");
+			String status = request.getParameter("status");
 
 			Request<QueryOrderRequest> req = new Request<QueryOrderRequest>();
 			Header header = new Header();
@@ -173,8 +174,16 @@ public class OrderController {
 			queryOrderRequest.setCustomerId(customerId);
 			queryOrderRequest.setPageNo(Integer.parseInt(pageNo));
 			queryOrderRequest.setPageSize(Integer.parseInt(pageSize));
-			queryOrderRequest.setStartDate(DateUtil.strToDate(beginTime, "yyyy-MM-dd"));
-			queryOrderRequest.setEndDate(DateUtil.strToDate(endTime, "yyyy-MM-dd"));
+			if(StringUtils.isNotBlank(beginTime)){
+				queryOrderRequest.setStartDate(DateUtil.strToDate(beginTime, "yyyy-MM-dd"));
+			}
+			if(StringUtils.isNotBlank(endTime)){
+				queryOrderRequest.setEndDate(DateUtil.strToDate(endTime, "yyyy-MM-dd"));
+			}
+			if(StringUtils.isNotBlank(status)){
+				queryOrderRequest.setOrderStatus(Integer.parseInt("status"));
+			}
+			
 			req.setData(queryOrderRequest);
 
 			Response<List<Order>> res = orderService.queryOrders(req);
