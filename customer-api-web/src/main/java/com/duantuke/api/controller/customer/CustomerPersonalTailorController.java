@@ -107,6 +107,7 @@ public class CustomerPersonalTailorController {
 		return new ResponseEntity<OpenResponse<PersonalTailor>> (openResponse, HttpStatus.OK);
 	}
 
+
 	 /**
      * 根据用户ID查询订制列表
      * @param request
@@ -114,8 +115,9 @@ public class CustomerPersonalTailorController {
      * @return
      */
 	@RequestMapping(value = "/query")
-    public ResponseEntity<OpenResponse<List<PersonalTailor>>> query(HttpServletRequest request, HttpServletResponse response,Long customerId) {
-
+    public ResponseEntity<OpenResponse<List<PersonalTailor>>> query(HttpServletRequest request, HttpServletResponse response,
+    		Long customerId, Integer pageNo,Integer pageSize) {
+		
 		logger.info("根据用户ID查询订制列表入参，customerId:{}",customerId);
 		OpenResponse<List<PersonalTailor>> openResponse = new OpenResponse<List<PersonalTailor>>();
 		
@@ -126,8 +128,18 @@ public class CustomerPersonalTailorController {
 			return new ResponseEntity<OpenResponse<List<PersonalTailor>>> (openResponse, HttpStatus.OK);
 		}
 		
+		if(pageNo==null || pageSize==null){
+			openResponse.setErrorMessage("参数pageNo或者pageSize为空");
+			openResponse.setResult(Constants.FAIL);
+			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
+			return new ResponseEntity<OpenResponse<List<PersonalTailor>>> (openResponse, HttpStatus.OK);
+		}
+		
+		
 		try {
-			List<PersonalTailor> list = personalTailorService.queryPersonalTailorsBycustomerId(customerId);
+			PersonalTailor personalTailor = new PersonalTailor();
+			personalTailor.setCustomerId(customerId);			
+			List<PersonalTailor> list = personalTailorService.queryPersonalTailors(personalTailor,pageNo,pageSize);
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 			logger.info("返回值openResponse：{}",JSON.toJSONString(openResponse));
@@ -139,6 +151,4 @@ public class CustomerPersonalTailorController {
 		
 		return new ResponseEntity<OpenResponse<List<PersonalTailor>>> (openResponse, HttpStatus.OK);
 	}
-	
-	
 }

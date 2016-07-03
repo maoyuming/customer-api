@@ -4,15 +4,31 @@
 
 	<appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
-		<file>${catalina.base}/logs/customer.log</file>
+		<file>/data/logs/customer.duantuke.com/customer.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${catalina.base}/logs/customer.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+			<FileNamePattern>/data/logs/customer.duantuke.com/customer.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<pattern>%-20(%d{HH:mm:ss.SSS} [%thread][line:%L]) %-5level %logger{80} - %msg%n</pattern>
 		</layout>
 	</appender>
+	
+	<appender name="scLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<file>/data/logs/customer.duantuke.com/sc.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>/data/logs/customer.duantuke.com/sc.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%-20(%d{HH:mm:ss.SSS} [%thread][line:%L]) %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+	</appender>
+	
+	<logger name="com.duantuke.api.controller.customer.SettlementCenterController" level="INFO">
+		<appender-ref ref="scLog" />
+	</logger>
 
 	<root level="info">
 		<appender-ref ref="infoFile" />
