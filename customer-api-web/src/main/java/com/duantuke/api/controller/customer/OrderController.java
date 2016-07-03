@@ -125,10 +125,11 @@ public class OrderController {
                 openResponse.setErrorCode(OrderErrorEnum.paramsError.getErrorCode());
                 openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
             } else {
-
+            	Long userId = TokenUtil.getUserIdByRequest(request);
                 // 把取消订单数据封装到对象中
                 CancelOrderRequest cancelOrderRequest = JSON.parseObject(cancelJson, CancelOrderRequest.class);
                 cancelOrderRequest.setCancelType(CancelTypeEnum.common.getId());
+                cancelOrderRequest.setOperatorId(String.valueOf(userId));
                 req.setData(cancelOrderRequest);
 
                 Response<CancelOrderResponse> res = orderService.cancel(req);
