@@ -4,9 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
+
+import com.duantuke.basic.face.service.HotelService;
+import com.duantuke.basic.face.service.MealService;
+import com.duantuke.basic.face.service.RoomTypeService;
+import com.duantuke.basic.face.service.TeamSkuService;
+import com.duantuke.basic.face.service.TagService;
+import com.duantuke.basic.face.service.PriceService;
+import com.duantuke.basic.po.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
@@ -21,15 +27,6 @@ import com.duantuke.basic.face.bean.HotelInfo;
 import com.duantuke.basic.face.bean.MealInfo;
 import com.duantuke.basic.face.bean.RoomTypeInfo;
 import com.duantuke.basic.face.bean.TeamSkuInfo;
-import com.duantuke.basic.face.service.HotelService;
-import com.duantuke.basic.face.service.MealService;
-import com.duantuke.basic.face.service.PriceService;
-import com.duantuke.basic.face.service.RoomTypeService;
-import com.duantuke.basic.face.service.TeamSkuService;
-import com.duantuke.basic.po.Hotel;
-import com.duantuke.basic.po.Meal;
-import com.duantuke.basic.po.RoomType;
-import com.duantuke.basic.po.TeamSku;
 
 
 @Service
@@ -48,6 +45,8 @@ public class HotelOpenService {
 	private TeamSkuService teamSkuService;
 	@Autowired
 	private PriceService priceService;
+	@Autowired
+	private TagService tagService;
     @Autowired
     private Mapper dozerMapper;
     
@@ -72,6 +71,20 @@ public class HotelOpenService {
 	        hotelInfo.setRoomTypes(queryRoomtype(hotelId, begintime, endtime));
 			hotelInfo.setTeamSkus(queryTeamSku(hotelId, begintime, endtime));
 			hotelInfo.setMeals(queryMeal(hotelId));
+			//保存tag
+			List<Tag> taglist = tagService.queryTagsByHotelId(hotelId);
+			for (Tag tag:taglist) {
+				Map<String,String> map = dozerMapper.map(tag, Map.class);
+				if(tag.getTagGroupId().equals(1l)){
+					hotelInfo.getTaggroup_1().add(map);
+				}else if(tag.getTagGroupId().equals(2l)){
+					hotelInfo.getTaggroup_2().add(map);
+				}else if(tag.getTagGroupId().equals(3l)){
+					hotelInfo.getTaggroup_3().add(map);
+				}else if(tag.getTagGroupId().equals(4l)){
+					hotelInfo.getTaggroup_4().add(map);
+				}
+			}
 			logger.info("返回值hotelInfo：{}",JSON.toJSONString(hotelInfo));
 		} catch (Exception e) {
 			logger.error("query detail error",e);
