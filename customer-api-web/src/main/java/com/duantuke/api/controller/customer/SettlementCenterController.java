@@ -68,6 +68,8 @@ public class SettlementCenterController {
     	boolean mock = true;
     	
     	if(mock) {
+    		
+    		log.info("pay mock...");
     		Long payId = null;
     		BigDecimal bMoney = new BigDecimal(sum).divide(dividend).setScale(4, BigDecimal.ROUND_HALF_UP);
     		// 支付宝
@@ -276,7 +278,7 @@ public class SettlementCenterController {
     	return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
     }
     
-    @RequestMapping(value="/refund")
+    /*@RequestMapping(value="/refund")
     @ResponseBody
     public ResponseEntity<OpenResponse<Object>> refund(HttpServletRequest request, HttpServletResponse response, Long orderId) {
     	
@@ -345,7 +347,7 @@ public class SettlementCenterController {
         }
     	
     	return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
-    }
+    }*/
     
     @RequestMapping(value="/balance")
     @ResponseBody

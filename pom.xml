@@ -675,8 +675,8 @@
 				<sc-face-version>0.0.1-SNAPSHOT</sc-face-version>
 				
 				<!-- 支付回调地址 -->
-				<alipay_notify_url>http://openapi.fangbaba.cc/customer/sc/pay/aliPayCallback</alipay_notify_url>
-				<wechat_notify_url>http://openapi.fangbaba.cc/customer/sc/pay/weChatCallback</wechat_notify_url>
+				<alipay_notify_url>http://customerapi.duantuke.cc/customer/sc/pay/aliPayCallback</alipay_notify_url>
+				<wechat_notify_url>http://customerapi.duantuke.cc/customer/sc/pay/weChatCallback</wechat_notify_url>
 				<environment>TEST</environment>
 				
 			</properties>
@@ -727,6 +727,11 @@
 				
                 <basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
                 <sc-face-version>0.0.1-SNAPSHOT</sc-face-version>
+                
+                <!-- 支付回调地址 -->
+				<alipay_notify_url>http://customerapi.duantuke.cc/customer/sc/pay/aliPayCallback</alipay_notify_url>
+				<wechat_notify_url>http://customerapi.duantuke.cc/customer/sc/pay/weChatCallback</wechat_notify_url>
+				<environment>TEST</environment>
 			</properties>
 		</profile>
 	</profiles>
