@@ -4,9 +4,9 @@
 
 	<appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
-		<file>/data/logs/api.fangbaba.com/api.log</file>
+		<file>/data/logs/customer.duantuke.com/customer.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>/data/logs/api.fangbaba.com/api.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+			<FileNamePattern>/data/logs/customer.duantuke.com/customer.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
@@ -16,9 +16,9 @@
 	
 	<appender name="scLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
-		<file>/data/logs/openapi.fangbaba.com/sc.log</file>
+		<file>/data/logs/customer.duantuke.com/sc.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>/data/logs/openapi.fangbaba.com/sc.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+			<FileNamePattern>/data/logs/customer.duantuke.com/sc.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
 			<maxHistory>100</maxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
