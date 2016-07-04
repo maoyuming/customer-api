@@ -1,5 +1,10 @@
 package com.dtk.test;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.duantuke.basic.enums.SkuTypeEnum;
 import com.duantuke.order.common.enums.OrderStatusEnum;
@@ -8,11 +13,6 @@ import com.duantuke.order.common.enums.PayTypeEnum;
 import com.duantuke.order.model.Order;
 import com.duantuke.order.model.OrderDetail;
 import com.duantuke.order.model.OrderDetailPrice;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by jjh on 16/6/17.

@@ -22,7 +22,9 @@ import com.alibaba.fastjson.JSON;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.order.common.enums.CancelTypeEnum;
 import com.duantuke.order.common.enums.OrderErrorEnum;
+import com.duantuke.order.common.enums.OrderTypeEnum;
 import com.duantuke.order.service.OrderService;
 
 @Controller
@@ -69,6 +71,7 @@ public class OrderController {
                 CreateOrderRequest createOrderRequest = new CreateOrderRequest();
                 createOrderRequest.setOperatorId(String.valueOf(userId));
                 Order order = JSON.parseObject(orderJson, Order.class);
+                order.setType(OrderTypeEnum.common.getId());
                 createOrderRequest.setOrder(order);
                 req.setData(createOrderRequest);
 
@@ -122,9 +125,11 @@ public class OrderController {
                 openResponse.setErrorCode(OrderErrorEnum.paramsError.getErrorCode());
                 openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
             } else {
-
+            	Long userId = TokenUtil.getUserIdByRequest(request);
                 // 把取消订单数据封装到对象中
                 CancelOrderRequest cancelOrderRequest = JSON.parseObject(cancelJson, CancelOrderRequest.class);
+                cancelOrderRequest.setCancelType(CancelTypeEnum.common.getId());
+                cancelOrderRequest.setOperatorId(String.valueOf(userId));
                 req.setData(cancelOrderRequest);
 
                 Response<CancelOrderResponse> res = orderService.cancel(req);
@@ -159,6 +164,7 @@ public class OrderController {
 			String pageSize = request.getParameter("pageSize");
 			String beginTime = request.getParameter("beginTime");
 			String endTime = request.getParameter("endTime");
+			String status = request.getParameter("status");
 
 			Request<QueryOrderRequest> req = new Request<QueryOrderRequest>();
 			Header header = new Header();
@@ -173,8 +179,16 @@ public class OrderController {
 			queryOrderRequest.setCustomerId(customerId);
 			queryOrderRequest.setPageNo(Integer.parseInt(pageNo));
 			queryOrderRequest.setPageSize(Integer.parseInt(pageSize));
-			queryOrderRequest.setStartDate(DateUtil.strToDate(beginTime, "yyyy-MM-dd"));
-			queryOrderRequest.setEndDate(DateUtil.strToDate(endTime, "yyyy-MM-dd"));
+			if(StringUtils.isNotBlank(beginTime)){
+				queryOrderRequest.setStartDate(DateUtil.strToDate(beginTime, "yyyy-MM-dd"));
+			}
+			if(StringUtils.isNotBlank(endTime)){
+				queryOrderRequest.setEndDate(DateUtil.strToDate(endTime, "yyyy-MM-dd"));
+			}
+			if(StringUtils.isNotBlank(status)){
+				queryOrderRequest.setOrderStatus(Integer.parseInt("status"));
+			}
+			
 			req.setData(queryOrderRequest);
 
 			Response<List<Order>> res = orderService.queryOrders(req);
