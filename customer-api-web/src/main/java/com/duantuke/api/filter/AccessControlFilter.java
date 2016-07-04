@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.duantuke.api.common.Constants;
+
 
 public class AccessControlFilter implements Filter{
 
@@ -28,8 +30,13 @@ public class AccessControlFilter implements Filter{
 		response.setHeader("Access-Control-Allow-Origin", "*");  
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET");  
 		response.setHeader("Access-Control-Max-Age", "3600");  
+		StringBuilder sf = new StringBuilder();
+		sf.append(Constants.TOKEN).append(",");
+		sf.append(Constants.APP_VERSION);
+		//.append(",");
 		response.setHeader("Access-Control-Allow-Headers", 
-				"Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,token");
+				"Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,"
+				+ sf.toString());
 		chain.doFilter(request, response);
 	
 	}

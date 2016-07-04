@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.duantuke.api.common.Constants;
 import com.duantuke.api.util.IPUtil;
 import com.duantuke.api.util.SpringContextUtil;
 import com.duantuke.api.util.mongo.AccessLog;
@@ -42,8 +43,8 @@ public class OpenHeaderFilter implements Filter {
 			//保存访问日志
 			//1、访问地址 2、访问用户，如果有的话，3、app版本 4、访问时间
 
-			String token = request.getHeader("token");
-			String appVersion = request.getHeader("appVersion");
+			String token = request.getHeader(Constants.TOKEN);
+			String appVersion = request.getHeader(Constants.APP_VERSION);
 			Date date = new Date();
 			StringBuffer url = request.getRequestURL();
 

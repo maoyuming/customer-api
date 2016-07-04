@@ -17,6 +17,9 @@ import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.basic.face.service.CustomerService;
+import com.duantuke.basic.po.Boss;
+import com.duantuke.basic.po.Customer;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.mk.mms.face.service.ISmsMessageService;
@@ -31,6 +34,9 @@ public class MessageController {
 
 	@Autowired
 	private ISmsMessageService smsMessageService;
+	
+	@Autowired
+	private CustomerService customerService;
 	@Autowired
 	private com.duantuke.api.kafka.MessageProducer messageProducer;
 	
@@ -90,13 +96,32 @@ public class MessageController {
 		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
 	
-	
+	/**
+	 * 验证手机号
+	 * @param request
+	 * @param phone
+	 * @param verifycode
+	 * @param channelId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/verifycode/verify")
-	public ResponseEntity<OpenResponse<Boolean>> verifyCode(HttpServletRequest request, String phone, String verifycode) throws Exception {
+	public ResponseEntity<OpenResponse<Boolean>> verifyCode(HttpServletRequest request,
+			String phone, String verifycode,String channelId) throws Exception {
 		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		try {
 			if(checkVerifyCode(request, phone, verifycode)){
+				
+				if(StringUtils.isNotBlank(channelId)){
+					//update用户channelId
+					Customer customer = new Customer();
+					customer.setChannelId(channelId);
+					customer.setPhone(phone);
+					customer.setUpdateuser(phone);
+					customerService.saveOrUpdateCustomers(customer);
+				}
 				openResponse.setResult(Constants.SUCCESS);
+				
 			}else{
 				openResponse.setResult(Constants.FAIL);
 				openResponse.setErrorCode(ErrorEnum.checkFail.getId());
