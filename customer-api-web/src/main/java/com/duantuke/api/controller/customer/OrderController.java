@@ -186,7 +186,12 @@ public class OrderController {
 				queryOrderRequest.setEndDate(DateUtil.strToDate(endTime, "yyyy-MM-dd"));
 			}
 			if(StringUtils.isNotBlank(status)){
-				queryOrderRequest.setOrderStatus(Integer.parseInt("status"));
+				String[] statusArrayString = status.split(",");
+				Integer[] statusArrayInteger = new Integer[statusArrayString.length];
+				for(int i = 0;i < statusArrayString.length;i++){
+					statusArrayInteger[i] = new Integer(statusArrayString[i]);
+				}
+				queryOrderRequest.setOrderStatus(statusArrayInteger);
 			}
 			
 			req.setData(queryOrderRequest);
