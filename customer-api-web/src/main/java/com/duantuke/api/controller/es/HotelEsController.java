@@ -96,6 +96,8 @@ public class HotelEsController {
 			HotelQueryBean hotelQueryBean = new HotelQueryBean();
 			hotelQueryBean.setPage(queryPage);
 			hotelQueryBean.setPagesize(queryPageSize);
+			hotelQueryBean.setLatitude(latitude);
+			hotelQueryBean.setLongitude(longitude);
 			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,mealQueryBean,null);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
@@ -156,9 +158,26 @@ public class HotelEsController {
 			//查出餐饮对应的酒店ids
 			Integer queryPage = teamSkuQueryBean.getPage();
 			Integer queryPageSize = teamSkuQueryBean.getPagesize();
-			teamSkuQueryBean.setPage(1);
-			teamSkuQueryBean.setPagesize(10);
-			List<TeamSkuOutputBean> teams = teamSkuSearchService.searchTeamSkusFromEs(teamSkuQueryBean);
+			//teamSkuQueryBean.setPage(1);
+			//teamSkuQueryBean.setPagesize(10);
+			HotelQueryBean hotelQueryBean = new HotelQueryBean();
+			hotelQueryBean.setPage(queryPage);
+			hotelQueryBean.setPagesize(queryPageSize);
+			hotelQueryBean.setLatitude(latitude);
+			hotelQueryBean.setLongitude(longitude);
+			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,teamSkuQueryBean);
+			if(CollectionUtils.isNotEmpty(list)){
+				for (HotelOutputBean hotelOutputBean : list) {
+					DuantukeLike duantukeLike = new DuantukeLike();
+					duantukeLike.setBusinessType(Short.valueOf(BusinessTypeEnum.hotel.getCode()+""));
+					duantukeLike.setFid(hotelOutputBean.getHotelId());
+					int like = duantukeLikeService.countDuantukeLike(duantukeLike);
+					hotelOutputBean.setLike(like);
+				}
+			}
+			openResponse.setData(list);
+			openResponse.setResult(Constants.SUCCESS);
+			/*List<TeamSkuOutputBean> teams = teamSkuSearchService.searchTeamSkusFromEs(teamSkuQueryBean);
 			if(CollectionUtils.isNotEmpty(teams)){
 				List<String> hotelids = new ArrayList<String>();
 				for (TeamSkuOutputBean team:teams) {
@@ -183,7 +202,7 @@ public class HotelEsController {
 				}
 				openResponse.setData(list);
 				openResponse.setResult(Constants.SUCCESS);
-			}
+			}*/
 		} catch (Exception e) {
 			logger.error("CustomerHotelController searchbyteam error",e);
 			openResponse.setResult(Constants.FAIL);
