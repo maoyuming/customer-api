@@ -18,14 +18,12 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.basic.enums.BusinessTypeEnum;
 import com.duantuke.basic.face.esbean.output.HotelOutputBean;
-import com.duantuke.basic.face.esbean.output.MealOutputBean;
 import com.duantuke.basic.face.esbean.output.TeamSkuOutputBean;
 import com.duantuke.basic.face.esbean.query.HotelQueryBean;
 import com.duantuke.basic.face.esbean.query.MealQueryBean;
 import com.duantuke.basic.face.esbean.query.TeamSkuQueryBean;
 import com.duantuke.basic.face.service.DuantukeLikeService;
 import com.duantuke.basic.face.service.HotelSearchService;
-import com.duantuke.basic.face.service.MealSearchService;
 import com.duantuke.basic.face.service.TeamSkuSearchService;
 import com.duantuke.basic.po.DuantukeLike;
 import com.google.gson.Gson;
@@ -47,9 +45,6 @@ public class HotelEsController {
 	private DuantukeLikeService duantukeLikeService;
 	
 	@Autowired
-	private MealSearchService mealSearchService;
-	
-	@Autowired
 	private TeamSkuSearchService teamSkuSearchService;
 	
 	
@@ -62,7 +57,7 @@ public class HotelEsController {
 		logger.info("CustomerHotelController search：{}",new Gson().toJson(hotelQueryBean));
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
-			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean);
+			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,null);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
 					DuantukeLike duantukeLike = new DuantukeLike();
@@ -96,9 +91,24 @@ public class HotelEsController {
 			//查出餐饮对应的酒店ids
 			Integer queryPage = mealQueryBean.getPage();
 			Integer queryPageSize = mealQueryBean.getPagesize();
-			mealQueryBean.setPage(1);
-			mealQueryBean.setPagesize(10);
-			List<MealOutputBean> meals = mealSearchService.searchMealsFromEs(mealQueryBean);
+			//mealQueryBean.setPage(1);
+			//mealQueryBean.setPagesize(10);
+			HotelQueryBean hotelQueryBean = new HotelQueryBean();
+			hotelQueryBean.setPage(queryPage);
+			hotelQueryBean.setPagesize(queryPageSize);
+			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,mealQueryBean,null);
+			if(CollectionUtils.isNotEmpty(list)){
+				for (HotelOutputBean hotelOutputBean : list) {
+					DuantukeLike duantukeLike = new DuantukeLike();
+					duantukeLike.setBusinessType(Short.valueOf(BusinessTypeEnum.hotel.getCode()+""));
+					duantukeLike.setFid(hotelOutputBean.getHotelId());
+					int like = duantukeLikeService.countDuantukeLike(duantukeLike);
+					hotelOutputBean.setLike(like);
+				}
+			}
+			openResponse.setData(list);
+			openResponse.setResult(Constants.SUCCESS);
+			/*List<MealOutputBean> meals = mealSearchService.searchMealsFromEs(mealQueryBean);
 			if(CollectionUtils.isNotEmpty(meals)){
 				List<String> hotelids = new ArrayList<String>();
 				for (MealOutputBean meal:meals) {
@@ -111,7 +121,7 @@ public class HotelEsController {
 				hotelQueryBean.setLatitude(latitude);
 				hotelQueryBean.setLongitude(longitude);
 				
-				List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean);
+				List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,mealQueryBean);
 				if(CollectionUtils.isNotEmpty(list)){
 					for (HotelOutputBean hotelOutputBean : list) {
 						DuantukeLike duantukeLike = new DuantukeLike();
@@ -123,7 +133,7 @@ public class HotelEsController {
 				}
 				openResponse.setData(list);
 				openResponse.setResult(Constants.SUCCESS);
-			}
+			}*/
 		} catch (Exception e) {
 			logger.error("CustomerHotelController searchbymeal error",e);
 			openResponse.setResult(Constants.FAIL);
@@ -161,7 +171,7 @@ public class HotelEsController {
 				hotelQueryBean.setLatitude(latitude);
 				hotelQueryBean.setLongitude(longitude);
 				
-				List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean);
+				List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,teamSkuQueryBean);
 				if(CollectionUtils.isNotEmpty(list)){
 					for (HotelOutputBean hotelOutputBean : list) {
 						DuantukeLike duantukeLike = new DuantukeLike();
