@@ -99,4 +99,12 @@
    <!-- 私人订制 -->
    <dubbo:reference id="personalTailorService"  
         interface="com.duantuke.basic.face.service.PersonalTailorService"  timeout="30000" group="${dubbo.basic.group}" version="1.0.0" check="false"/>   
+	
+   <dubbo:reference id="promotionServiceDubbo"  
+        interface="com.duantuke.promotion.face.service.PromotionService"  timeout="30000" group="${dubbo.promotion.group}" version="1.0.0" check="false"/>  
+   <dubbo:reference id="activityServiceDubbo"  
+        interface="com.duantuke.promotion.face.service.ActivityService"  timeout="30000" group="${dubbo.promotion.group}" version="1.0.0" check="false"/>  
+
+	
+	
 </beans>  

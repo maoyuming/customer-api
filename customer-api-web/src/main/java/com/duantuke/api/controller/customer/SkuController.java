@@ -23,6 +23,7 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.basic.face.bean.SkuRequest;
 import com.duantuke.basic.face.bean.SkuResponse;
 import com.duantuke.basic.face.service.SkuService;
@@ -90,7 +91,7 @@ public class SkuController {
 			throw new OpenException(ErrorEnum.skuIdNull.getName(),ErrorEnum.skuIdNull.getId());
 		}
 
-//		duantukeComment.setCustomerId(TokenUtil.getUserIdByRequest(request));
+		skuRequest.setCustomerId(TokenUtil.getUserIdByRequest(request));
 		
 		
 	}
