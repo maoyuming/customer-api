@@ -84,8 +84,8 @@ public class HotelEsController {
 	 * 通过吃搜索农家院es
 	 */
 	@RequestMapping(value = "/searchbymeal", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> searchbymeal(MealQueryBean mealQueryBean,BigDecimal longitude,BigDecimal latitude) {
-		logger.info("CustomerHotelController searchbymeal：{}",new Gson().toJson(mealQueryBean));
+	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> searchbymeal(MealQueryBean mealQueryBean,BigDecimal longitude,BigDecimal latitude,String querystarttime,String queryendtime) {
+		logger.info("CustomerHotelController searchbymeal：{}",new Gson().toJson(mealQueryBean)+querystarttime+","+queryendtime);
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
 			//查出餐饮对应的酒店ids
@@ -98,6 +98,8 @@ public class HotelEsController {
 			hotelQueryBean.setPagesize(queryPageSize);
 			hotelQueryBean.setLatitude(latitude);
 			hotelQueryBean.setLongitude(longitude);
+			hotelQueryBean.setQuerystarttime(querystarttime);
+			hotelQueryBean.setQueryendtime(queryendtime);
 			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,mealQueryBean,null);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
@@ -151,8 +153,8 @@ public class HotelEsController {
 	 * 通过团体搜索农家院es
 	 */
 	@RequestMapping(value = "/searchbyteam", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> searchbyteam(TeamSkuQueryBean teamSkuQueryBean,BigDecimal longitude,BigDecimal latitude) {
-		logger.info("CustomerHotelController searchbyteam：{}",new Gson().toJson(teamSkuQueryBean));
+	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> searchbyteam(TeamSkuQueryBean teamSkuQueryBean,BigDecimal longitude,BigDecimal latitude,String querystarttime,String queryendtime) {
+		logger.info("CustomerHotelController searchbyteam：{}",new Gson().toJson(teamSkuQueryBean)+querystarttime+","+queryendtime);
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
 			//查出餐饮对应的酒店ids
@@ -165,6 +167,8 @@ public class HotelEsController {
 			hotelQueryBean.setPagesize(queryPageSize);
 			hotelQueryBean.setLatitude(latitude);
 			hotelQueryBean.setLongitude(longitude);
+			hotelQueryBean.setQuerystarttime(querystarttime);
+			hotelQueryBean.setQueryendtime(queryendtime);
 			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,teamSkuQueryBean);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
