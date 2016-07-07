@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>customer-api-web</artifactId>
 	<packaging>war</packaging>
-	<name>api-web</name>
+	<name>customer-api-web</name>
 	<url>http://maven.apache.org</url>
 	<build>
 		<finalName>api-web</finalName>
