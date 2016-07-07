@@ -29,6 +29,7 @@
 		<order-face.version>${order-face-version}</order-face.version>
         <wash-face.version>${wash-face-version}</wash-face.version>
         <sc-face.version>${sc-face-version}</sc-face.version>
+        <promotion-face.version>0.0.1-SNAPSHOT</promotion-face.version>
         <powermock.version>1.4.6</powermock.version>
         <commons-beanutils.version>1.9.2</commons-beanutils.version>
         
@@ -147,6 +148,11 @@
 			<groupId>com.duantuke</groupId>
 			<artifactId>basic-face</artifactId>
 			<version>${basic-face.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.duantuke</groupId>
+  		  <artifactId>promotion-face</artifactId>
+          	  <version>${promotion-face.version}</version>
 		</dependency>
 	
 	
@@ -656,6 +662,7 @@
 				<dubbo_message_group>message_test</dubbo_message_group>
 				<dubbo_order_group>order_test</dubbo_order_group>
 				<dubbo_sc_group>sc_test</dubbo_sc_group>
+				<dubbo_promotion_group>promotion_test</dubbo_promotion_group>
 				
 				<!-- config_center -->
 				<config.localMode>true</config.localMode>
@@ -710,6 +717,7 @@
 				<dubbo_message_group>message_test</dubbo_message_group>
 				<dubbo_order_group>order_test</dubbo_order_group>
 				<dubbo_sc_group>sc_test</dubbo_sc_group>
+				<dubbo_promotion_group>promotion_test</dubbo_promotion_group>
 				
 				<!-- config_center -->
 				<config.localMode>false</config.localMode>
