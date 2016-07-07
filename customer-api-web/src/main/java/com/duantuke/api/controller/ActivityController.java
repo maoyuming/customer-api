@@ -69,8 +69,8 @@ public class ActivityController {
 		
 		OpenResponse<List<Promotion>> openResponse = new OpenResponse<List<Promotion>>();
 		try {
-			//List<Promotion>  list = promotionService.queryPromotionListByActivityId(activityId);
-			//openResponse.setData(list);
+			List<Promotion>  list = promotionService.queryPromotionListByActivityId(activityId);
+			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
