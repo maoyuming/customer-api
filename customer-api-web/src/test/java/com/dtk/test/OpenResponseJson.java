@@ -33,7 +33,6 @@ public class OpenResponseJson {
         order.setContact("jjh");
         order.setContactPhone("123456");
         order.setCustomerId(123L);
-        order.setPromotionId(321L);
         order.setSupplierId(456L);
         order.setSupplierName("sky");
         order.setMemo("beizhu");
