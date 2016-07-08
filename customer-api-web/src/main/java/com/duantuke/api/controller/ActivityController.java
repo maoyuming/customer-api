@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,7 @@ public class ActivityController {
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		}finally{
-			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+			logger.info("返回值openResponse：{}",com.alibaba.fastjson.JSONObject.toJSON(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<List<Promotion>>>(openResponse, HttpStatus.OK);
 		

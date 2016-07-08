@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSONObject;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
@@ -52,7 +53,7 @@ public class PromotionController {
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		}finally{
-			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
+			logger.info("返回值openResponse：{}",JSONObject.toJSON(openResponse));
 		}
 		return new ResponseEntity<OpenResponse<List<Promotion>>>(openResponse, HttpStatus.OK);
 	
@@ -73,13 +74,15 @@ public class PromotionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/get")
-	public ResponseEntity<Boolean> get(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<OpenResponse<Boolean>> get(HttpServletRequest request, HttpServletResponse response,
 			Long promotionDefinitionId,Long customerId ) {
+		OpenResponse<Boolean> openResponse = new OpenResponse<Boolean>();
 		if(promotionDefinitionId==null){
 			throw new OpenException(ErrorEnum.argsNull.getName(),ErrorEnum.argsNull.getId());
 		}
 		promotionService.createCustomerPromotion(promotionDefinitionId, Arrays.asList(TokenUtil.getUserIdByRequest(request)));
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		openResponse.setResult(Constants.SUCCESS);
+		return new ResponseEntity<OpenResponse<Boolean>>(openResponse, HttpStatus.OK);
 	}
 	
 }
