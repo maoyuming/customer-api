@@ -1,5 +1,6 @@
 package com.duantuke.api.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.basic.enums.SkuTypeEnum;
 import com.duantuke.basic.face.bean.HotelInfo;
 import com.duantuke.basic.face.bean.MealInfo;
 import com.duantuke.basic.face.bean.PriceInfo;
@@ -31,6 +33,9 @@ import com.duantuke.basic.po.Meal;
 import com.duantuke.basic.po.RoomType;
 import com.duantuke.basic.po.Tag;
 import com.duantuke.basic.po.TeamSku;
+import com.duantuke.promotion.domain.PromotionDefinitionResult;
+import com.duantuke.promotion.enums.PromotionTypeEnum;
+import com.duantuke.promotion.face.service.PromotionService;
 
 
 @Service
@@ -51,6 +56,8 @@ public class HotelOpenService {
 	private PriceService priceService;
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private PromotionService promotionService;
     @Autowired
     private Mapper dozerMapper;
     
@@ -115,7 +122,7 @@ public class HotelOpenService {
 				roomtypeIds.add(roomType.getSkuId());
 				roomTypeInfos.add(dozerMapper.map(roomType, RoomTypeInfo.class));
 			}
-			Map<Long,List<PriceInfo>> prices = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds);
+			Map<Long,List<PriceInfo>> prices = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds,SkuTypeEnum.roomtype.getCode());
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
         	for(RoomTypeInfo roomTypeInfo:roomTypeInfos){
@@ -141,7 +148,7 @@ public class HotelOpenService {
 				roomtypeIds.add(roomType.getSkuId());
 				roomTypeInfos.add(dozerMapper.map(roomType, TeamSkuInfo.class));
 			}
-			Map<Long,List<PriceInfo>> prices  = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds);
+			Map<Long,List<PriceInfo>> prices  = priceService.queryHotelPriceInfos(hotelId, begintime, endtime, roomtypeIds,SkuTypeEnum.teamsku.getCode());
 			
 			//遍历房型价格map赋值给与其房型ID匹配的roomTypeInfo
 			for(TeamSkuInfo roomTypeInfo:roomTypeInfos){
@@ -156,14 +163,10 @@ public class HotelOpenService {
 	 * @return
 	 */
 	public List<MealInfo> queryMeal(Long hotelId) {
-		List<Meal> roomTypes = mealService.queryMealByHotleId(hotelId);
+		List<Meal> meals = mealService.queryMealByHotleId(hotelId);
 		
-		List<MealInfo> roomTypeInfos = new ArrayList<MealInfo>();
-		if(CollectionUtils.isNotEmpty(roomTypes)){
-			for(Meal roomType:roomTypes){
-				roomTypeInfos.add(dozerMapper.map(roomType, MealInfo.class));
-			}
-		}
+		List<MealInfo> roomTypeInfos = mealService.queryMealInfo(meals, hotelId);
+		
 		return roomTypeInfos;
 	}
 }
