@@ -116,8 +116,8 @@ public class CustomerPersonalTailorController {
      */
 	@RequestMapping(value = "/query")
     public ResponseEntity<OpenResponse<List<PersonalTailor>>> query(HttpServletRequest request, HttpServletResponse response,
-    		Long customerId, Integer pageNo,Integer pageSize) {
-		
+    		 Integer pageNo,Integer pageSize) {
+		Long customerId = TokenUtil.getUserIdByRequest(request);
 		logger.info("根据用户ID查询订制列表入参，customerId:{}",customerId);
 		OpenResponse<List<PersonalTailor>> openResponse = new OpenResponse<List<PersonalTailor>>();
 		
