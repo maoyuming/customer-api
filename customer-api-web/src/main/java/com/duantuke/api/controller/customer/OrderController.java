@@ -1,5 +1,6 @@
 package com.duantuke.api.controller.customer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class OrderController {
 	 * @param response
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.POST, value = "/create")
 	public ResponseEntity<OpenResponse<CreateOrderResponse>> create(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -56,23 +58,30 @@ public class OrderController {
 			Long userId = TokenUtil.getUserIdByRequest(request);
 
             // 从request中获取订单信息json
-            String orderJson = request.getParameter("data");
+            String orderJson = request.getParameter("order");
             logger.info("从request中获取的订单信息为" + orderJson);
 
             if (StringUtils.isBlank(orderJson)) {
                 logger.error("从request中获取的订单信息为空,无法创建订单");
                 openResponse.setResult(Boolean.FALSE.toString());
                 openResponse.setErrorCode(OrderErrorEnum.paramsError.getErrorCode());
-                openResponse.setErrorMessage(OrderErrorEnum.paramsError.getErrorMsg());
+                openResponse.setErrorMessage("订单信息为空,无法创建订单");
             } else {
-
                 logger.info("开始封装订单信息,调用接口创建订单");
+                Order order = JSON.parseObject(orderJson, Order.class);
+                order.setType(OrderTypeEnum.common.getId());
+                order.setCustomerId(userId);
+                // 获取促销信息
+                String promotionJson = request.getParameter("promotions");
+                List<Long> promotions = JSON.parseObject(promotionJson, ArrayList.class);
+                
                 // 把订单数据封装到对象中
                 CreateOrderRequest createOrderRequest = new CreateOrderRequest();
                 createOrderRequest.setOperatorId(String.valueOf(userId));
-                Order order = JSON.parseObject(orderJson, Order.class);
-                order.setType(OrderTypeEnum.common.getId());
                 createOrderRequest.setOrder(order);
+                if(promotions != null){
+                	createOrderRequest.setPromotions(promotions);
+                }
                 req.setData(createOrderRequest);
 
                 Response<CreateOrderResponse> res = orderService.create(req);
@@ -251,5 +260,4 @@ public class OrderController {
 
 		return new ResponseEntity<OpenResponse<Order>>(openResponse, HttpStatus.OK);
 	}
-
 }
