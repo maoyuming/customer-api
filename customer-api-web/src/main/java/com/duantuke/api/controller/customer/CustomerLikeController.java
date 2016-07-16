@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSONObject;
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
@@ -169,15 +170,18 @@ public class CustomerLikeController {
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
 			List<Hotel> list = customerLikeService.queryHotels(customerId);
-			StringBuilder sf = new StringBuilder();
+			logger.info("查询收藏酒店hotel数据库结果：{}",JSONObject.toJSON(list));
 			//根据id反查es
 			if(CollectionUtils.isNotEmpty(list)){
 				String queryhotelids = StringUtils.listToString(list, ',');
 				HotelQueryBean hotelQueryBean = new HotelQueryBean();
 				hotelQueryBean.setQueryhotelids(queryhotelids);
+				logger.info("查询收藏es入参：{}",queryhotelids);
 				List<HotelOutputBean> hotelOutputBeanList = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,null);
+				logger.info("查询收藏es结果：{}",JSONObject.toJSON(hotelOutputBeanList));
 				openResponse.setData(hotelOutputBeanList);
 			}
+			
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			logger.error("CustomerHotelController search error",e);
