@@ -1,5 +1,6 @@
 package com.duantuke.api.controller.customer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,8 +173,13 @@ public class CustomerLikeController {
 			List<Hotel> list = customerLikeService.queryHotels(customerId);
 			logger.info("查询收藏酒店hotel数据库结果：{}",JSONObject.toJSON(list));
 			//根据id反查es
+			
 			if(CollectionUtils.isNotEmpty(list)){
-				String queryhotelids = StringUtils.listToString(list, ',');
+				List<Long> hotelList = new ArrayList<Long>();
+				for (Hotel hotel : list) {
+					hotelList.add(hotel.getHotelId());
+				}
+				String queryhotelids = StringUtils.listToString(hotelList, ',');
 				HotelQueryBean hotelQueryBean = new HotelQueryBean();
 				hotelQueryBean.setQueryhotelids(queryhotelids);
 				logger.info("查询收藏es入参：{}",queryhotelids);
