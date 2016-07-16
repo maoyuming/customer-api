@@ -47,6 +47,7 @@ public enum ErrorEnum {
 
     userUnExists("100035","用户信息不存在"),
     hotelUnExists("100036","酒店信息不存在"),
+    userNoBelong("100037","用户不属于当前系统"),
     
     
     accntisnull("200024","提现申请账户ID为空或账户角色为空"),

@@ -15,6 +15,7 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.api.util.Config;
+import com.duantuke.basic.enums.UserTypeEnum;
 
 public class OpenHandlerInterceptor implements HandlerInterceptor{
 
@@ -48,10 +49,16 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 			}
 			
 			String str = TokenUtils.decrypt(tokenHostUrl, token);
+			
+			logger.info("解析token后string={}",str);
 			if(StringUtils.isEmpty(str)){
 				throw new OpenException(ErrorEnum.tokenError);
 			}
 			String array[] = str.split("#");
+			//check 是否是当前系统的用户
+			if(!UserTypeEnum.customer.getCode().equals(Integer.valueOf(array[1]))){
+				throw new OpenException(ErrorEnum.userNoBelong);
+			}
 			
 			Long userId = Long.valueOf(array[0]);
 			request.setAttribute(Constants.USER_ID,userId);
