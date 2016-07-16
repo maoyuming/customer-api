@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ import com.duantuke.api.common.Constants;
 import com.duantuke.api.domain.common.OpenResponse;
 import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
+import com.duantuke.api.util.StringUtils;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.basic.face.esbean.output.HotelOutputBean;
+import com.duantuke.basic.face.esbean.query.HotelQueryBean;
 import com.duantuke.basic.face.service.CustomerLikeService;
 import com.duantuke.basic.face.service.DuantukeLikeService;
+import com.duantuke.basic.face.service.HotelSearchService;
 import com.duantuke.basic.po.DuantukeLike;
 import com.duantuke.basic.po.Hotel;
 import com.duantuke.basic.po.Journey;
@@ -41,6 +46,8 @@ public class CustomerLikeController {
 	
 	@Autowired
 	private CustomerLikeService customerLikeService;
+	@Autowired
+	private HotelSearchService hotelSearchService;
 	
     /**
      * 点赞收藏
@@ -156,13 +163,21 @@ public class CustomerLikeController {
 	 * @param 
 	 */
 	@RequestMapping(value = "/hotel", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<Hotel>>> hotel(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> hotel(HttpServletRequest request, HttpServletResponse response) {
 		Long customerId = TokenUtil.getUserIdByRequest(request);
 		logger.info("查询收藏酒店customerId：{}",customerId);
-		OpenResponse<List<Hotel>> openResponse = new OpenResponse<List<Hotel>>();
+		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
 			List<Hotel> list = customerLikeService.queryHotels(customerId);
-			openResponse.setData(list);
+			StringBuilder sf = new StringBuilder();
+			//根据id反查es
+			if(CollectionUtils.isNotEmpty(list)){
+				String queryhotelids = StringUtils.listToString(list, ',');
+				HotelQueryBean hotelQueryBean = new HotelQueryBean();
+				hotelQueryBean.setQueryhotelids(queryhotelids);
+				List<HotelOutputBean> hotelOutputBeanList = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,null);
+				openResponse.setData(hotelOutputBeanList);
+			}
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
 			logger.error("CustomerHotelController search error",e);
@@ -171,7 +186,7 @@ public class CustomerLikeController {
 		}finally{
 			logger.info("返回值openResponse：{}",new Gson().toJson(openResponse));
 		}
-		return new ResponseEntity<OpenResponse<List<Hotel>>> (openResponse, HttpStatus.OK);
+		return new ResponseEntity<OpenResponse<List<HotelOutputBean>>> (openResponse, HttpStatus.OK);
 		
 		
 	}
