@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+
 import com.duantuke.api.common.Constants;
 import com.duantuke.api.core.RedisCacheManager;
 import com.duantuke.api.domain.common.OpenResponse;
@@ -39,6 +40,7 @@ import com.duantuke.api.pay.common.WXPay;
 import com.duantuke.api.pay.common.XMLParser;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.IPUtil;
+import com.duantuke.api.util.TokenUtil;
 import com.duantuke.sc.face.model.ScPay;
 import com.duantuke.sc.face.service.ICustomerService;
 
@@ -59,8 +61,8 @@ public class SettlementCenterController {
     @RequestMapping(value="/pay")
     @ResponseBody
     public ResponseEntity<OpenResponse<Object>> pay(HttpServletRequest request, HttpServletResponse response, Long orderId, 
-    		Integer type, Integer payChannel, Integer feeType, Long customerId, Integer sum) {
-    	
+    		Integer type, Integer payChannel, Integer feeType, Integer sum) {
+    	Long customerId = TokenUtil.getUserIdByRequest(request);
     	String ip = IPUtil.getIpAddr(request);
     	
     	log.info("支付调用, orderId:{}, type:{}, payChannel:{}, feeType:{}, customerId:{}, sum:{}, ip:{}", 
@@ -201,8 +203,8 @@ public class SettlementCenterController {
     @RequestMapping(value="/recharge")
     @ResponseBody
     public ResponseEntity<OpenResponse<Object>> recharge(HttpServletRequest request, HttpServletResponse response, 
-    		Integer payChannel, Long customerId, Integer sum) {
-    	
+    		Integer payChannel, Integer sum) {
+    	Long customerId = TokenUtil.getUserIdByRequest(request);
     	String ip = IPUtil.getIpAddr(request);
     	
     	log.info("充值调用, payChannel:{}, feeType:{}, customerId:{}, sum:{}, ip:{}", payChannel, customerId, sum, ip);
@@ -352,8 +354,8 @@ public class SettlementCenterController {
     
     @RequestMapping(value="/balance")
     @ResponseBody
-    public ResponseEntity<OpenResponse<Object>> balance(HttpServletRequest request, HttpServletResponse response, Long customerId) {
-    	
+    public ResponseEntity<OpenResponse<Object>> balance(HttpServletRequest request, HttpServletResponse response) {
+    	Long customerId = TokenUtil.getUserIdByRequest(request);
     	log.info("查询用户账户余额, customerId:{}", customerId);
     	
         OpenResponse<Object> openResponse = new OpenResponse<Object>();
