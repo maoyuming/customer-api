@@ -42,8 +42,6 @@ public class CustomerMessageController {
 		try {
 
 			lPushLog.setMid(userId);
-			lPushLog.setBegin(lPushLog.getIndex()-1);
-			lPushLog.setEnd(lPushLog.getPageSize());
 			List<LPushLog> list=pushLogService.queryPushLogByMid(lPushLog);
 			
 			openResponse.setResult(Constants.SUCCESS);
