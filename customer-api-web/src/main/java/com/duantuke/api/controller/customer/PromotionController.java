@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,34 @@ public class PromotionController {
 		}
 		return new ResponseEntity<OpenResponse<List<Promotion>>>(openResponse, HttpStatus.OK);
 	
+	}
+	/**
+	 * 查询我的优惠券列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/queryPromotionCount")
+	public ResponseEntity<OpenResponse<Integer>> queryPromotionCount(HttpServletRequest request, HttpServletResponse response,
+			PromotionQueryIn promotionQueryIn) {
+		
+		//校验参数
+		checkPromotionListParam(promotionQueryIn,request);
+		
+		OpenResponse<Integer> openResponse = new OpenResponse<Integer>();
+		try {
+			List<Promotion>  list = promotionService.queryPromotionList(promotionQueryIn);
+			if(CollectionUtils.isNotEmpty(list)){
+				openResponse.setData(list.size());
+			}else{
+				openResponse.setData(0);
+			}
+			openResponse.setResult(Constants.SUCCESS);
+		}finally{
+			logger.info("返回值openResponse：{}",JSONObject.toJSON(openResponse));
+		}
+		return new ResponseEntity<OpenResponse<Integer>>(openResponse, HttpStatus.OK);
+		
 	}
 	
 	private void checkPromotionListParam(PromotionQueryIn promotionQueryIn,HttpServletRequest request){
