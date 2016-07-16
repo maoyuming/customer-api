@@ -35,12 +35,16 @@ public class CustomerMessageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public ResponseEntity<OpenResponse<List<LPushLog>>> list(HttpServletRequest request) throws Exception {
+	public ResponseEntity<OpenResponse<List<LPushLog>>> list(HttpServletRequest request,LPushLog lPushLog) throws Exception {
 		Long userId = TokenUtil.getUserIdByRequest(request);
         logger.info("用户{}查询消息列表",userId);
         OpenResponse<List<LPushLog>> openResponse = new OpenResponse<List<LPushLog>>();
 		try {
-			List<LPushLog> list=pushLogService.queryPushLogByMid(userId);
+
+			lPushLog.setMid(userId);
+			lPushLog.setBegin(lPushLog.getIndex()-1);
+			lPushLog.setEnd(lPushLog.getPageSize());
+			List<LPushLog> list=pushLogService.queryPushLogByMid(lPushLog);
 			
 			openResponse.setResult(Constants.SUCCESS);
 			openResponse.setData(list);
