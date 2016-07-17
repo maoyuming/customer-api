@@ -100,7 +100,7 @@ public class HotelEsController {
 			hotelQueryBean.setLongitude(longitude);
 			hotelQueryBean.setQuerystarttime(querystarttime);
 			hotelQueryBean.setQueryendtime(queryendtime);
-			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,mealQueryBean,null);
+			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEsByMeal(hotelQueryBean,mealQueryBean);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
 					DuantukeLike duantukeLike = new DuantukeLike();
@@ -169,7 +169,7 @@ public class HotelEsController {
 			hotelQueryBean.setLongitude(longitude);
 			hotelQueryBean.setQuerystarttime(querystarttime);
 			hotelQueryBean.setQueryendtime(queryendtime);
-			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEs(hotelQueryBean,null,teamSkuQueryBean);
+			List<HotelOutputBean> list = hotelSearchService.searchHotelsFromEsByTeam(hotelQueryBean,teamSkuQueryBean);
 			if(CollectionUtils.isNotEmpty(list)){
 				for (HotelOutputBean hotelOutputBean : list) {
 					DuantukeLike duantukeLike = new DuantukeLike();
