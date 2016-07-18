@@ -143,10 +143,14 @@ public class SettlementCenterController {
             req.setData(payRequest);
             
             Response<String> res = payService.buildPaymentRequest(req);
-            
-            openResponse.setResult(Constants.SUCCESS);
-            openResponse.setData(res.getData());
-
+            if(res.isSuccess()){
+                openResponse.setResult(Constants.SUCCESS);
+                openResponse.setData(res.getData());
+            } else {
+                openResponse.setResult(Constants.FAIL);
+                openResponse.setErrorCode(res.getErrorCode());
+                openResponse.setErrorMessage(res.getErrorMessage());
+            }
         } catch (Exception e) {
             log.error("支付错误", e);
             openResponse.setResult(Constants.FAIL);
