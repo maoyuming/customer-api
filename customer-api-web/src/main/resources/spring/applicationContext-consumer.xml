@@ -95,6 +95,8 @@
    <!-- 结算服务 -->   
    <dubbo:reference id="settlementService"  
         interface="com.duantuke.sc.face.service.ICustomerService"  timeout="30000" group="${dubbo.sc.group}" version="1.0.0" check="false"/>
+   <dubbo:reference id="payService"  
+        interface="com.duantuke.sc.face.service.PayService"  timeout="30000" group="${dubbo.sc.group}" version="1.0.0" check="false"/>
         
    <!-- 私人订制 -->
    <dubbo:reference id="personalTailorService"  
