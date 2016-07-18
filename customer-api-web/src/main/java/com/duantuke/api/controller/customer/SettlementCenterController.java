@@ -67,7 +67,7 @@ public class SettlementCenterController {
     @ResponseBody
     public ResponseEntity<OpenResponse<Object>> pay(HttpServletRequest request, HttpServletResponse response,
             Long orderId, Integer type, Integer payChannel, Integer feeType, Integer sum) {
-        
+
         Long customerId = TokenUtil.getUserIdByRequest(request);
         String ip = IPUtil.getIpAddr(request);
 
@@ -96,19 +96,17 @@ public class SettlementCenterController {
 
         OpenResponse<Object> openResponse = new OpenResponse<Object>();
         try {
+            // 加分布式锁,防止并发调用
             redisKey = genPrefix4Order("H", orderId.toString());
-            String lockValue = redisCacheManager.tryLock(redisKey, 10);
-            
-            if (StringUtils.isNotEmpty(lockValue)) {
-                log.info("订单:" + redisKey + "获取分布锁成功,继续执行支付流程.");
-                redisValue = lockValue;
-            } else {
+            redisValue = redisCacheManager.tryLock(redisKey, 10);
+            if (!StringUtils.isNotEmpty(redisValue)) {
                 log.info("订单:" + redisKey + "获取分布锁失败,返回.");
                 openResponse.setResult(Constants.FAIL);
                 openResponse.setErrorCode(ErrorEnum.accntPaying.getId());
                 openResponse.setErrorMessage(ErrorEnum.accntPaying.getName());
                 return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
             }
+            log.info("订单:" + redisKey + "获取分布锁成功,继续执行支付流程.");
 
             if (settlementService.isPayed(orderId)) {
                 log.info("订单:{}已经支付过.", orderId);
@@ -118,32 +116,17 @@ public class SettlementCenterController {
                 return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
             }
 
-//            BigDecimal bMoney = new BigDecimal(sum).divide(dividend).setScale(4, BigDecimal.ROUND_HALF_UP);
-//            if (type == 2) {// 全部使用余额支付, 不需要调用第三方支付, 需要判断余额是否够
-//                BigDecimal balance = settlementService.getBanlance(customerId).setScale(4, BigDecimal.ROUND_HALF_UP);
-//                log.info("订单:{}使用余额支付全部金额, 客户当前账户余额:{}, 订单金额:{}.", orderId, balance, bMoney);
-//                if (balance.compareTo(bMoney) > -1) {
-//                    log.info("余额足, 直接paybill支付.");
-//                    openResponse.setResult(Constants.SUCCESS);
-//                    return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
-//                } else {
-//                    log.info("余额不足, 返回.");
-//                    openResponse.setResult(Constants.FAIL);
-//                    openResponse.setErrorCode(ErrorEnum.accntbalanceno.getId());
-//                    openResponse.setErrorMessage(ErrorEnum.accntbalanceno.getName());
-//                    return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
-//                }
-//            }
             PayRequest payRequest = new PayRequest();
             payRequest.setOrderId(orderId);
             payRequest.setCustomerId(customerId);
             payRequest.setPayChannel(payChannel);
             payRequest.setTotal(sum);
+            payRequest.setIp(ip);
             Request<PayRequest> req = new Request<PayRequest>();
             req.setData(payRequest);
-            
+
             Response<String> res = payService.buildPaymentRequest(req);
-            if(res.isSuccess()){
+            if (res.isSuccess()) {
                 openResponse.setResult(Constants.SUCCESS);
                 openResponse.setData(res.getData());
             } else {
