@@ -23,6 +23,7 @@ import com.duantuke.api.enums.ErrorEnum;
 import com.duantuke.api.exception.OpenException;
 import com.duantuke.api.util.StringUtils;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.basic.face.bean.PageItem;
 import com.duantuke.basic.face.esbean.output.HotelOutputBean;
 import com.duantuke.basic.face.esbean.query.HotelQueryBean;
 import com.duantuke.basic.face.service.CustomerLikeService;
@@ -165,12 +166,13 @@ public class CustomerLikeController {
 	 * @param 
 	 */
 	@RequestMapping(value = "/hotel", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> hotel(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<OpenResponse<List<HotelOutputBean>>> hotel(HttpServletRequest request, HttpServletResponse response,
+			PageItem pageItem) {
 		Long customerId = TokenUtil.getUserIdByRequest(request);
-		logger.info("查询收藏酒店customerId：{}",customerId);
+		logger.info("查询收藏酒店customerId：{},分页：{}",customerId,JSONObject.toJSON(pageItem));
 		OpenResponse<List<HotelOutputBean>> openResponse = new OpenResponse<List<HotelOutputBean>>();
 		try {
-			List<Hotel> list = customerLikeService.queryHotels(customerId);
+			List<Hotel> list = customerLikeService.queryHotels(customerId,pageItem);
 			logger.info("查询收藏酒店hotel数据库结果：{}",JSONObject.toJSON(list));
 			//根据id反查es
 			
@@ -205,12 +207,13 @@ public class CustomerLikeController {
 	 * @param 
 	 */
 	@RequestMapping(value = "/sight", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<Sight>>> sight(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<OpenResponse<List<Sight>>> sight(HttpServletRequest request, HttpServletResponse response,
+			PageItem pageItem) {
 		Long customerId = TokenUtil.getUserIdByRequest(request);
-		logger.info("查询收藏景点customerId：{}",customerId);
+		logger.info("查询收藏景点customerId：{},分页:{}",customerId,JSONObject.toJSON(pageItem));
 		OpenResponse<List<Sight>> openResponse = new OpenResponse<List<Sight>>();
 		try {
-			List<Sight> list = customerLikeService.querySights(customerId);
+			List<Sight> list = customerLikeService.querySights(customerId,pageItem);
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
@@ -229,12 +232,13 @@ public class CustomerLikeController {
 	 * @param 
 	 */
 	@RequestMapping(value = "/journey", method = RequestMethod.POST)
-	public ResponseEntity<OpenResponse<List<Journey>>> journey(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<OpenResponse<List<Journey>>> journey(HttpServletRequest request, HttpServletResponse response,
+			PageItem pageItem) {
 		Long customerId = TokenUtil.getUserIdByRequest(request);
-		logger.info("查询收藏游记customerId：{}",customerId);
+		logger.info("查询收藏游记customerId：{},分页:{}",customerId,JSONObject.toJSON(pageItem));
 		OpenResponse<List<Journey>> openResponse = new OpenResponse<List<Journey>>();
 		try {
-			List<Journey> list = customerLikeService.queryJourneys(customerId);
+			List<Journey> list = customerLikeService.queryJourneys(customerId,pageItem);
 			openResponse.setData(list);
 			openResponse.setResult(Constants.SUCCESS);
 		} catch (Exception e) {
