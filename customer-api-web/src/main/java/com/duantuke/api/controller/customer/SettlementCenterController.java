@@ -306,8 +306,7 @@ public class SettlementCenterController {
     @RequestMapping(value = "/pay/aliPayCallback")
     @SuppressWarnings("rawtypes")
     public void aliPayCallback(HttpServletRequest request, HttpServletResponse response) {
-
-        log.info("支付宝回调...");
+        log.info("接收到支付宝回调请求,request = {}",JSON.toJSONString(request.getParameterMap()));
         String redisKey = null;
         String redisValue = null;
         ServletOutputStream out = null;
@@ -333,15 +332,12 @@ public class SettlementCenterController {
             // 商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
 
-            String lockValue = redisCacheManager.tryLock(out_trade_no, 20);
-            ;
-            if (StringUtils.isNotEmpty(lockValue)) {
+            redisValue = redisCacheManager.tryLock(out_trade_no, 20);
+            if (StringUtils.isNotEmpty(redisValue)) {
                 log.info("订单:" + out_trade_no + "获取分布锁成功,继续执行支付宝回调流程.");
                 redisKey = out_trade_no;
-                redisValue = lockValue;
             } else {
                 log.info("订单:" + out_trade_no + "获取分布锁失败,中断支付宝回调流程,返回.");
-
                 return;
             }
 
@@ -362,11 +358,8 @@ public class SettlementCenterController {
             log.info("支付宝返回：" + params);
             log.info("返回的参数：" + map.toString());
             if (AlipayNotify.verify(params)) {// 验证成功
-
                 if (trade_status.equals("TRADE_SUCCESS")) {
-
                     ScPay pay = settlementService.getPay(out_trade_no);
-
                     if (pay == null) {
                         log.error("支付宝支付回调, 业务单号:{}没有查询到支付记录.", out_trade_no);
                     } else {
@@ -375,11 +368,8 @@ public class SettlementCenterController {
                         pay.setThirdNo(trade_no);
                         pay.setCallbackTime(new Date());
                         pay.setPayNo(out_trade_no);
-
                         settlementService.updatePayRecord(pay);
-
                     }
-
                 } else {
                     log.info("支付宝支付失败, TRADE_SUCCESS:{}", trade_status);
                 }
@@ -387,20 +377,17 @@ public class SettlementCenterController {
             } else {// 验证失败
                 log.info("支付宝回调签名验证失败！");
                 out.println("fail");
-
             }
         } catch (Exception e) {
             log.error("支付宝回调异常!", e);
             try {
                 out.println("fail");
             } catch (IOException e1) {
-
                 log.error("返回失败信息异常!", e);
             }
         } finally {
-
             redisCacheManager.releaseLock(redisKey, redisValue);
-
+            log.info("释放分布式锁成功");
             if (out != null) {
                 try {
                     out.close();
@@ -419,8 +406,8 @@ public class SettlementCenterController {
      */
     @RequestMapping(value = "/pay/weChatCallback")
     public void weChatCallback(HttpServletRequest request, HttpServletResponse response) {
-
-        log.info("微信回调...");
+        log.info("接收到微信回调请求,request = {}",JSON.toJSONString(request.getParameterMap()));
+        
         String SUCCESSXml = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         String errorXml = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[f]]></return_msg></xml>";
         ServletInputStream in = null;
@@ -445,14 +432,13 @@ public class SettlementCenterController {
             String out_trade_no = map.get("out_trade_no").toString();
 
             String lockValue = redisCacheManager.tryLock(out_trade_no, 20);
-            ;
+            
             if (StringUtils.isNotEmpty(lockValue)) {
                 log.info("订单:" + out_trade_no + "获取分布锁成功,继续执行微信回调流程.");
                 redisKey = out_trade_no;
                 redisValue = lockValue;
             } else {
                 log.info("订单:" + out_trade_no + "获取分布锁失败,微信回调流程中断,返回.");
-
                 return;
             }
 
