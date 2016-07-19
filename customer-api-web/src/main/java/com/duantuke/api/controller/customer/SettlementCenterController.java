@@ -39,7 +39,6 @@ import com.duantuke.api.pay.common.XMLParser;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.IPUtil;
 import com.duantuke.api.util.TokenUtil;
-import com.duantuke.sc.face.enums.PaymentChannelEnum;
 import com.duantuke.sc.face.model.PayRequest;
 import com.duantuke.sc.face.model.Request;
 import com.duantuke.sc.face.model.Response;
@@ -73,23 +72,6 @@ public class SettlementCenterController {
 
         log.info("支付调用, orderId:{}, type:{}, payChannel:{}, feeType:{}, customerId:{}, sum:{}, ip:{}", orderId, type,
                 payChannel, feeType, customerId, sum, ip);
-        boolean mock = false;
-        if (mock) {
-            log.info("pay mock...");
-            Long payId = null;
-            BigDecimal bMoney = new BigDecimal(sum).divide(dividend).setScale(4, BigDecimal.ROUND_HALF_UP);
-            // 支付宝
-            if (payChannel == 1) {
-                payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney,
-                        PaymentChannelEnum.ALIPAY.getCode());
-            } else if (payChannel == 2) {
-                payId = settlementService.insertPayRecord(customerId, orderId, 1, bMoney, 2);
-            }
-            log.info("订单:{}支付流水号:{}", orderId, payId);
-            OpenResponse<Object> openResponse = new OpenResponse<Object>();
-            openResponse.setResult(Constants.SUCCESS);
-            return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
-        }
 
         String redisKey = null;
         String redisValue = null;
@@ -141,6 +123,7 @@ public class SettlementCenterController {
             openResponse.setErrorMessage(ErrorEnum.accntPayError.getName());
         } finally {
             redisCacheManager.releaseLock(redisKey, redisValue);
+            log.info("订单:" + redisKey + "释放分布锁成功");
         }
         log.info("第三方支付参数生成完毕,结果:{}", JSON.toJSONString(openResponse));
         return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
