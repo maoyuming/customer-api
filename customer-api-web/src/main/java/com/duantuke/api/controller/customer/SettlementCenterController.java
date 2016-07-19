@@ -39,6 +39,7 @@ import com.duantuke.api.pay.common.XMLParser;
 import com.duantuke.api.util.DateUtil;
 import com.duantuke.api.util.IPUtil;
 import com.duantuke.api.util.TokenUtil;
+import com.duantuke.sc.face.model.Header;
 import com.duantuke.sc.face.model.PayRequest;
 import com.duantuke.sc.face.model.Request;
 import com.duantuke.sc.face.model.Response;
@@ -98,13 +99,18 @@ public class SettlementCenterController {
                 return new ResponseEntity<OpenResponse<Object>>(openResponse, HttpStatus.OK);
             }
 
+            Header header = new Header();
+            header.setTimeStamp(new Date());
+            
             PayRequest payRequest = new PayRequest();
             payRequest.setOrderId(orderId);
             payRequest.setCustomerId(customerId);
             payRequest.setPayChannel(payChannel);
             payRequest.setTotal(sum);
             payRequest.setIp(ip);
+            
             Request<PayRequest> req = new Request<PayRequest>();
+            req.setHeader(header);
             req.setData(payRequest);
 
             Response<String> res = payService.buildPaymentRequest(req);
