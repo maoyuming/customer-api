@@ -639,20 +639,20 @@
 			<properties>
 				<label>local</label>
 				<jdbc.driver>com.mk.jdbc.MonitorDriver</jdbc.driver>
-				<master.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://211.157.155.198:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></master.jdbc.url>
+				<master.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://106.75.27.163:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></master.jdbc.url>
 				<master.jdbc.user>root</master.jdbc.user>
 				<master.jdbc.password>dtk@2016</master.jdbc.password>
-				<slave.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://211.157.155.198:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></slave.jdbc.url>
+				<slave.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://106.75.27.163:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></slave.jdbc.url>
 				<slave.jdbc.user>root</slave.jdbc.user>
 				<slave.jdbc.password>dtk@2016</slave.jdbc.password>
 				<spring.redis.sentinel.master>dtk-redis</spring.redis.sentinel.master>
-				<spring.redis.sentinel.nodes>211.157.155.198:26379</spring.redis.sentinel.nodes>
+				<spring.redis.sentinel.nodes>106.75.27.163:26379</spring.redis.sentinel.nodes>
 				<jedis.pool.maxidl>20</jedis.pool.maxidl>
 				<jedis.pool.minidl>8</jedis.pool.minidl>
 				<jedis.pool.maxtotal>500</jedis.pool.maxtotal>
 				<!-- kafka_setting -->
-				<metadata.broker.list>211.157.155.198:9092</metadata.broker.list>
-				<zk.connect>211.157.155.198:2181</zk.connect>
+				<metadata.broker.list>106.75.27.163:9092</metadata.broker.list>
+				<zk.connect>106.75.27.163:2181</zk.connect>
 				<!-- dubbo_setting -->
 				<dubbo_admin_root_password>root</dubbo_admin_root_password>
 				<dubbo_admin_guest_password>guestf</dubbo_admin_guest_password>
@@ -666,17 +666,17 @@
 				
 				<!-- config_center -->
 				<config.localMode>true</config.localMode>
-				<config.zk>211.157.155.198:2181</config.zk>
+				<config.zk>106.75.27.163:2181</config.zk>
 				<config.domain.name>customer_api</config.domain.name>
 				<cat.app.name>${project.name}</cat.app.name>
 				<!-- elasticsearch -->
-				<elasticsearch.clusterhosts>211.157.155.198:9300</elasticsearch.clusterhosts>
+				<elasticsearch.clusterhosts>106.75.27.163:9300</elasticsearch.clusterhosts>
 				<elasticsearch.clustername>dtk-es</elasticsearch.clustername>
 				<elasticsearch.index>otc</elasticsearch.index>
 				<elasticsearch.type>guesthouse</elasticsearch.type>
 				
 				
-				<mongodb.hosts>211.157.155.198:27017</mongodb.hosts>
+				<mongodb.hosts>106.75.27.163:27017</mongodb.hosts>
 				
 				<basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
 				<sc-face-version>0.0.1-SNAPSHOT</sc-face-version>
@@ -694,20 +694,20 @@
 			<properties>
 				<label>bjtest</label>
 				<jdbc.driver>com.mk.jdbc.MonitorDriver</jdbc.driver>
-				<master.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://211.157.155.198:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></master.jdbc.url>
+				<master.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://106.75.27.163:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></master.jdbc.url>
 				<master.jdbc.user>root</master.jdbc.user>
 				<master.jdbc.password>dtk@2016</master.jdbc.password>
-				<slave.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://211.157.155.198:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></slave.jdbc.url>
+				<slave.jdbc.url><![CDATA[jdbc:monitor4jdbc:mysql://106.75.27.163:3306/otc?zeroDateTimeBehavior=convertToNull&characterEncoding=utf8]]></slave.jdbc.url>
 				<slave.jdbc.user>root</slave.jdbc.user>
 				<slave.jdbc.password>dtk@2016</slave.jdbc.password>
 				<spring.redis.sentinel.master>dtk-redis</spring.redis.sentinel.master>
-				<spring.redis.sentinel.nodes>211.157.155.198:26379</spring.redis.sentinel.nodes>
+				<spring.redis.sentinel.nodes>106.75.27.163:26379</spring.redis.sentinel.nodes>
 				<jedis.pool.maxidl>20</jedis.pool.maxidl>
 				<jedis.pool.minidl>8</jedis.pool.minidl>
 				<jedis.pool.maxtotal>500</jedis.pool.maxtotal>
 				<!-- kafka_setting -->
-				<metadata.broker.list>211.157.155.198:9092</metadata.broker.list>
-				<zk.connect>211.157.155.198:2181</zk.connect>
+				<metadata.broker.list>106.75.27.163:9092</metadata.broker.list>
+				<zk.connect>106.75.27.163:2181</zk.connect>
 				<!-- dubbo_setting -->
 				<dubbo_admin_root_password>root</dubbo_admin_root_password>
 				<dubbo_admin_guest_password>guestf</dubbo_admin_guest_password>
@@ -721,16 +721,16 @@
 				
 				<!-- config_center -->
 				<config.localMode>false</config.localMode>
-				<config.zk>211.157.155.198:2181</config.zk>
+				<config.zk>106.75.27.163:2181</config.zk>
 				<config.domain.name>customer_api</config.domain.name>
 				<cat.app.name>${project.name}</cat.app.name>
 				<!-- elasticsearch -->
-				<elasticsearch.clusterhosts>211.157.155.198:9300</elasticsearch.clusterhosts>
+				<elasticsearch.clusterhosts>106.75.27.163:9300</elasticsearch.clusterhosts>
 				<elasticsearch.clustername>dtk-es</elasticsearch.clustername>
 				<elasticsearch.index>otc</elasticsearch.index>
 				<elasticsearch.type>guesthouse</elasticsearch.type>
 				
-				<mongodb.hosts>211.157.155.198:27017</mongodb.hosts>
+				<mongodb.hosts>106.75.27.163:27017</mongodb.hosts>
 				
 				
                 <basic-face-version>0.0.1-SNAPSHOT</basic-face-version>
