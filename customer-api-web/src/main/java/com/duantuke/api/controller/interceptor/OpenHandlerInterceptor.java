@@ -41,27 +41,30 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 	
 			//checktoken
 //			Long userId = userTokenService.queryUserByUserToken(token);
-//			Long userId = 1L;
-			String tokenHostUrl = Config.getValue("cas.server");
-			boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
-			if(!flag){//TODO:暂时屏蔽掉验证方法
-				throw new OpenException(ErrorEnum.tokenError);
+			Long userId = Long.valueOf(Config.getValue("system.test.userId"));
+			if(Config.getValue("system.test").equals("T")){
+				String tokenHostUrl = Config.getValue("cas.server");
+				boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
+				if(!flag){//TODO:暂时屏蔽掉验证方法
+					throw new OpenException(ErrorEnum.tokenError);
+				}
+				
+				String str = TokenUtils.decrypt(tokenHostUrl, token);
+				
+				logger.info("解析token后string={}",str);
+				if(StringUtils.isEmpty(str)){
+					throw new OpenException(ErrorEnum.tokenError);
+				}
+				String array[] = str.split("#");
+				//check 是否是当前系统的用户
+				if(!UserTypeEnum.customer.getCode().equals(Integer.valueOf(array[1]))){
+					throw new OpenException(ErrorEnum.userNoBelong);
+				}
+				
+				userId = Long.valueOf(array[0]);
 			}
-			
-			String str = TokenUtils.decrypt(tokenHostUrl, token);
-			
-			logger.info("解析token后string={}",str);
-			if(StringUtils.isEmpty(str)){
-				throw new OpenException(ErrorEnum.tokenError);
-			}
-			String array[] = str.split("#");
-			//check 是否是当前系统的用户
-			if(!UserTypeEnum.customer.getCode().equals(Integer.valueOf(array[1]))){
-				throw new OpenException(ErrorEnum.userNoBelong);
-			}
-			
-			Long userId = Long.valueOf(array[0]);
 			request.setAttribute(Constants.USER_ID,userId);
+			
 //			response.setHeader("userId",userId+"");
 			logger.info("校验用户token通过,{},{}",token,userId);
 		
