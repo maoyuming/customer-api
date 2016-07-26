@@ -42,7 +42,7 @@ public class OpenHandlerInterceptor implements HandlerInterceptor{
 			//checktoken
 //			Long userId = userTokenService.queryUserByUserToken(token);
 			Long userId = Long.valueOf(Config.getValue("system.test.userId"));
-			if(Config.getValue("system.test").equals("T")){
+			if(Config.getValue("system.test").equals("F")){
 				String tokenHostUrl = Config.getValue("cas.server");
 				boolean flag = TokenValidateUtils.validate(tokenHostUrl, token);
 				if(!flag){//TODO:暂时屏蔽掉验证方法
