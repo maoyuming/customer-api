@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import com.duantuke.api.domain.area.City;
 import com.duantuke.api.domain.area.District;
 import com.duantuke.api.domain.area.Province;
 import com.duantuke.api.domain.common.OpenResponse;
+import com.duantuke.api.service.impl.CacheService;
 import com.google.gson.Gson;
 
 @Controller
@@ -27,6 +29,8 @@ public class AreaController {
 	private static Logger logger = LoggerFactory.getLogger(AreaController.class);
 	
 
+	@Autowired
+	private CacheService cacheService;
 	
 	@RequestMapping(value = "/queryProvince")
     public ResponseEntity<OpenResponse<List<Province>>> queryAllProvinces(HttpServletRequest request) {
@@ -94,6 +98,14 @@ public class AreaController {
 		openResponse.setResult(Constants.SUCCESS);
 		openResponse.setData(list);
 		return new ResponseEntity<OpenResponse<List<District>>>(openResponse, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/init")
+	public ResponseEntity<Boolean> init(HttpServletRequest request) {
+		logger.info("初始化缓存城市");
+		
+		cacheService.initArea();
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 }
